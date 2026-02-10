@@ -1,0 +1,111 @@
+@page "{id:int}"
+@model PresentationLayer_FranLink.Pages.InternalOrders.DetailsModel
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<h1>Order Details: #@Model.Order.Id</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+<div class="card mb-4">
+    <div class="card-header">
+        Order Information
+    </div>
+    <div class="card-body">
+        <p><strong>Order Date:</strong> @Model.Order.OrderDate.ToLocalTime()</p>
+        <p><strong>Status:</strong> @Model.Order.Status</p>
+        @if (Model.Order.Delivery != null)
+        {
+            <p><strong>Delivery Status:</strong> @Model.Order.Delivery.DeliveryStatus</p>
+            <p><strong>Delivered At:</strong> @Model.Order.Delivery.DeliveredAt?.ToLocalTime()</p>
+        }
+    </div>
+</div>
+
+<h3>Items</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Total</th>
+            @if (Model.CanGiveFeedback)
+            {
+                <th>Action</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Order.Items)
+        {
+            <tr>
+                <td>@item.Product.Name</td>
+                <td>@item.Quantity</td>
+                <td>@item.UnitPrice</td>
+                <td>@(item.Quantity * item.UnitPrice)</td>
+                 @if (Model.CanGiveFeedback)
+                {
+                    <td>
+                        <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#feedbackModal-@item.ProductId">
+                            Give Feedback
+                        </button>
+
+                        <!-- Feedback Modal -->
+                        <div class="modal fade" id="feedbackModal-@item.ProductId" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form method="post" asp-page-handler="SubmitFeedback" asp-route-id="@Model.Order.Id">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Feedback for @item.Product.Name</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="hidden" name="Feedback.ProductId" value="@item.ProductId" />
+                                            <div class="mb-3">
+                                                <label class="form-label">Rating</label>
+                                                <select class="form-select" name="Feedback.Rating" required>
+                                                    <option value="5">5 - Excellent</option>
+                                                    <option value="4">4 - Good</option>
+                                                    <option value="3">3 - Average</option>
+                                                    <option value="2">2 - Poor</option>
+                                                    <option value="1">1 - Terrible</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Comment</label>
+                                                <textarea class="form-control" name="Feedback.Comment" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.CanConfirmReceived)
+{
+    <form method="post" asp-page-handler="ConfirmReceived" asp-route-id="@Model.Order.Id" class="mt-3">
+        <button type="submit" class="btn btn-success btn-lg">Confirm Received</button>
+        <p class="text-muted mt-1">Clicking this will update inventory.</p>
+    </form>
+}
+
+<a asp-page="./Index" class="btn btn-secondary mt-3">Back to List</a>

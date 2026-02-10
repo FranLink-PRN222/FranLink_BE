@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -24,8 +26,28 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                             <a class="nav-link text-dark" asp-area="" asp-page="/InternalOrders/Index">My Orders</a>
                         </li>
+                        <li class="nav-item">
+                             <a class="nav-link text-dark" asp-area="" asp-page="/Inventory/Index">Store Inventory</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        @if (httpContextAccessor.HttpContext.Session.GetString("Username") != null)
+                        {
+                            <li class="nav-item">
+                                <span class="nav-link text-dark">Hello, @httpContextAccessor.HttpContext.Session.GetString("Username") (@httpContextAccessor.HttpContext.Session.GetString("Role"))</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Logout">Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Login">Login</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

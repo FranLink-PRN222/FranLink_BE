@@ -1,0 +1,25 @@
+@page
+@model PresentationLayer_FranLink.Pages.Inventory.IndexModel
+@{
+    ViewData["Title"] = "Store Inventory";
+}
+
+<h1>Store Inventory</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Inventory)
+        {
+            <tr>
+                <td>@item.Product.Name</td>
+                <td>@item.Quantity</td>
+            </tr>
+        }
+    </tbody>
+</table>
