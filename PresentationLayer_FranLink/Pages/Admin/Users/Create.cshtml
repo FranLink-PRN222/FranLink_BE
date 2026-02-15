@@ -1,0 +1,73 @@
+@page
+@model PresentationLayer_FranLink.Pages.Admin.Users.CreateModel
+@{
+    ViewData["Title"] = "Thêm Người dùng";
+}
+
+<h1><i class="bi bi-person-plus"></i> Thêm Người dùng mới</h1>
+<hr />
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Username" class="form-label">Tên đăng nhập <span class="text-danger">*</span></label>
+                <input asp-for="Input.Username" class="form-control" />
+                <span asp-validation-for="Input.Username" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Password" class="form-label">Mật khẩu <span class="text-danger">*</span></label>
+                <input asp-for="Input.Password" type="password" class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.FullName" class="form-label">Họ tên</label>
+                <input asp-for="Input.FullName" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Email" class="form-label">Email <span class="text-danger">*</span></label>
+                <input asp-for="Input.Email" type="email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Phone" class="form-label">Số điện thoại</label>
+                <input asp-for="Input.Phone" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.RoleId" class="form-label">Vai trò <span class="text-danger">*</span></label>
+                <select asp-for="Input.RoleId" asp-items="Model.RoleOptions" class="form-select">
+                    <option value="">— Chọn vai trò —</option>
+                </select>
+                <span asp-validation-for="Input.RoleId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.FranchiseStoreId" class="form-label">Thuộc Cửa hàng/Bếp</label>
+                <select asp-for="Input.FranchiseStoreId" asp-items="Model.StoreOptions" class="form-select"></select>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-circle"></i> Tạo người dùng
+                </button>
+                <a asp-page="Index" class="btn btn-secondary ms-2">Hủy</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

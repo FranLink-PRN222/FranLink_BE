@@ -18,12 +18,20 @@ namespace DataAccessLayer_FranLink.Models
         public DbSet<InternalOrderItem> InternalOrderItems { get; set; }
         public DbSet<Delivery> Deliveries { get; set; }
         public DbSet<QualityFeedback> QualityFeedbacks { get; set; }
+        public DbSet<SystemConfig> SystemConfigs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // UserRole composite key
             modelBuilder.Entity<UserRole>()
                 .HasKey(ur => new { ur.UserId, ur.RoleId });
+
+            // User -> FranchiseStore (optional)
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.FranchiseStore)
+                .WithMany(s => s.Users)
+                .HasForeignKey(u => u.FranchiseStoreId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             // InternalOrder configuration
             modelBuilder.Entity<InternalOrder>()
@@ -46,6 +54,7 @@ namespace DataAccessLayer_FranLink.Models
                 .HasOne(i => i.Product)
                 .WithMany(p => p.InternalOrderItems)
                 .HasForeignKey(i => i.ProductId);
+
             modelBuilder.Entity<InternalOrder>()
                 .HasOne(o => o.Delivery)
                 .WithOne(d => d.InternalOrder)
@@ -70,15 +79,19 @@ namespace DataAccessLayer_FranLink.Models
 
             modelBuilder.Entity<QualityFeedback>()
                 .HasOne(q => q.Product)
-                .WithMany() // Product does not have QualityFeedbacks collection, or I should check Product.cs again. 
-                            // Product.cs has ICollection<Inventory> but NOT QualityFeedbacks. 
-                            // So WithMany() is correct if navigation is one-way, but usually we'd add it to Product if bidirectional.
-                            // User.cs has QualityFeedbacks. 
-                            // Let's check Product.cs content again.
+                .WithMany()
                 .HasForeignKey(q => q.ProductId);
 
+            // SystemConfig unique key on ConfigKey
+            modelBuilder.Entity<SystemConfig>()
+                .HasIndex(sc => sc.ConfigKey)
+                .IsUnique();
+
+            // Note: Roles (Admin, Manager, Supply Coordinator, Central Kitchen Staff, Franchise Store Staff)
+            // are already seeded in the database. Do not use HasData() to avoid duplicate key conflicts.
 
             base.OnModelCreating(modelBuilder);
         }
     }
 }
+

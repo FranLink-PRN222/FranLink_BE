@@ -1,0 +1,74 @@
+@page
+@model PresentationLayer_FranLink.Pages.Admin.Users.IndexModel
+@{
+    ViewData["Title"] = "Quản lý Người dùng";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-people"></i> Quản lý Người dùng</h1>
+    <a asp-page="Create" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Thêm người dùng
+    </a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover table-bordered align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Username</th>
+                <th>Họ tên</th>
+                <th>Email</th>
+                <th>SĐT</th>
+                <th>Vai trò</th>
+                <th>Cửa hàng</th>
+                <th>Trạng thái</th>
+                <th>Ngày tạo</th>
+                <th class="text-center">Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Users)
+            {
+                <tr class="@(user.IsActive ? "" : "table-secondary")">
+                    <td><strong>@user.Username</strong></td>
+                    <td>@user.FullName</td>
+                    <td>@user.Email</td>
+                    <td>@user.Phone</td>
+                    <td>
+                        @foreach (var ur in user.UserRoles ?? Enumerable.Empty<DataAccessLayer_FranLink.Models.UserRole>())
+                        {
+                            <span class="badge bg-info me-1">@ur.Role?.RoleName</span>
+                        }
+                    </td>
+                    <td>@(user.FranchiseStore?.Name ?? "—")</td>
+                    <td>
+                        @if (user.IsActive)
+                        {
+                            <span class="badge bg-success">Hoạt động</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Vô hiệu</span>
+                        }
+                    </td>
+                    <td>@user.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy")</td>
+                    <td class="text-center">
+                        <a asp-page="Edit" asp-route-id="@user.UserId" class="btn btn-sm btn-outline-primary me-1" title="Sửa">
+                            <i class="bi bi-pencil"></i> Sửa
+                        </a>
+                        <form method="post" asp-page-handler="Toggle" asp-route-userId="@user.UserId" class="d-inline">
+                            <button type="submit" class="btn btn-sm @(user.IsActive ? "btn-outline-warning" : "btn-outline-success")" title="@(user.IsActive ? "Vô hiệu hóa" : "Kích hoạt")">
+                                @(user.IsActive ? "Vô hiệu" : "Kích hoạt")
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (!Model.Users.Any())
+{
+    <div class="alert alert-info text-center">Chưa có người dùng nào.</div>
+}

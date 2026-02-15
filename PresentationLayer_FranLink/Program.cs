@@ -10,6 +10,10 @@ builder.Services.AddSession(); // Add Session
 builder.Services.AddHttpContextAccessor(); // Add HttpContextAccessor
 builder.Services.AddScoped<BusinessLogicLayer_FranLink.Services.IInternalOrderService, BusinessLogicLayer_FranLink.Services.InternalOrderService>();
 builder.Services.AddScoped<BusinessLogicLayer_FranLink.Services.IInventoryService, BusinessLogicLayer_FranLink.Services.InventoryService>();
+builder.Services.AddScoped<BusinessLogicLayer_FranLink.Services.IUserService, BusinessLogicLayer_FranLink.Services.UserService>();
+builder.Services.AddScoped<BusinessLogicLayer_FranLink.Services.IStoreService, BusinessLogicLayer_FranLink.Services.StoreService>();
+builder.Services.AddScoped<BusinessLogicLayer_FranLink.Services.ISystemConfigService, BusinessLogicLayer_FranLink.Services.SystemConfigService>();
+builder.Services.AddScoped<BusinessLogicLayer_FranLink.Services.IAdminReportService, BusinessLogicLayer_FranLink.Services.AdminReportService>();
 
 
 builder.Services.AddDbContext<FranLinkContext>(options =>
