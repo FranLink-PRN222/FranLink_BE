@@ -22,6 +22,36 @@ namespace DataAccessLayer_FranLink.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("DataAccessLayer_FranLink.Models.CentralKitchen", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("Capacity")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CentralKitchens");
+                });
+
             modelBuilder.Entity("DataAccessLayer_FranLink.Models.Delivery", b =>
                 {
                     b.Property<Guid>("DeliveryId")
@@ -62,9 +92,6 @@ namespace DataAccessLayer_FranLink.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("IsCentralKitchen")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -83,6 +110,9 @@ namespace DataAccessLayer_FranLink.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("CentralKitchenId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("FranchiseStoreId")
                         .HasColumnType("integer");
 
@@ -97,6 +127,8 @@ namespace DataAccessLayer_FranLink.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CentralKitchenId");
 
                     b.HasIndex("FranchiseStoreId");
 
@@ -140,7 +172,26 @@ namespace DataAccessLayer_FranLink.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("FranchiseStoreId")
+                    b.Property<string>("BatchNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<int?>("CentralKitchenId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("ExpiryDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("FranchiseStoreId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("MaxThreshold")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MinThreshold")
                         .HasColumnType("integer");
 
                     b.Property<int>("ProductId")
@@ -151,11 +202,133 @@ namespace DataAccessLayer_FranLink.Migrations
 
                     b.HasKey("InventoryId");
 
+                    b.HasIndex("CentralKitchenId");
+
                     b.HasIndex("FranchiseStoreId");
 
                     b.HasIndex("ProductId");
 
                     b.ToTable("Inventories");
+                });
+
+            modelBuilder.Entity("DataAccessLayer_FranLink.Models.InventoryDisposal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<Guid?>("ApprovedByUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("ApprovedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DisposalDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("DisposedByUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("InventoryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApprovedByUserId");
+
+                    b.HasIndex("DisposedByUserId");
+
+                    b.HasIndex("InventoryId");
+
+                    b.ToTable("InventoryDisposals");
+                });
+
+            modelBuilder.Entity("DataAccessLayer_FranLink.Models.InventoryTransfer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<Guid?>("ApprovedByUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("ApprovedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("CompletedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("FromCentralKitchenId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("FromStoreId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("RequestDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("RequestedByUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<int?>("ToCentralKitchenId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ToStoreId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApprovedByUserId");
+
+                    b.HasIndex("FromCentralKitchenId");
+
+                    b.HasIndex("FromStoreId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("RequestedByUserId");
+
+                    b.HasIndex("ToCentralKitchenId");
+
+                    b.HasIndex("ToStoreId");
+
+                    b.ToTable("InventoryTransfers");
                 });
 
             modelBuilder.Entity("DataAccessLayer_FranLink.Models.Product", b =>
@@ -167,23 +340,93 @@ namespace DataAccessLayer_FranLink.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
+                    b.Property<string>("SKU")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Unit")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("DataAccessLayer_FranLink.Models.ProductionRecord", b =>
+                {
+                    b.Property<int>("ProductionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProductionId"));
+
+                    b.Property<int>("ActualQuantity")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CentralKitchenId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("EndTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<int>("PlannedQuantity")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("ProducedByUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("ProductionId");
+
+                    b.HasIndex("CentralKitchenId");
+
+                    b.HasIndex("ProducedByUserId");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("ProductionRecords");
                 });
 
             modelBuilder.Entity("DataAccessLayer_FranLink.Models.QualityFeedback", b =>
@@ -215,6 +458,82 @@ namespace DataAccessLayer_FranLink.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("QualityFeedbacks");
+                });
+
+            modelBuilder.Entity("DataAccessLayer_FranLink.Models.Recipe", b =>
+                {
+                    b.Property<int>("RecipeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RecipeId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("EstimatedTime")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("Instructions")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("OutputQuantity")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("RecipeId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Recipes");
+                });
+
+            modelBuilder.Entity("DataAccessLayer_FranLink.Models.RecipeItem", b =>
+                {
+                    b.Property<int>("RecipeItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RecipeItemId"));
+
+                    b.Property<int>("IngredientProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Unit")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("RecipeItemId");
+
+                    b.HasIndex("IngredientProductId");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("RecipeItems");
                 });
 
             modelBuilder.Entity("DataAccessLayer_FranLink.Models.Role", b =>
@@ -291,6 +610,10 @@ namespace DataAccessLayer_FranLink.Migrations
 
             modelBuilder.Entity("DataAccessLayer_FranLink.Models.InternalOrder", b =>
                 {
+                    b.HasOne("DataAccessLayer_FranLink.Models.CentralKitchen", "CentralKitchen")
+                        .WithMany()
+                        .HasForeignKey("CentralKitchenId");
+
                     b.HasOne("DataAccessLayer_FranLink.Models.FranchiseStore", "FranchiseStore")
                         .WithMany("InternalOrders")
                         .HasForeignKey("FranchiseStoreId")
@@ -302,6 +625,8 @@ namespace DataAccessLayer_FranLink.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("CentralKitchen");
 
                     b.Navigation("FranchiseStore");
 
@@ -329,11 +654,15 @@ namespace DataAccessLayer_FranLink.Migrations
 
             modelBuilder.Entity("DataAccessLayer_FranLink.Models.Inventory", b =>
                 {
+                    b.HasOne("DataAccessLayer_FranLink.Models.CentralKitchen", "CentralKitchen")
+                        .WithMany("Inventories")
+                        .HasForeignKey("CentralKitchenId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("DataAccessLayer_FranLink.Models.FranchiseStore", "FranchiseStore")
                         .WithMany("Inventories")
                         .HasForeignKey("FranchiseStoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DataAccessLayer_FranLink.Models.Product", "Product")
                         .WithMany("Inventories")
@@ -341,9 +670,118 @@ namespace DataAccessLayer_FranLink.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("CentralKitchen");
+
                     b.Navigation("FranchiseStore");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("DataAccessLayer_FranLink.Models.InventoryDisposal", b =>
+                {
+                    b.HasOne("DataAccessLayer_FranLink.Models.User", "ApprovedBy")
+                        .WithMany("ApprovedDisposals")
+                        .HasForeignKey("ApprovedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DataAccessLayer_FranLink.Models.User", "DisposedBy")
+                        .WithMany("RequestedDisposals")
+                        .HasForeignKey("DisposedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer_FranLink.Models.Inventory", "Inventory")
+                        .WithMany()
+                        .HasForeignKey("InventoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApprovedBy");
+
+                    b.Navigation("DisposedBy");
+
+                    b.Navigation("Inventory");
+                });
+
+            modelBuilder.Entity("DataAccessLayer_FranLink.Models.InventoryTransfer", b =>
+                {
+                    b.HasOne("DataAccessLayer_FranLink.Models.User", "ApprovedBy")
+                        .WithMany("ApprovedTransfers")
+                        .HasForeignKey("ApprovedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DataAccessLayer_FranLink.Models.CentralKitchen", "FromCentralKitchen")
+                        .WithMany()
+                        .HasForeignKey("FromCentralKitchenId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DataAccessLayer_FranLink.Models.FranchiseStore", "FromStore")
+                        .WithMany()
+                        .HasForeignKey("FromStoreId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DataAccessLayer_FranLink.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer_FranLink.Models.User", "RequestedBy")
+                        .WithMany("RequestedTransfers")
+                        .HasForeignKey("RequestedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer_FranLink.Models.CentralKitchen", "ToCentralKitchen")
+                        .WithMany()
+                        .HasForeignKey("ToCentralKitchenId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DataAccessLayer_FranLink.Models.FranchiseStore", "ToStore")
+                        .WithMany()
+                        .HasForeignKey("ToStoreId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("ApprovedBy");
+
+                    b.Navigation("FromCentralKitchen");
+
+                    b.Navigation("FromStore");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("RequestedBy");
+
+                    b.Navigation("ToCentralKitchen");
+
+                    b.Navigation("ToStore");
+                });
+
+            modelBuilder.Entity("DataAccessLayer_FranLink.Models.ProductionRecord", b =>
+                {
+                    b.HasOne("DataAccessLayer_FranLink.Models.CentralKitchen", "CentralKitchen")
+                        .WithMany()
+                        .HasForeignKey("CentralKitchenId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer_FranLink.Models.User", "ProducedByUser")
+                        .WithMany()
+                        .HasForeignKey("ProducedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer_FranLink.Models.Recipe", "Recipe")
+                        .WithMany()
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CentralKitchen");
+
+                    b.Navigation("ProducedByUser");
+
+                    b.Navigation("Recipe");
                 });
 
             modelBuilder.Entity("DataAccessLayer_FranLink.Models.QualityFeedback", b =>
@@ -365,6 +803,36 @@ namespace DataAccessLayer_FranLink.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("DataAccessLayer_FranLink.Models.Recipe", b =>
+                {
+                    b.HasOne("DataAccessLayer_FranLink.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("DataAccessLayer_FranLink.Models.RecipeItem", b =>
+                {
+                    b.HasOne("DataAccessLayer_FranLink.Models.Product", "IngredientProduct")
+                        .WithMany("RecipeItems")
+                        .HasForeignKey("IngredientProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer_FranLink.Models.Recipe", "Recipe")
+                        .WithMany("RecipeItems")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("IngredientProduct");
+
+                    b.Navigation("Recipe");
+                });
+
             modelBuilder.Entity("DataAccessLayer_FranLink.Models.UserRole", b =>
                 {
                     b.HasOne("DataAccessLayer_FranLink.Models.Role", "Role")
@@ -382,6 +850,11 @@ namespace DataAccessLayer_FranLink.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DataAccessLayer_FranLink.Models.CentralKitchen", b =>
+                {
+                    b.Navigation("Inventories");
                 });
 
             modelBuilder.Entity("DataAccessLayer_FranLink.Models.FranchiseStore", b =>
@@ -404,6 +877,13 @@ namespace DataAccessLayer_FranLink.Migrations
                     b.Navigation("InternalOrderItems");
 
                     b.Navigation("Inventories");
+
+                    b.Navigation("RecipeItems");
+                });
+
+            modelBuilder.Entity("DataAccessLayer_FranLink.Models.Recipe", b =>
+                {
+                    b.Navigation("RecipeItems");
                 });
 
             modelBuilder.Entity("DataAccessLayer_FranLink.Models.Role", b =>
@@ -413,9 +893,17 @@ namespace DataAccessLayer_FranLink.Migrations
 
             modelBuilder.Entity("DataAccessLayer_FranLink.Models.User", b =>
                 {
+                    b.Navigation("ApprovedDisposals");
+
+                    b.Navigation("ApprovedTransfers");
+
                     b.Navigation("InternalOrders");
 
                     b.Navigation("QualityFeedbacks");
+
+                    b.Navigation("RequestedDisposals");
+
+                    b.Navigation("RequestedTransfers");
 
                     b.Navigation("UserRoles");
                 });

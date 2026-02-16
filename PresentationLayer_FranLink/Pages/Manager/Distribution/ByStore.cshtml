@@ -1,0 +1,99 @@
+@page
+@model PresentationLayer_FranLink.Pages.Manager.Distribution.ByStoreModel
+@{
+    ViewData["Title"] = "Distribution by Store";
+}
+
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-page="Index">Distribution</a></li>
+            <li class="breadcrumb-item active">By Store</li>
+        </ol>
+    </nav>
+
+    <h2>🏪 Distribution by Store</h2>
+
+    <!-- Filters -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-2">
+                    <label class="form-label">From Date</label>
+                    <input asp-for="FromDate" type="date" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">To Date</label>
+                    <input asp-for="ToDate" type="date" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Central Kitchen</label>
+                    <select asp-for="CentralKitchenId" asp-items="Model.CentralKitchens" class="form-select">
+                        <option value="">-- All Kitchens --</option>
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary">Apply Filter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Results -->
+    <div class="card">
+        <div class="card-header">
+            <span>Found @Model.Stores.Count store(s)</span>
+        </div>
+        <div class="card-body p-0">
+            @if (Model.Stores.Any())
+            {
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Store</th>
+                            <th>Address</th>
+                            <th class="text-center">Orders</th>
+                            <th class="text-center">Items</th>
+                            <th class="text-end">Total Value</th>
+                            <th class="text-center">Fulfillment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var store in Model.Stores)
+                        {
+                            var fulfillClass = store.FulfillmentRate >= 90 ? "bg-success"
+                                : store.FulfillmentRate >= 70 ? "bg-warning text-dark"
+                                : "bg-danger";
+                            <tr>
+                                <td><strong>@store.StoreName</strong></td>
+                                <td><small class="text-muted">@store.StoreAddress</small></td>
+                                <td class="text-center">@store.OrderCount</td>
+                                <td class="text-center">@store.ItemCount</td>
+                                <td class="text-end">@store.TotalValue.ToString("N0") VND</td>
+                                <td class="text-center">
+                                    <span class="badge @fulfillClass">@store.FulfillmentRate%</span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot class="table-secondary">
+                        <tr>
+                            <th colspan="2">Total</th>
+                            <th class="text-center">@Model.Stores.Sum(s => s.OrderCount)</th>
+                            <th class="text-center">@Model.Stores.Sum(s => s.ItemCount)</th>
+                            <th class="text-end">@Model.Stores.Sum(s => s.TotalValue).ToString("N0") VND</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            }
+            else
+            {
+                <div class="text-center py-5 text-muted">
+                    <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+                    <p>No distribution data found for the selected criteria.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

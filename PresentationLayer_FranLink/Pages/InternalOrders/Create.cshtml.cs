@@ -25,14 +25,16 @@ namespace PresentationLayer_FranLink.Pages.InternalOrders
         [BindProperty]
         public CreateInternalOrderDto Order { get; set; } = new();
 
-        public SelectList StoreList { get; set; }
-        public SelectList ProductList { get; set; }
+        public SelectList? StoreList { get; set; }
+        public SelectList? CentralKitchenList { get; set; }
+        public SelectList? ProductList { get; set; }
 
         public void OnGet()
         {
             // Populate Dropdowns
             StoreList = new SelectList(_context.FranchiseStores.ToList(), "Id", "Name");
-            ProductList = new SelectList(_context.Products.ToList(), "Id", "Name");
+            CentralKitchenList = new SelectList(_context.CentralKitchens.ToList(), "Id", "Name");
+            ProductList = new SelectList(_context.Products.Where(p => p.IsActive).ToList(), "Id", "Name");
 
             // Initialize minimal Order items list for UI (e.g. 1 item)
             Order.Items.Add(new CreateInternalOrderItemDto { Quantity = 1 });
@@ -43,7 +45,8 @@ namespace PresentationLayer_FranLink.Pages.InternalOrders
             if (!ModelState.IsValid)
             {
                 StoreList = new SelectList(_context.FranchiseStores.ToList(), "Id", "Name");
-                ProductList = new SelectList(_context.Products.ToList(), "Id", "Name");
+                CentralKitchenList = new SelectList(_context.CentralKitchens.ToList(), "Id", "Name");
+                ProductList = new SelectList(_context.Products.Where(p => p.IsActive).ToList(), "Id", "Name");
                 return Page();
             }
 
@@ -63,13 +66,14 @@ namespace PresentationLayer_FranLink.Pages.InternalOrders
             try 
             {
                 await _orderService.CreateOrderAsync(Order);
-                return RedirectToPage("/Index"); // Or Success page
+                return RedirectToPage("/InternalOrders/Index"); // Or Success page
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
                 StoreList = new SelectList(_context.FranchiseStores.ToList(), "Id", "Name");
-                ProductList = new SelectList(_context.Products.ToList(), "Id", "Name");
+                CentralKitchenList = new SelectList(_context.CentralKitchens.ToList(), "Id", "Name");
+                ProductList = new SelectList(_context.Products.Where(p => p.IsActive).ToList(), "Id", "Name");
                 return Page();
             }
         }

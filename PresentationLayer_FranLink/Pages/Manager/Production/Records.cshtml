@@ -1,0 +1,139 @@
+@page
+@model PresentationLayer_FranLink.Pages.Manager.Production.RecordsModel
+@{
+    ViewData["Title"] = "Production Records";
+}
+
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-page="Index">Production</a></li>
+            <li class="breadcrumb-item active">Records</li>
+        </ol>
+    </nav>
+
+    <h2>📋 Production Records</h2>
+
+    <!-- Filters -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-2">
+                    <label class="form-label">From Date</label>
+                    <input asp-for="FromDate" type="date" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">To Date</label>
+                    <input asp-for="ToDate" type="date" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Central Kitchen</label>
+                    <select asp-for="CentralKitchenId" asp-items="Model.CentralKitchens" class="form-select">
+                        <option value="">-- All Kitchens --</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Status</label>
+                    <select asp-for="Status" asp-items="Model.Statuses" class="form-select"></select>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                    <a asp-page="Records" class="btn btn-outline-secondary ms-2">Reset</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Results -->
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span>Found @Model.Productions.Count record(s)</span>
+        </div>
+        <div class="card-body p-0">
+            @if (Model.Productions.Any())
+            {
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Recipe / Product</th>
+                            <th>Kitchen</th>
+                            <th>Planned</th>
+                            <th>Actual</th>
+                            <th>Efficiency</th>
+                            <th>Started</th>
+                            <th>Duration</th>
+                            <th>Status</th>
+                            <th>By</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var prod in Model.Productions)
+                        {
+                            var efficiency = prod.PlannedQuantity > 0
+                                ? Math.Round((decimal)prod.ActualQuantity / prod.PlannedQuantity * 100, 1)
+                                : 0;
+                            var duration = prod.EndTime.HasValue
+                                ? prod.EndTime.Value - prod.StartTime
+                                : DateTime.UtcNow - prod.StartTime;
+
+                            var statusClass = prod.Status switch
+                            {
+                                "Completed" => "bg-success",
+                                "InProgress" => "bg-warning text-dark",
+                                "Cancelled" => "bg-danger",
+                                _ => "bg-secondary"
+                            };
+                            <tr>
+                                <td>@prod.ProductionId</td>
+                                <td>
+                                    <strong>@prod.Recipe.Name</strong><br />
+                                    <small class="text-muted">@prod.Recipe.Product.Name</small>
+                                </td>
+                                <td>@prod.CentralKitchen.Name</td>
+                                <td>@prod.PlannedQuantity</td>
+                                <td>@prod.ActualQuantity</td>
+                                <td>
+                                    @if (prod.Status == "Completed")
+                                    {
+                                        <span class="badge @(efficiency >= 100 ? "bg-success" : efficiency >= 80 ? "bg-warning text-dark" : "bg-danger")">
+                                            @efficiency%
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
+                                </td>
+                                <td>@prod.StartTime.ToLocalTime().ToString("dd/MM HH:mm")</td>
+                                <td>
+                                    @if ((int)duration.TotalHours > 0)
+                                    {
+                                        @($"{(int)duration.TotalHours}h {duration.Minutes}m")
+                                    }
+                                    else
+                                    {
+                                        @($"{duration.Minutes}m")
+                                    }
+                                </td>
+                                <td>
+                                    <span class="badge @statusClass">@prod.Status</span>
+                                </td>
+                                <td>
+                                    <small>@prod.ProducedByUser?.Username</small>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="text-center py-5 text-muted">
+                    <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+                    <p>No production records found for the selected criteria.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

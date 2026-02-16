@@ -1,0 +1,205 @@
+@page
+@model PresentationLayer_FranLink.Pages.Manager.Inventory.AlertsModel
+@{
+    ViewData["Title"] = "Inventory Alerts";
+}
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="bi bi-exclamation-triangle"></i> Inventory Alerts</h1>
+        <a asp-page="/Manager/Inventory/Dashboard" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <!-- Alert Type Tabs -->
+    <ul class="nav nav-tabs mb-4" id="alertTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link @(Model.AlertType == "lowstock" ? "active" : "")" 
+               asp-page="/Manager/Inventory/Alerts" asp-route-type="lowstock">
+                <i class="bi bi-exclamation-triangle text-warning"></i> Low Stock 
+                <span class="badge bg-warning text-dark">@Model.LowStockItems.Count</span>
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link @(Model.AlertType == "overstock" ? "active" : "")" 
+               asp-page="/Manager/Inventory/Alerts" asp-route-type="overstock">
+                <i class="bi bi-box-seam text-info"></i> Overstock 
+                <span class="badge bg-info">@Model.OverstockItems.Count</span>
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link @(Model.AlertType == "expiring" ? "active" : "")" 
+               asp-page="/Manager/Inventory/Alerts" asp-route-type="expiring">
+                <i class="bi bi-clock-history text-warning"></i> Expiring Soon 
+                <span class="badge bg-warning text-dark">@Model.ExpiringItems.Count</span>
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link @(Model.AlertType == "expired" ? "active" : "")" 
+               asp-page="/Manager/Inventory/Alerts" asp-route-type="expired">
+                <i class="bi bi-x-circle text-danger"></i> Expired 
+                <span class="badge bg-danger">@Model.ExpiredItems.Count</span>
+            </a>
+        </li>
+    </ul>
+
+    <!-- Alert Content -->
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">
+                @switch (Model.AlertType)
+                {
+                    case "lowstock":
+                        <span class="text-warning"><i class="bi bi-exclamation-triangle"></i> Low Stock Items</span>
+                        break;
+                    case "overstock":
+                        <span class="text-info"><i class="bi bi-box-seam"></i> Overstock Items</span>
+                        break;
+                    case "expiring":
+                        <span class="text-warning"><i class="bi bi-clock-history"></i> Items Expiring Within 7 Days</span>
+                        break;
+                    case "expired":
+                        <span class="text-danger"><i class="bi bi-x-circle"></i> Expired Items</span>
+                        break;
+                }
+            </h5>
+        </div>
+        <div class="card-body">
+            @{
+                var items = Model.AlertType switch
+                {
+                    "lowstock" => Model.LowStockItems,
+                    "overstock" => Model.OverstockItems,
+                    "expiring" => Model.ExpiringItems,
+                    "expired" => Model.ExpiredItems,
+                    _ => Model.LowStockItems
+                };
+            }
+
+            @if (items.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Location</th>
+                                <th>Product</th>
+                                <th>Batch #</th>
+                                <th>Quantity</th>
+                                <th>Min/Max Threshold</th>
+                                <th>Expiry Date</th>
+                                <th>Days Until Expiry</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in items)
+                            {
+                                var location = item.CentralKitchenId.HasValue 
+                                    ? $"🏭 {item.CentralKitchen?.Name}" 
+                                    : $"🏪 {item.FranchiseStore?.Name}";
+                                var daysUntilExpiry = item.ExpiryDate.HasValue 
+                                    ? (item.ExpiryDate.Value - DateTime.UtcNow).Days 
+                                    : (int?)null;
+                                
+                                <tr class="@GetRowClass(Model.AlertType)">
+                                    <td>@location</td>
+                                    <td><strong>@item.Product?.Name</strong></td>
+                                    <td>@(item.BatchNumber ?? "-")</td>
+                                    <td>
+                                        <span class="@(item.Quantity <= item.MinThreshold ? "text-danger fw-bold" : item.Quantity >= item.MaxThreshold ? "text-info fw-bold" : "")">
+                                            @item.Quantity
+                                        </span>
+                                    </td>
+                                    <td>@item.MinThreshold / @item.MaxThreshold</td>
+                                    <td>
+                                        @if (item.ExpiryDate.HasValue)
+                                        {
+                                            <span class="@(daysUntilExpiry <= 0 ? "text-danger fw-bold" : daysUntilExpiry <= 7 ? "text-warning fw-bold" : "")">
+                                                @item.ExpiryDate.Value.ToString("dd/MM/yyyy")
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">N/A</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (daysUntilExpiry.HasValue)
+                                        {
+                                            if (daysUntilExpiry <= 0)
+                                            {
+                                                <span class="badge bg-danger">Expired</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge @(daysUntilExpiry <= 3 ? "bg-danger" : "bg-warning text-dark")">
+                                                    @daysUntilExpiry days
+                                                </span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">-</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            @if (Model.AlertType == "lowstock")
+                                            {
+                                                <a asp-page="/Manager/Inventory/Transfers" asp-route-action="create" 
+                                                   asp-route-toStoreId="@item.FranchiseStoreId" asp-route-toKitchenId="@item.CentralKitchenId"
+                                                   asp-route-productId="@item.ProductId" 
+                                                   class="btn btn-outline-success" title="Request Transfer In">
+                                                    <i class="bi bi-box-arrow-in-right"></i> Request
+                                                </a>
+                                            }
+                                            @if (Model.AlertType == "overstock")
+                                            {
+                                                <a asp-page="/Manager/Inventory/Transfers" asp-route-action="create" 
+                                                   asp-route-fromStoreId="@item.FranchiseStoreId" asp-route-fromKitchenId="@item.CentralKitchenId"
+                                                   asp-route-productId="@item.ProductId" 
+                                                   class="btn btn-outline-primary" title="Transfer Out">
+                                                    <i class="bi bi-box-arrow-right"></i> Transfer
+                                                </a>
+                                            }
+                                            @if (Model.AlertType == "expired" || Model.AlertType == "expiring")
+                                            {
+                                                <a asp-page="/Manager/Inventory/Disposals" asp-route-action="create" 
+                                                   asp-route-inventoryId="@item.InventoryId" 
+                                                   class="btn btn-outline-danger" title="Dispose">
+                                                    <i class="bi bi-trash"></i> Dispose
+                                                </a>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-success">
+                    <i class="bi bi-check-circle"></i> No alerts in this category. Everything looks good!
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetRowClass(string alertType)
+    {
+        return alertType switch
+        {
+            "lowstock" => "table-warning",
+            "overstock" => "table-info",
+            "expiring" => "table-warning",
+            "expired" => "table-danger",
+            _ => ""
+        };
+    }
+}

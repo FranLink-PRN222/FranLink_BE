@@ -13,5 +13,11 @@ namespace DataAccessLayer_FranLink.Models
         public ICollection<UserRole> UserRoles { get; set; }
         public ICollection<InternalOrder> InternalOrders { get; set; }
         public ICollection<QualityFeedback> QualityFeedbacks { get; set; }
+        
+        // Inventory management
+        public ICollection<InventoryTransfer> RequestedTransfers { get; set; }
+        public ICollection<InventoryTransfer> ApprovedTransfers { get; set; }
+        public ICollection<InventoryDisposal> RequestedDisposals { get; set; }
+        public ICollection<InventoryDisposal> ApprovedDisposals { get; set; }
     }
 }

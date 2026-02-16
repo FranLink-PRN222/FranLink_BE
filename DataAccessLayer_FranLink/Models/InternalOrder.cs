@@ -4,10 +4,12 @@
     {
         public int Id { get; set; }
         public int FranchiseStoreId { get; set; }
+        public int? CentralKitchenId { get; set; }
         public Guid UserId { get; set; }
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
         public string Status { get; set; } = "Pending";
         public FranchiseStore FranchiseStore { get; set; }
+        public CentralKitchen CentralKitchen { get; set; }
         public User User { get; set; }
         public ICollection<InternalOrderItem> Items { get; set; }
         // Delivery relationship if needed, assuming Delivery exists or I leave it. 

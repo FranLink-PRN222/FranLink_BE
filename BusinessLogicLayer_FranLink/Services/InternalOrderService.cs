@@ -25,11 +25,18 @@ namespace BusinessLogicLayer_FranLink.Services
                 throw new Exception("Franchise Store not found.");
             }
 
-            // 4. Check Inventory
+            // 2. Validate Central Kitchen
+            var centralKitchen = await _context.CentralKitchens.FindAsync(dto.CentralKitchenId);
+            if (centralKitchen == null)
+            {
+                throw new Exception("Central Kitchen not found.");
+            }
+
+            // 3. Check Central Kitchen Inventory
             foreach (var itemDto in dto.Items)
             {
                 var totalQuantity = await _context.Inventories
-                    .Where(i => i.ProductId == itemDto.ProductId)
+                    .Where(i => i.CentralKitchenId == dto.CentralKitchenId && i.ProductId == itemDto.ProductId)
                     .SumAsync(i => i.Quantity);
 
                 if (totalQuantity < itemDto.Quantity)
@@ -40,10 +47,11 @@ namespace BusinessLogicLayer_FranLink.Services
                 }
             }
 
-            // 5. Create Order
+            // 4. Create Order
             var order = new InternalOrder
             {
                 FranchiseStoreId = dto.FranchiseStoreId,
+                CentralKitchenId = dto.CentralKitchenId,
                 UserId = dto.UserId,
                 OrderDate = DateTime.UtcNow,
                 Status = "Pending",
