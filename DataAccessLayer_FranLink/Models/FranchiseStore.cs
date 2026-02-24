@@ -14,6 +14,11 @@ namespace DataAccessLayer_FranLink.Models
         [StringLength(500)]
         public string Address { get; set; } = string.Empty;
 
+        // public bool IsCentralKitchen { get; set; } = false;
+
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+
+        public ICollection<Inventory> Inventories { get; set; }
+        public ICollection<InternalOrder> InternalOrders { get; set; }
     }
 }

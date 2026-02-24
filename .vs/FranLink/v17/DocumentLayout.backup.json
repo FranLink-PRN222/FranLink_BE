@@ -1,0 +1,1366 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\services\\centralkitchenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\services\\centralkitchenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\logout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\logout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\shared\\_validationscriptspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\shared\\_validationscriptspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\recipes\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\recipes\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\recipes\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\recipes\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\recipes\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\recipes\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\recipes\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\recipes\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\products\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\products\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\products\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\products\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\products\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\products\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\products\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\products\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\production\\start.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\production\\start.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\production\\report.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\production\\report.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\production\\records.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\production\\records.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\production\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\production\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\production\\complete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\production\\complete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\production\\cancel.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\production\\cancel.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\operations\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\operations\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\loss\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\loss\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\loss\\byreason.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\loss\\byreason.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\loss\\byproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\loss\\byproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\inventory\\transfers.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\inventory\\transfers.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\inventory\\disposals.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\inventory\\disposals.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\inventory\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\inventory\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\inventory\\centralkitchen.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\inventory\\centralkitchen.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\inventory\\alerts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\inventory\\alerts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\distribution\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\distribution\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\distribution\\bystore.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\distribution\\bystore.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\manager\\distribution\\byproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\manager\\distribution\\byproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\inventory\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\inventory\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\internalorders\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\internalorders\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\internalorders\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\internalorders\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\pages\\internalorders\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\pages\\internalorders\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\presentationlayer_franlink\\presentationlayer_franlink.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{E66A8A2A-8149-4FEB-8945-6A35EF5EEDAB}|PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj|solutionrelative:presentationlayer_franlink\\presentationlayer_franlink.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\dataaccesslayer_franlink\\models\\userrole.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|solutionrelative:dataaccesslayer_franlink\\models\\userrole.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\dataaccesslayer_franlink\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|solutionrelative:dataaccesslayer_franlink\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\dataaccesslayer_franlink\\models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|solutionrelative:dataaccesslayer_franlink\\models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\dataaccesslayer_franlink\\models\\recipeitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|solutionrelative:dataaccesslayer_franlink\\models\\recipeitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\dataaccesslayer_franlink\\models\\recipe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|solutionrelative:dataaccesslayer_franlink\\models\\recipe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\dataaccesslayer_franlink\\models\\qualityfeedback.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|solutionrelative:dataaccesslayer_franlink\\models\\qualityfeedback.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\dataaccesslayer_franlink\\models\\productionrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|solutionrelative:dataaccesslayer_franlink\\models\\productionrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\dataaccesslayer_franlink\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|solutionrelative:dataaccesslayer_franlink\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\dataaccesslayer_franlink\\models\\inventorytransfer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|solutionrelative:dataaccesslayer_franlink\\models\\inventorytransfer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\dataaccesslayer_franlink\\models\\inventorydisposal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|solutionrelative:dataaccesslayer_franlink\\models\\inventorydisposal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\dataaccesslayer_franlink\\models\\inventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|solutionrelative:dataaccesslayer_franlink\\models\\inventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\dataaccesslayer_franlink\\models\\internalorderitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|solutionrelative:dataaccesslayer_franlink\\models\\internalorderitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\dataaccesslayer_franlink\\models\\internalorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|solutionrelative:dataaccesslayer_franlink\\models\\internalorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\dataaccesslayer_franlink\\models\\franlinkcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|solutionrelative:dataaccesslayer_franlink\\models\\franlinkcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\dataaccesslayer_franlink\\models\\franchisestore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|solutionrelative:dataaccesslayer_franlink\\models\\franchisestore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\dataaccesslayer_franlink\\models\\centralkitchen.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15701A30-1CD8-407C-BD30-7C7B09933F92}|DataAccessLayer_FranLink\\DataAccessLayer_FranLink.csproj|solutionrelative:dataaccesslayer_franlink\\models\\centralkitchen.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\services\\recipeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\services\\recipeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\services\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\services\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\services\\productionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\services\\productionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\services\\lossservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\services\\lossservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\services\\irecipeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\services\\irecipeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\services\\iproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\services\\iproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\services\\iproductionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\services\\iproductionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\services\\inventoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\services\\inventoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\services\\internalorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\services\\internalorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\services\\ilossservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\services\\ilossservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\services\\iinventoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\services\\iinventoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\services\\iinternalorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\services\\iinternalorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\services\\idistributionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\services\\idistributionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\services\\icentralkitchenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\services\\icentralkitchenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\services\\distributionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\services\\distributionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\dtos\\recipeiteminput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\dtos\\recipeiteminput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\dtos\\productionsummary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\dtos\\productionsummary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\dtos\\losssummary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\dtos\\losssummary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\dtos\\ingredientavailability.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\dtos\\ingredientavailability.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\dtos\\inventorydashboardsummary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\dtos\\inventorydashboardsummary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\dtos\\inprogressproductionitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\dtos\\inprogressproductionitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\dtos\\distributionsummary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\dtos\\distributionsummary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\dtos\\createinternalorderitemdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\dtos\\createinternalorderitemdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\dtos\\createinternalorderdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\dtos\\createinternalorderdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|d:\\cn7\\prn222\\franlink_be-features-franchisestorestaff\\businesslogiclayer_franlink\\dtos\\centralkitchensummary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C23B3473-8282-432D-A499-CAEF8B1D5B2C}|BusinessLogicLayer_FranLink\\BusinessLogicLayer_FranLink.csproj|solutionrelative:businesslogiclayer_franlink\\dtos\\centralkitchensummary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 11,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Program.cs",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Program.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Program.cs",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Program.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAkwC4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:49:11.936Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Logout.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Logout.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Logout.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Logout.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Logout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:48:45.064Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Login.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Login.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Login.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Login.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:48:43.712Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Index.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Index.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Index.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:48:37.933Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Error.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Error.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Error.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Error.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Error.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:48:29.384Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "_ViewStart.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\_ViewStart.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\_ViewStart.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\_ViewStart.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\_ViewStart.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:48:21.238Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "_ViewImports.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\_ViewImports.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\_ViewImports.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\_ViewImports.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\_ViewImports.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:48:18.919Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CentralKitchenService.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\CentralKitchenService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\Services\\CentralKitchenService.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\CentralKitchenService.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\Services\\CentralKitchenService.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAADwv2UAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:36:48.741Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Privacy.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Privacy.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Privacy.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Privacy.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Privacy.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:49:03.326Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "_ValidationScriptsPartial.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Shared\\_ValidationScriptsPartial.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Shared\\_ValidationScriptsPartial.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Shared\\_ValidationScriptsPartial.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Shared\\_ValidationScriptsPartial.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:48:15.281Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Shared\\_Layout.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAiwGgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:48:08.105Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Recipes\\Index.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Recipes\\Index.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Recipes\\Index.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Recipes\\Index.cshtml",
+              "ViewState": "AgIAAF8AAAAAAAAAAAAYwIIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:47:59.6Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Recipes\\Edit.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Recipes\\Edit.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Recipes\\Edit.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Recipes\\Edit.cshtml",
+              "ViewState": "AgIAALAAAAAAAAAAAAAiwNMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:47:55.198Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Recipes\\Details.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Recipes\\Details.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Recipes\\Details.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Recipes\\Details.cshtml",
+              "ViewState": "AgIAAL8AAAAAAAAAAAAYwOIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:47:46.65Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Recipes\\Create.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Recipes\\Create.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Recipes\\Create.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Recipes\\Create.cshtml",
+              "ViewState": "AgIAAJwAAAAAAAAAAAAiwL8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:47:40.044Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Products\\Index.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Products\\Index.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Products\\Index.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Products\\Index.cshtml",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAYwJsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:47:31.591Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Products\\Edit.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Products\\Edit.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Products\\Edit.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Products\\Edit.cshtml",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAYwG4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:47:23.313Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Products\\Details.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Products\\Details.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Products\\Details.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Products\\Details.cshtml",
+              "ViewState": "AgIAAKoAAAAAAAAAAAAYwM0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:47:16.514Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Products\\Create.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Products\\Create.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Products\\Create.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Products\\Create.cshtml",
+              "ViewState": "AgIAAEMAAAAAAAAAAAAYwGYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:47:11.291Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Start.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Production\\Start.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Production\\Start.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Production\\Start.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Production\\Start.cshtml",
+              "ViewState": "AgIAADoAAAAAAAAAAAAYwF0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:47:01.062Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Report.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Production\\Report.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Production\\Report.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Production\\Report.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Production\\Report.cshtml",
+              "ViewState": "AgIAANUAAAAAAAAAAAAYwPgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:46:54.674Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Records.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Production\\Records.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Production\\Records.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Production\\Records.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Production\\Records.cshtml",
+              "ViewState": "AgIAAGgAAAAAAAAAAAAYwIsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:46:48.226Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Production\\Index.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Production\\Index.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Production\\Index.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Production\\Index.cshtml",
+              "ViewState": "AgIAAKwAAAAAAAAAAAAYwM8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:46:41.811Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Complete.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Production\\Complete.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Production\\Complete.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Production\\Complete.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Production\\Complete.cshtml",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAYwGAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:46:35.686Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Cancel.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Production\\Cancel.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Production\\Cancel.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Production\\Cancel.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Production\\Cancel.cshtml",
+              "ViewState": "AgIAACoAAAAAAAAAAAAYwE0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:46:29.037Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Operations\\Index.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Operations\\Index.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Operations\\Index.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Operations\\Index.cshtml",
+              "ViewState": "AgIAAC0BAAAAAAAAAAAYwFABAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:46:20.172Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Loss\\Index.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Loss\\Index.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Loss\\Index.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Loss\\Index.cshtml",
+              "ViewState": "AgIAAMYAAAAAAAAAAAAYwOkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:46:10.262Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "ByReason.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Loss\\ByReason.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Loss\\ByReason.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Loss\\ByReason.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Loss\\ByReason.cshtml",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAYwJgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:46:01.898Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "ByProduct.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Loss\\ByProduct.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Loss\\ByProduct.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Loss\\ByProduct.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Loss\\ByProduct.cshtml",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAYwGUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:45:55.445Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "Transfers.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Inventory\\Transfers.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Inventory\\Transfers.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Inventory\\Transfers.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Inventory\\Transfers.cshtml",
+              "ViewState": "AgIAAPAAAAAAAAAAAAAYwBMBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:45:46.345Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "Disposals.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Inventory\\Disposals.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Inventory\\Disposals.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Inventory\\Disposals.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Inventory\\Disposals.cshtml",
+              "ViewState": "AgIAAMcAAAAAAAAAAAAYwOoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:45:40.631Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "Dashboard.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Inventory\\Dashboard.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Inventory\\Dashboard.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Inventory\\Dashboard.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Inventory\\Dashboard.cshtml",
+              "ViewState": "AgIAAG4AAAAAAAAAAAAYwJEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:45:33.08Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "CentralKitchen.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Inventory\\CentralKitchen.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Inventory\\CentralKitchen.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Inventory\\CentralKitchen.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Inventory\\CentralKitchen.cshtml",
+              "ViewState": "AgIAALQAAAAAAAAAAAAYwNcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:45:24.977Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "Alerts.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Inventory\\Alerts.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Inventory\\Alerts.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Inventory\\Alerts.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Inventory\\Alerts.cshtml",
+              "ViewState": "AgIAAKoAAAAAAAAAAAAYwM0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:45:17.61Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Distribution\\Index.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Distribution\\Index.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Distribution\\Index.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Distribution\\Index.cshtml",
+              "ViewState": "AgIAAMYAAAAAAAAAAAAYwOkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:45:07.346Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "ByStore.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Distribution\\ByStore.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Distribution\\ByStore.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Distribution\\ByStore.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Distribution\\ByStore.cshtml",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAYwGMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:44:55.463Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "ByProduct.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Distribution\\ByProduct.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Manager\\Distribution\\ByProduct.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Manager\\Distribution\\ByProduct.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Manager\\Distribution\\ByProduct.cshtml",
+              "ViewState": "AgIAAFAAAAAAAAAAAAAYwHMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:44:48.42Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Inventory\\Index.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\Inventory\\Index.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\Inventory\\Index.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\Inventory\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:44:33.475Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\InternalOrders\\Index.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\InternalOrders\\Index.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\InternalOrders\\Index.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\InternalOrders\\Index.cshtml",
+              "ViewState": "AgIAABIAAAAAAAAAAAAYwDUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:44:23.903Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\InternalOrders\\Details.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\InternalOrders\\Details.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\InternalOrders\\Details.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\InternalOrders\\Details.cshtml",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAYwGIAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:44:10.574Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\InternalOrders\\Create.cshtml",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\Pages\\InternalOrders\\Create.cshtml",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\Pages\\InternalOrders\\Create.cshtml",
+              "RelativeToolTip": "PresentationLayer_FranLink\\Pages\\InternalOrders\\Create.cshtml",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAYwHEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-22T13:42:23.577Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "PresentationLayer_FranLink.csproj",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj",
+              "RelativeDocumentMoniker": "PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj",
+              "RelativeToolTip": "PresentationLayer_FranLink\\PresentationLayer_FranLink.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-02-22T13:42:10.718Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "UserRole.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\UserRole.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer_FranLink\\Models\\UserRole.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\UserRole.cs",
+              "RelativeToolTip": "DataAccessLayer_FranLink\\Models\\UserRole.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:42:00.215Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\User.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer_FranLink\\Models\\User.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\User.cs",
+              "RelativeToolTip": "DataAccessLayer_FranLink\\Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:41:52.962Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "Role.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\Role.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer_FranLink\\Models\\Role.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\Role.cs",
+              "RelativeToolTip": "DataAccessLayer_FranLink\\Models\\Role.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:41:45.655Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "RecipeItem.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\RecipeItem.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer_FranLink\\Models\\RecipeItem.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\RecipeItem.cs",
+              "RelativeToolTip": "DataAccessLayer_FranLink\\Models\\RecipeItem.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAcwCMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:41:38.035Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "Recipe.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\Recipe.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer_FranLink\\Models\\Recipe.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\Recipe.cs",
+              "RelativeToolTip": "DataAccessLayer_FranLink\\Models\\Recipe.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAcwCwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:41:31.139Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "QualityFeedback.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\QualityFeedback.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer_FranLink\\Models\\QualityFeedback.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\QualityFeedback.cs",
+              "RelativeToolTip": "DataAccessLayer_FranLink\\Models\\QualityFeedback.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:41:24.314Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
+              "Title": "ProductionRecord.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\ProductionRecord.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer_FranLink\\Models\\ProductionRecord.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\ProductionRecord.cs",
+              "RelativeToolTip": "DataAccessLayer_FranLink\\Models\\ProductionRecord.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAgwCEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:41:16.571Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 49,
+              "Title": "Product.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\Product.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer_FranLink\\Models\\Product.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\Product.cs",
+              "RelativeToolTip": "DataAccessLayer_FranLink\\Models\\Product.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAwwCcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:40:37.546Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 50,
+              "Title": "InventoryTransfer.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\InventoryTransfer.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer_FranLink\\Models\\InventoryTransfer.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\InventoryTransfer.cs",
+              "RelativeToolTip": "DataAccessLayer_FranLink\\Models\\InventoryTransfer.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAQwCsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:40:18.959Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "InventoryDisposal.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\InventoryDisposal.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer_FranLink\\Models\\InventoryDisposal.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\InventoryDisposal.cs",
+              "RelativeToolTip": "DataAccessLayer_FranLink\\Models\\InventoryDisposal.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAowCIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:40:11.129Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 52,
+              "Title": "Inventory.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\Inventory.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer_FranLink\\Models\\Inventory.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\Inventory.cs",
+              "RelativeToolTip": "DataAccessLayer_FranLink\\Models\\Inventory.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAA5wCEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:40:05.398Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "InternalOrderItem.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\InternalOrderItem.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer_FranLink\\Models\\InternalOrderItem.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\InternalOrderItem.cs",
+              "RelativeToolTip": "DataAccessLayer_FranLink\\Models\\InternalOrderItem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:39:55.195Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 54,
+              "Title": "InternalOrder.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\InternalOrder.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer_FranLink\\Models\\InternalOrder.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\InternalOrder.cs",
+              "RelativeToolTip": "DataAccessLayer_FranLink\\Models\\InternalOrder.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:39:48.808Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 55,
+              "Title": "FranLinkContext.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\FranLinkContext.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer_FranLink\\Models\\FranLinkContext.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\FranLinkContext.cs",
+              "RelativeToolTip": "DataAccessLayer_FranLink\\Models\\FranLinkContext.cs",
+              "ViewState": "AgIAAKAAAAAAAAAAAAAiwMMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:39:40.653Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 56,
+              "Title": "FranchiseStore.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\FranchiseStore.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer_FranLink\\Models\\FranchiseStore.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\FranchiseStore.cs",
+              "RelativeToolTip": "DataAccessLayer_FranLink\\Models\\FranchiseStore.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:39:32.628Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 57,
+              "Title": "CentralKitchen.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\CentralKitchen.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer_FranLink\\Models\\CentralKitchen.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\DataAccessLayer_FranLink\\Models\\CentralKitchen.cs",
+              "RelativeToolTip": "DataAccessLayer_FranLink\\Models\\CentralKitchen.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:39:09.958Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 58,
+              "Title": "RecipeService.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\RecipeService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\Services\\RecipeService.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\RecipeService.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\Services\\RecipeService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:39:01.312Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 59,
+              "Title": "ProductService.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\ProductService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\Services\\ProductService.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\ProductService.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\Services\\ProductService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:38:53.699Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 60,
+              "Title": "ProductionService.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\ProductionService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\Services\\ProductionService.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\ProductionService.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\Services\\ProductionService.cs",
+              "ViewState": "AgIAAOYAAAAAAAAAAADwvwcBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:38:46.664Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 61,
+              "Title": "LossService.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\LossService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\Services\\LossService.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\LossService.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\Services\\LossService.cs",
+              "ViewState": "AgIAAKwAAAAAAAAAAAAUwM4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:38:37.59Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 62,
+              "Title": "IRecipeService.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\IRecipeService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\Services\\IRecipeService.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\IRecipeService.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\Services\\IRecipeService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:38:29.059Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 63,
+              "Title": "IProductService.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\IProductService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\Services\\IProductService.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\IProductService.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\Services\\IProductService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:38:19.68Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 64,
+              "Title": "IProductionService.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\IProductionService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\Services\\IProductionService.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\IProductionService.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\Services\\IProductionService.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAowBsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:38:13.441Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 65,
+              "Title": "InventoryService.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\InventoryService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\Services\\InventoryService.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\InventoryService.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\Services\\InventoryService.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAUwCQCAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:37:53.595Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 66,
+              "Title": "InternalOrderService.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\InternalOrderService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\Services\\InternalOrderService.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\InternalOrderService.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\Services\\InternalOrderService.cs",
+              "ViewState": "AgIAAIUAAAAAAAAAAAAUwKcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:37:46.394Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 67,
+              "Title": "ILossService.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\ILossService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\Services\\ILossService.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\ILossService.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\Services\\ILossService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:37:40.925Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 68,
+              "Title": "IInventoryService.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\IInventoryService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\Services\\IInventoryService.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\IInventoryService.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\Services\\IInventoryService.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAqwDYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:37:34.24Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 69,
+              "Title": "IInternalOrderService.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\IInternalOrderService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\Services\\IInternalOrderService.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\IInternalOrderService.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\Services\\IInternalOrderService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:37:27.109Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 70,
+              "Title": "IDistributionService.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\IDistributionService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\Services\\IDistributionService.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\IDistributionService.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\Services\\IDistributionService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:37:20.984Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 71,
+              "Title": "ICentralKitchenService.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\ICentralKitchenService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\Services\\ICentralKitchenService.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\ICentralKitchenService.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\Services\\ICentralKitchenService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:37:13.932Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 72,
+              "Title": "DistributionService.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\DistributionService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\Services\\DistributionService.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\Services\\DistributionService.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\Services\\DistributionService.cs",
+              "ViewState": "AgIAAIYAAAAAAAAAAAAUwKgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:37:02.399Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 73,
+              "Title": "RecipeItemInput.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\DTOs\\RecipeItemInput.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\DTOs\\RecipeItemInput.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\DTOs\\RecipeItemInput.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\DTOs\\RecipeItemInput.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:36:37.191Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 74,
+              "Title": "ProductionSummary.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\DTOs\\ProductionSummary.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\DTOs\\ProductionSummary.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\DTOs\\ProductionSummary.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\DTOs\\ProductionSummary.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAA1wCsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:36:28.895Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 75,
+              "Title": "LossSummary.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\DTOs\\LossSummary.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\DTOs\\LossSummary.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\DTOs\\LossSummary.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\DTOs\\LossSummary.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAADUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:36:22.473Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 76,
+              "Title": "IngredientAvailability.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\DTOs\\IngredientAvailability.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\DTOs\\IngredientAvailability.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\DTOs\\IngredientAvailability.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\DTOs\\IngredientAvailability.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:36:16.288Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 77,
+              "Title": "InventoryDashboardSummary.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\DTOs\\InventoryDashboardSummary.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\DTOs\\InventoryDashboardSummary.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\DTOs\\InventoryDashboardSummary.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\DTOs\\InventoryDashboardSummary.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:36:10.153Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 78,
+              "Title": "InProgressProductionItem.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\DTOs\\InProgressProductionItem.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\DTOs\\InProgressProductionItem.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\DTOs\\InProgressProductionItem.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\DTOs\\InProgressProductionItem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:36:02.987Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 79,
+              "Title": "DistributionSummary.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\DTOs\\DistributionSummary.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\DTOs\\DistributionSummary.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\DTOs\\DistributionSummary.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\DTOs\\DistributionSummary.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAAADQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:35:57.045Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 80,
+              "Title": "CreateInternalOrderItemDto.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\DTOs\\CreateInternalOrderItemDto.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\DTOs\\CreateInternalOrderItemDto.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\DTOs\\CreateInternalOrderItemDto.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\DTOs\\CreateInternalOrderItemDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:35:49.205Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 81,
+              "Title": "CreateInternalOrderDto.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\DTOs\\CreateInternalOrderDto.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\DTOs\\CreateInternalOrderDto.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\DTOs\\CreateInternalOrderDto.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\DTOs\\CreateInternalOrderDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:35:40.421Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 82,
+              "Title": "CentralKitchenSummary.cs",
+              "DocumentMoniker": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\DTOs\\CentralKitchenSummary.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer_FranLink\\DTOs\\CentralKitchenSummary.cs",
+              "ToolTip": "D:\\CN7\\PRN222\\FranLink_BE-features-FranchiseStoreStaff\\BusinessLogicLayer_FranLink\\DTOs\\CentralKitchenSummary.cs",
+              "RelativeToolTip": "BusinessLogicLayer_FranLink\\DTOs\\CentralKitchenSummary.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T13:35:22.008Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

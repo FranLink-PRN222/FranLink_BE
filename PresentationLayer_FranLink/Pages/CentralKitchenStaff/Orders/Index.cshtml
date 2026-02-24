@@ -1,0 +1,89 @@
+@page
+@model PresentationLayer_FranLink.Pages.CentralKitchenStaff.Orders.IndexModel
+@{
+    ViewData["Title"] = "Process Orders";
+}
+
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-page="/CentralKitchenStaff/Index">Staff Dashboard</a></li>
+            <li class="breadcrumb-item active">Orders</li>
+        </ol>
+    </nav>
+
+    <h2><i class="bi bi-inbox"></i> Process Orders</h2>
+
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-md-3">
+            <label class="form-label">Central Kitchen</label>
+            <select asp-for="CentralKitchenId" asp-items="Model.CentralKitchens" class="form-select" onchange="this.form.submit()"></select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Status</label>
+            <select asp-for="StatusFilter" class="form-select" onchange="this.form.submit()">
+                <option value="">All</option>
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved / Producing</option>
+                <option value="Delivering">Delivering</option>
+                <option value="Completed">Completed</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+        </div>
+    </form>
+
+    <div class="card">
+        <div class="card-body p-0">
+            @if (Model.Orders.Any())
+            {
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Store</th>
+                            <th class="text-center">Items</th>
+                            <th class="text-end">Value</th>
+                            <th>Status</th>
+                            <th>Delivery</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var o in Model.Orders)
+                        {
+                            var statusClass = o.Status switch
+                            {
+                                "Pending" => "bg-warning text-dark",
+                                "Approved" or "Producing" => "bg-info",
+                                "Delivering" => "bg-primary",
+                                "Completed" => "bg-success",
+                                "Rejected" => "bg-danger",
+                                _ => "bg-secondary"
+                            };
+                            <tr>
+                                <td><strong>#@o.Id</strong></td>
+                                <td>@o.OrderDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
+                                <td>@o.StoreName</td>
+                                <td class="text-center">@o.TotalItems</td>
+                                <td class="text-end">@o.TotalValue.ToString("N0") VND</td>
+                                <td><span class="badge @statusClass">@o.Status</span></td>
+                                <td><span class="badge bg-secondary">@o.DeliveryStatus</span></td>
+                                <td>
+                                    <a asp-page="Details" asp-route-id="@o.Id" class="btn btn-sm btn-outline-primary">Process</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="text-center py-5 text-muted">
+                    <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+                    <p>No orders found for the selected criteria.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

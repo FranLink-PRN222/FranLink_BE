@@ -1,0 +1,108 @@
+@page
+@model PresentationLayer_FranLink.Pages.CentralKitchenStaff.Materials.IndexModel
+@{
+    ViewData["Title"] = "Materials & Expiry";
+}
+
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-page="/CentralKitchenStaff/Index">Staff Dashboard</a></li>
+            <li class="breadcrumb-item active">Materials</li>
+        </ol>
+    </nav>
+
+    <h2><i class="bi bi-box-seam"></i> Raw Materials - Expiry & Batch</h2>
+    <p class="text-muted">Quản lý nguyên liệu đầu vào, hạn sử dụng và lô sản xuất.</p>
+
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-auto">
+            <select asp-for="CentralKitchenId" asp-items="Model.CentralKitchens" class="form-select" onchange="this.form.submit()"></select>
+        </div>
+        <div class="col-auto">
+            <div class="form-check">
+                <input asp-for="ExpiringOnly" type="checkbox" class="form-check-input" value="true" onchange="this.form.submit()" />
+                <label asp-for="ExpiringOnly" class="form-check-label">Expiring soon / Expired only</label>
+            </div>
+        </div>
+    </form>
+
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span>@Model.Materials.Count material(s)</span>
+            <a asp-page="/Manager/Inventory/Alerts" asp-route-type="expiring" class="btn btn-sm btn-outline-warning">View Alerts</a>
+        </div>
+        <div class="card-body p-0">
+            @if (Model.Materials.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th class="text-center">Batch #</th>
+                                <th class="text-center">Quantity</th>
+                                <th>Expiry Date</th>
+                                <th class="text-center">Days Left</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var m in Model.Materials)
+                            {
+                                var rowClass = m.Status switch
+                                {
+                                    "Expired" => "table-danger",
+                                    "ExpiringSoon" => "table-warning",
+                                    _ => ""
+                                };
+                                var statusBadge = m.Status switch
+                                {
+                                    "Expired" => "bg-danger",
+                                    "ExpiringSoon" => "bg-warning text-dark",
+                                    _ => "bg-success"
+                                };
+                                var daysText = m.DaysUntilExpiry >= 9999 ? "N/A" : m.DaysUntilExpiry.ToString();
+                                if (m.Status == "Expired") daysText = "Expired";
+                                <tr class="@rowClass">
+                                    <td><strong>@m.ProductName</strong></td>
+                                    <td><span class="badge bg-secondary">@(m.Category ?? "-")</span></td>
+                                    <td class="text-center">@(m.BatchNumber ?? "-")</td>
+                                    <td class="text-center">@m.Quantity</td>
+                                    <td>
+                                        @if (m.ExpiryDate.HasValue)
+                                        {
+                                            @m.ExpiryDate.Value.ToString("dd/MM/yyyy")
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">-</span>
+                                        }
+                                    </td>
+                                    <td class="text-center">@daysText</td>
+                                    <td><span class="badge @statusBadge">@m.Status</span></td>
+                                    <td>
+                                        @if (m.Status == "Expired" || m.Status == "ExpiringSoon")
+                                        {
+                                            <a asp-page="/Manager/Inventory/Disposals" asp-route-action="create" asp-route-inventoryId="@m.InventoryId" class="btn btn-sm btn-outline-danger">Request Disposal</a>
+                                        }
+                                        <a asp-page="/Manager/Inventory/Transfers" asp-route-action="create" asp-route-fromKitchenId="@Model.CentralKitchenId" asp-route-productId="@m.ProductId" class="btn btn-sm btn-outline-primary ms-1">Transfer</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5 text-muted">
+                    <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+                    <p>No materials found.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

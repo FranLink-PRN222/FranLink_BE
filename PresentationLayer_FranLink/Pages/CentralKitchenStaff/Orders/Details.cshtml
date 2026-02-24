@@ -1,0 +1,107 @@
+@page "{id:int}"
+@model PresentationLayer_FranLink.Pages.CentralKitchenStaff.Orders.DetailsModel
+@{
+    ViewData["Title"] = $"Order #{Model.Order?.Id}";
+}
+
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-page="/CentralKitchenStaff/Index">Staff Dashboard</a></li>
+            <li class="breadcrumb-item"><a asp-page="Index">Orders</a></li>
+            <li class="breadcrumb-item active">Order #@Model.Order.Id</li>
+        </ol>
+    </nav>
+
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div class="alert @(Model.IsSuccess ? "alert-success" : "alert-danger") alert-dismissible fade show">
+            @Model.Message
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <h2>Order #@Model.Order.Id</h2>
+
+    <div class="card mb-4">
+        <div class="card-header">Order Information</div>
+        <div class="card-body">
+            <p><strong>Store:</strong> @Model.Order.FranchiseStore?.Name</p>
+            <p><strong>Date:</strong> @Model.Order.OrderDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</p>
+            <p><strong>Status:</strong> <span class="badge bg-secondary">@Model.Order.Status</span></p>
+            @if (Model.Order.Delivery != null)
+            {
+                <p><strong>Delivery:</strong> <span class="badge bg-info">@Model.Order.Delivery.DeliveryStatus</span></p>
+                @if (Model.Order.Delivery.DeliveredAt.HasValue)
+                {
+                    <p><strong>Delivered At:</strong> @Model.Order.Delivery.DeliveredAt.Value.ToLocalTime()</p>
+                }
+            }
+        </div>
+    </div>
+
+    <h4>Items</h4>
+    <table class="table table-bordered mb-4">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th class="text-center">Quantity</th>
+                <th class="text-end">Unit Price</th>
+                <th class="text-end">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Order.Items)
+            {
+                <tr>
+                    <td>@item.Product?.Name</td>
+                    <td class="text-center">@item.Quantity</td>
+                    <td class="text-end">@item.UnitPrice.ToString("N0")</td>
+                    <td class="text-end">@((item.Quantity * item.UnitPrice).ToString("N0")) VND</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="card">
+        <div class="card-header">Actions</div>
+        <div class="card-body">
+            @if (Model.Order.Status == "Pending")
+            {
+                <form method="post" asp-page-handler="Approve" asp-route-id="@Model.Order.Id" class="d-inline">
+                    <button type="submit" class="btn btn-success">Approve Order</button>
+                </form>
+                <form method="post" asp-page-handler="Reject" asp-route-id="@Model.Order.Id" class="d-inline ms-2">
+                    <button type="submit" class="btn btn-danger">Reject Order</button>
+                </form>
+            }
+            else if (Model.Order.Status == "Approved")
+            {
+                <form method="post" asp-page-handler="StartPreparing" asp-route-id="@Model.Order.Id" class="d-inline">
+                    <button type="submit" class="btn btn-info">Start Preparing</button>
+                </form>
+                <form method="post" asp-page-handler="MarkDelivering" asp-route-id="@Model.Order.Id" class="d-inline ms-2">
+                    <button type="submit" class="btn btn-primary">Mark as Delivering (Deduct Inventory)</button>
+                </form>
+            }
+            else if (Model.Order.Status == "Producing")
+            {
+                <form method="post" asp-page-handler="MarkDelivering" asp-route-id="@Model.Order.Id" class="d-inline">
+                    <button type="submit" class="btn btn-primary">Mark as Delivering (Deduct Inventory)</button>
+                </form>
+            }
+            else if (Model.Order.Status == "Delivering" && Model.Order.Delivery?.DeliveryStatus == "Delivering")
+            {
+                <form method="post" asp-page-handler="MarkDeliveryCompleted" asp-route-id="@Model.Order.Id" class="d-inline">
+                    <button type="submit" class="btn btn-success">Mark Delivery Completed</button>
+                </form>
+            }
+            else
+            {
+                <p class="text-muted">No actions available for this order status.</p>
+            }
+
+            <a asp-page="Index" class="btn btn-outline-secondary ms-2">Back to List</a>
+        </div>
+    </div>
+</div>

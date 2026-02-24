@@ -1,0 +1,226 @@
+@page "{id:int}"
+@model PresentationLayer_FranLink.Pages.Manager.Recipes.DetailsModel
+@{
+    ViewData["Title"] = $"Recipe: {Model.Recipe.Name}";
+}
+
+<div class="container">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-page="Index">Recipes</a></li>
+            <li class="breadcrumb-item active">@Model.Recipe.Name</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <!-- Recipe Info -->
+        <div class="col-md-7">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="bi bi-journal-text me-2"></i>Recipe Details</h5>
+                    @if (Model.Recipe.IsActive)
+                    {
+                        <span class="badge bg-success fs-6">Active</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary fs-6">Inactive</span>
+                    }
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-sm-4"><strong>Recipe Name:</strong></div>
+                        <div class="col-sm-8">@Model.Recipe.Name</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4"><strong>Output Product:</strong></div>
+                        <div class="col-sm-8">
+                            <a asp-page="/Manager/Products/Details" asp-route-id="@Model.Recipe.ProductId">
+                                @Model.Recipe.Product?.Name
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4"><strong>Output Quantity:</strong></div>
+                        <div class="col-sm-8">@Model.Recipe.OutputQuantity @Model.Recipe.Product?.Unit per batch</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4"><strong>Estimated Time:</strong></div>
+                        <div class="col-sm-8">@Model.Recipe.EstimatedTime minutes</div>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.Recipe.Instructions))
+                    {
+                        <div class="row mb-3">
+                            <div class="col-sm-4"><strong>Instructions:</strong></div>
+                            <div class="col-sm-8">
+                                <div class="border rounded p-2 bg-light" style="white-space: pre-wrap;">@Model.Recipe.Instructions</div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="card-footer">
+                    <a asp-page="Edit" asp-route-id="@Model.Recipe.RecipeId" class="btn btn-warning">
+                        <i class="bi bi-pencil me-1"></i>Edit
+                    </a>
+                    <a asp-page="Index" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-1"></i>Back to List
+                    </a>
+                </div>
+            </div>
+
+            <!-- Ingredients -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-list-check me-2"></i>Ingredients (Định mức nguyên liệu)</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.Recipe.RecipeItems.Any())
+                    {
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Ingredient</th>
+                                    <th class="text-end">Quantity</th>
+                                    <th>Unit</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ int index = 1; }
+                                @foreach (var item in Model.Recipe.RecipeItems)
+                                {
+                                    <tr>
+                                        <td>@index</td>
+                                        <td>
+                                            <a asp-page="/Manager/Products/Details" asp-route-id="@item.IngredientProductId">
+                                                @item.IngredientProduct?.Name
+                                            </a>
+                                        </td>
+                                        <td class="text-end">@item.Quantity</td>
+                                        <td>@(item.Unit ?? "-")</td>
+                                        <td class="text-muted">@(item.Notes ?? "-")</td>
+                                    </tr>
+                                    index++;
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p class="text-muted mb-0">No ingredients defined.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Availability Calculator -->
+        <div class="col-md-5">
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="bi bi-calculator me-2"></i>Ingredient Availability Calculator</h5>
+                </div>
+                <div class="card-body">
+                    <form method="get">
+                        <input type="hidden" name="id" value="@Model.Recipe.RecipeId" />
+                        <div class="mb-3">
+                            <label class="form-label">Central Kitchen</label>
+                            <select name="SelectedCentralKitchenId" class="form-select">
+                                <option value="">-- Select Central Kitchen --</option>
+                                @foreach (var ck in Model.CentralKitchens)
+                                {
+                                    if (Model.SelectedCentralKitchenId == ck.Id)
+                                    {
+                                        <option value="@ck.Id" selected>@ck.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@ck.Id">@ck.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Production Quantity</label>
+                            <input type="number" name="CalculateQuantity" class="form-control" value="@Model.CalculateQuantity" min="1" />
+                            <small class="text-muted">How many units do you want to produce?</small>
+                        </div>
+                        <button type="submit" class="btn btn-info w-100">
+                            <i class="bi bi-search me-1"></i>Check Availability
+                        </button>
+                    </form>
+                </div>
+
+                @if (Model.IngredientsAvailability.Any())
+                {
+                    <div class="card-body border-top">
+                        <h6 class="mb-3">
+                            Results for @Model.CalculateQuantity units:
+                            @if (Model.CanProduce)
+                            {
+                                <span class="badge bg-success ms-2">Can Produce</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger ms-2">Insufficient Stock</span>
+                            }
+                        </h6>
+
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Ingredient</th>
+                                    <th class="text-end">Need</th>
+                                    <th class="text-end">Have</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.IngredientsAvailability)
+                                {
+                                    <tr class="@(item.IsAvailable ? "" : "table-danger")">
+                                        <td>@item.ProductName</td>
+                                        <td class="text-end">@item.RequiredQuantity @item.Unit</td>
+                                        <td class="text-end">@item.AvailableQuantity @item.Unit</td>
+                                        <td>
+                                            @if (item.IsAvailable)
+                                            {
+                                                <i class="bi bi-check-circle text-success"></i>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-danger">
+                                                    <i class="bi bi-exclamation-triangle"></i>
+                                                    -@item.ShortageQuantity
+                                                </span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+
+            <!-- Quick Info -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Quick Info</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <h3 class="mb-0 text-primary">@Model.Recipe.RecipeItems.Count</h3>
+                            <small class="text-muted">Ingredients</small>
+                        </div>
+                        <div class="col-6">
+                            <h3 class="mb-0 text-info">@Model.Recipe.EstimatedTime</h3>
+                            <small class="text-muted">Minutes</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

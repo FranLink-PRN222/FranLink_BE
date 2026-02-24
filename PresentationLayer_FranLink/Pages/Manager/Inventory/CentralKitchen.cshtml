@@ -1,0 +1,215 @@
+@page
+@model PresentationLayer_FranLink.Pages.Manager.Inventory.CentralKitchenModel
+@{
+    ViewData["Title"] = "Central Kitchen Inventory";
+}
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="bi bi-house-door"></i> Central Kitchen Inventory</h1>
+        <a asp-page="/Manager/Inventory/Dashboard" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <!-- Central Kitchen Selector -->
+    @if (Model.CentralKitchens.Any())
+    {
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Select Central Kitchen</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="get">
+                            <div class="input-group">
+                                <select name="kitchenId" class="form-select" onchange="this.form.submit()">
+                                    <option value="">-- All Central Kitchens --</option>
+                                    @foreach (var kitchen in Model.CentralKitchens)
+                                    {
+                                        <option value="@kitchen.Id" selected="@(Model.SelectedKitchenId == kitchen.Id)">
+                                            @kitchen.Name
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            @if (Model.KitchenSummary != null)
+            {
+                <div class="col-md-6">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <h5 class="card-title">@Model.KitchenSummary.Name Summary</h5>
+                            <div class="row">
+                                <div class="col-4 text-center">
+                                    <h4>@Model.KitchenSummary.TotalProducts</h4>
+                                    <small class="text-muted">Products</small>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <h4>@Model.KitchenSummary.TotalQuantity</h4>
+                                    <small class="text-muted">Total Qty</small>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <h4>@Model.KitchenSummary.TotalValue.ToString("N0") đ</h4>
+                                    <small class="text-muted">Value</small>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-4 text-center">
+                                    <span class="badge bg-warning">@Model.KitchenSummary.LowStockItems Low Stock</span>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <span class="badge bg-warning">@Model.KitchenSummary.ExpiringItems Expiring</span>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <span class="badge bg-danger">@Model.KitchenSummary.ExpiredItems Expired</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <!-- Inventory Table -->
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Inventory Items</h5>
+            <span class="badge bg-primary">@Model.Inventory.Count items</span>
+        </div>
+        <div class="card-body">
+            @if (Model.Inventory.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Central Kitchen</th>
+                                <th>Product</th>
+                                <th>Batch #</th>
+                                <th>Quantity</th>
+                                <th>Min/Max</th>
+                                <th>Expiry Date</th>
+                                <th>Status</th>
+                                <th>Last Updated</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Inventory)
+                            {
+                                var status = GetStatus(item);
+                                <tr class="@GetRowClass(status)">
+                                    <td>@item.CentralKitchen?.Name</td>
+                                    <td><strong>@item.Product?.Name</strong></td>
+                                    <td>@(item.BatchNumber ?? "-")</td>
+                                    <td>@item.Quantity</td>
+                                    <td>@item.MinThreshold / @item.MaxThreshold</td>
+                                    <td>
+                                        @if (item.ExpiryDate.HasValue)
+                                        {
+                                            <span class="@GetExpiryClass(item.ExpiryDate.Value)">
+                                                @item.ExpiryDate.Value.ToString("dd/MM/yyyy")
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">N/A</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (status == "expired")
+                                        {
+                                            <span class="badge bg-danger">Expired</span>
+                                        }
+                                        else if (status == "expiring")
+                                        {
+                                            <span class="badge bg-warning text-dark">Expiring Soon</span>
+                                        }
+                                        else if (status == "lowstock")
+                                        {
+                                            <span class="badge bg-warning text-dark">Low Stock</span>
+                                        }
+                                        else if (status == "overstock")
+                                        {
+                                            <span class="badge bg-info">Overstock</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success">Normal</span>
+                                        }
+                                    </td>
+                                    <td>@item.LastUpdated.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a asp-page="/Manager/Inventory/Transfers" asp-route-action="create" asp-route-fromKitchenId="@item.CentralKitchenId" asp-route-productId="@item.ProductId" class="btn btn-outline-primary" title="Transfer">
+                                                <i class="bi bi-arrow-left-right"></i>
+                                            </a>
+                                            @if (status == "expired")
+                                            {
+                                                <a asp-page="/Manager/Inventory/Disposals" asp-route-action="create" asp-route-inventoryId="@item.InventoryId" class="btn btn-outline-danger" title="Dispose">
+                                                    <i class="bi bi-trash"></i>
+                                                </a>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> No inventory items found.
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetStatus(DataAccessLayer_FranLink.Models.Inventory item)
+    {
+        var now = DateTime.UtcNow;
+        if (item.ExpiryDate.HasValue && item.ExpiryDate.Value <= now)
+            return "expired";
+        if (item.ExpiryDate.HasValue && item.ExpiryDate.Value <= now.AddDays(7))
+            return "expiring";
+        if (item.Quantity <= item.MinThreshold)
+            return "lowstock";
+        if (item.Quantity >= item.MaxThreshold)
+            return "overstock";
+        return "normal";
+    }
+
+    string GetRowClass(string status)
+    {
+        return status switch
+        {
+            "expired" => "table-danger",
+            "expiring" => "table-warning",
+            "lowstock" => "table-warning",
+            "overstock" => "table-info",
+            _ => ""
+        };
+    }
+
+    string GetExpiryClass(DateTime expiryDate)
+    {
+        var now = DateTime.UtcNow;
+        if (expiryDate <= now)
+            return "text-danger fw-bold";
+        if (expiryDate <= now.AddDays(7))
+            return "text-warning fw-bold";
+        return "";
+    }
+}
