@@ -18,7 +18,7 @@ namespace BusinessLogicLayer_FranLink.Services
         Task CancelOrderAsync(int orderId);
         Task StartProductionAsync(int orderId);
         Task MarkProductionReadyAsync(int orderId);
-        Task StartOrAdvanceDeliveryAsync(int orderId);
+        Task StartOrAdvanceDeliveryAsync(int orderId, DateTime? scheduledDate = null);
         Task MarkDeliveredAsync(int orderId);
     }
 }

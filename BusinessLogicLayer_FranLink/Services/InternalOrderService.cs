@@ -41,6 +41,7 @@ namespace BusinessLogicLayer_FranLink.Services
             {
                 DeliveryId = Guid.NewGuid(),
                 DeliveryStatus = "NotScheduled",
+                ScheduledDate = null,
                 DeliveredAt = null
             };
             order.Delivery = delivery;
@@ -152,6 +153,8 @@ namespace BusinessLogicLayer_FranLink.Services
         {
             var order = await _context.InternalOrders
                 .Include(o => o.Delivery)
+                .Include(o => o.Items)
+                .ThenInclude(i => i.Product)
                 .FirstOrDefaultAsync(o => o.Id == orderId);
 
             if (order == null)
@@ -178,6 +181,21 @@ namespace BusinessLogicLayer_FranLink.Services
             if (order.CentralKitchenId.HasValue && order.CentralKitchenId.Value != centralKitchenId)
             {
                 throw new Exception("Central kitchen cannot be changed after approval.");
+            }
+
+            // Kiểm tra tồn kho bếp trung tâm trước khi duyệt
+            foreach (var item in order.Items)
+            {
+                var totalQuantity = await _context.Inventories
+                    .Where(i => i.CentralKitchenId == centralKitchenId && i.ProductId == item.ProductId)
+                    .SumAsync(i => i.Quantity);
+
+                if (totalQuantity < item.Quantity)
+                {
+                    var productName = item.Product?.Name ?? $"Product ID {item.ProductId}";
+                    throw new Exception(
+                        $"Insufficient inventory for product '{productName}' at kitchen '{kitchen.Name}'. Available: {totalQuantity}, Requested: {item.Quantity}.");
+                }
             }
 
             order.CentralKitchenId = centralKitchenId;
@@ -261,7 +279,7 @@ namespace BusinessLogicLayer_FranLink.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task StartOrAdvanceDeliveryAsync(int orderId)
+        public async Task StartOrAdvanceDeliveryAsync(int orderId, DateTime? scheduledDate = null)
         {
             var order = await _context.InternalOrders
                 .Include(o => o.Delivery)
@@ -290,6 +308,14 @@ namespace BusinessLogicLayer_FranLink.Services
             var current = order.Delivery.DeliveryStatus;
             if (current == "NotScheduled")
             {
+                if (!scheduledDate.HasValue)
+                {
+                    throw new Exception("Scheduled delivery date is required.");
+                }
+
+                // HTML date input trả về DateTime Kind=Unspecified -> ép sang UTC để phù hợp PostgreSQL 'timestamp with time zone'
+                var utcDate = DateTime.SpecifyKind(scheduledDate.Value.Date, DateTimeKind.Utc);
+                order.Delivery.ScheduledDate = utcDate;
                 order.Delivery.DeliveryStatus = "Preparing";
             }
             else if (current == "Preparing")

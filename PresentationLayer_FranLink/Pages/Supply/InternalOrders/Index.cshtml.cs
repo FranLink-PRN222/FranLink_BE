@@ -125,7 +125,7 @@ namespace PresentationLayer_FranLink.Pages.Supply.InternalOrders
             return RedirectToPage();
         }
 
-        public async Task<IActionResult> OnPostStartDeliveryAsync(int id)
+        public async Task<IActionResult> OnPostStartDeliveryAsync(int id, DateTime? scheduledDate)
         {
             var role = HttpContext.Session.GetString("Role");
             if (role != "SupplyCoordinator" && role != "Supply Coordinator")
@@ -135,7 +135,7 @@ namespace PresentationLayer_FranLink.Pages.Supply.InternalOrders
 
             try
             {
-                await _orderService.StartOrAdvanceDeliveryAsync(id);
+                await _orderService.StartOrAdvanceDeliveryAsync(id, scheduledDate);
                 TempData["SuccessMessage"] = "Delivery status updated.";
             }
             catch (Exception ex)
