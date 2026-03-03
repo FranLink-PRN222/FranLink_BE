@@ -1,0 +1,102 @@
+@page
+@model PresentationLayer_FranLink.Pages.Manager.Products.CreateModel
+@{
+    ViewData["Title"] = "Create Product";
+}
+
+<div class="container">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-page="Index">Products</a></li>
+            <li class="breadcrumb-item active">Create</li>
+        </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-plus-lg me-2"></i>Create New Product</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                <label asp-for="Input.Name" class="form-label">Product Name <span class="text-danger">*</span></label>
+                                <input asp-for="Input.Name" class="form-control" placeholder="Enter product name" />
+                                <span asp-validation-for="Input.Name" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="Input.SKU" class="form-label">SKU</label>
+                                <input asp-for="Input.SKU" class="form-control" placeholder="e.g., PRD-001" />
+                                <span asp-validation-for="Input.SKU" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Input.Price" class="form-label">Price (VND) <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input asp-for="Input.Price" type="number" step="1000" class="form-control" placeholder="0" />
+                                    <span class="input-group-text">VND</span>
+                                </div>
+                                <span asp-validation-for="Input.Price" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Input.Unit" class="form-label">Unit</label>
+                                <select asp-for="Input.Unit" class="form-select">
+                                    <option value="">-- Select Unit --</option>
+                                    <option value="cái">Cái</option>
+                                    <option value="hộp">Hộp</option>
+                                    <option value="kg">Kg</option>
+                                    <option value="gram">Gram</option>
+                                    <option value="lít">Lít</option>
+                                    <option value="ml">ml</option>
+                                    <option value="gói">Gói</option>
+                                    <option value="chai">Chai</option>
+                                    <option value="lon">Lon</option>
+                                </select>
+                                <span asp-validation-for="Input.Unit" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.Category" class="form-label">Category</label>
+                            <input asp-for="Input.Category" class="form-control" list="categoryList" placeholder="Select or enter new category" />
+                            <datalist id="categoryList">
+                                @foreach (var cat in Model.ExistingCategories)
+                                {
+                                    <option value="@cat"></option>
+                                }
+                            </datalist>
+                            <span asp-validation-for="Input.Category" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.Description" class="form-label">Description</label>
+                            <textarea asp-for="Input.Description" class="form-control" rows="4" placeholder="Enter product description..."></textarea>
+                            <span asp-validation-for="Input.Description" class="text-danger"></span>
+                        </div>
+
+                        <hr />
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-page="Index" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Back to List
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-lg me-1"></i>Create Product
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

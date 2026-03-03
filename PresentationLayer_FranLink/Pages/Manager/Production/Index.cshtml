@@ -1,0 +1,207 @@
+@page
+@model PresentationLayer_FranLink.Pages.Manager.Production.IndexModel
+@{
+    ViewData["Title"] = "Production Dashboard";
+}
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>🏭 Production Dashboard</h2>
+        <a asp-page="Start" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Start Production
+        </a>
+    </div>
+
+    <!-- Filter -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Central Kitchen</label>
+                    <select asp-for="CentralKitchenId" asp-items="Model.CentralKitchens" class="form-select">
+                        <option value="">-- All Kitchens --</option>
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Today's Productions</h5>
+                    <h2>@Model.TodaySummary.TotalProductions</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">Total Produced</h5>
+                    <h2>@Model.TodaySummary.TotalActualQuantity</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h5 class="card-title">Efficiency Rate</h5>
+                    <h2>@Model.TodaySummary.EfficiencyRate%</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">Avg. Time</h5>
+                    <h2>@Model.TodaySummary.AverageProductionTimeMinutes min</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- In Progress Productions -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">🔄 In Progress Productions (@Model.InProgressProductions.Count)</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.InProgressProductions.Any())
+                    {
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Recipe / Product</th>
+                                    <th>Kitchen</th>
+                                    <th>Planned Qty</th>
+                                    <th>Started</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var prod in Model.InProgressProductions)
+                                {
+                                    var duration = DateTime.UtcNow - prod.StartTime;
+                                    <tr>
+                                        <td>@prod.ProductionId</td>
+                                        <td>
+                                            <strong>@prod.Recipe.Name</strong><br />
+                                            <small class="text-muted">@prod.Recipe.Product.Name</small>
+                                        </td>
+                                        <td>@prod.CentralKitchen.Name</td>
+                                        <td>@prod.PlannedQuantity</td>
+                                        <td>
+                                            @prod.StartTime.ToLocalTime().ToString("HH:mm")<br />
+                                            <small class="text-muted">@duration.Hours h @duration.Minutes m</small>
+                                        </td>
+                                        <td>
+                                            <a asp-page="Complete" asp-route-id="@prod.ProductionId" class="btn btn-sm btn-success">
+                                                Complete
+                                            </a>
+                                            <a asp-page="Cancel" asp-route-id="@prod.ProductionId" class="btn btn-sm btn-danger">
+                                                Cancel
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="text-center text-muted py-4">
+                            <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+                            <p>No productions in progress</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a asp-page="Records" class="btn btn-outline-primary w-100">
+                                📋 Production Records
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a asp-page="Report" class="btn btn-outline-info w-100">
+                                📊 Production Report
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a asp-page="../Recipes/Index" class="btn btn-outline-secondary w-100">
+                                📖 Manage Recipes
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Products -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">🏆 Top Products (7 days)</h5>
+                </div>
+                <div class="card-body p-0">
+                    @if (Model.TopProducts.Any())
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var prod in Model.TopProducts)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>@prod.ProductName</strong><br />
+                                        <small class="text-muted">Efficiency: @prod.EfficiencyRate%</small>
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">@prod.TotalActual</span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <div class="text-center text-muted py-4">
+                            <p>No production data</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Today's Production by Product -->
+            @if (Model.TodaySummary.ByProduct.Any())
+            {
+                <div class="card mt-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">📦 Today by Product</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush">
+                            @foreach (var item in Model.TodaySummary.ByProduct.Take(5))
+                            {
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>@item.ProductName</span>
+                                    <span>
+                                        <span class="badge bg-secondary">@item.TotalActual / @item.TotalPlanned</span>
+                                    </span>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
