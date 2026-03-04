@@ -1,15 +1,15 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DataAccessLayer_FranLink.Models
+namespace BusinessLogicLayer_FranLink.DTOs
 {
-    public class FranchiseStore
+    public class UpdateStoreDto
     {
-        [Key]
+        [Required]
         public int Id { get; set; }
-        
+
         [Required]
         [StringLength(200)]
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; }
 
         [StringLength(500)]
         public string Address { get; set; } = string.Empty;
@@ -20,11 +20,5 @@ namespace DataAccessLayer_FranLink.Models
         public bool IsCentralKitchen { get; set; } = false;
 
         public bool IsActive { get; set; } = true;
-
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
-
-        public ICollection<Inventory> Inventories { get; set; }
-        public ICollection<InternalOrder> InternalOrders { get; set; }
-        public ICollection<User> Users { get; set; }
     }
 }

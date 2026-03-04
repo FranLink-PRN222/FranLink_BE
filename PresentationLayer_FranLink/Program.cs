@@ -17,6 +17,10 @@ builder.Services.AddScoped<BusinessLogicLayer_FranLink.Services.IProductionServi
 builder.Services.AddScoped<BusinessLogicLayer_FranLink.Services.IDistributionService, BusinessLogicLayer_FranLink.Services.DistributionService>();
 builder.Services.AddScoped<BusinessLogicLayer_FranLink.Services.ILossService, BusinessLogicLayer_FranLink.Services.LossService>();
 builder.Services.AddScoped<BusinessLogicLayer_FranLink.Services.ICentralKitchenStaffService, BusinessLogicLayer_FranLink.Services.CentralKitchenStaffService>();
+builder.Services.AddScoped<BusinessLogicLayer_FranLink.Services.IUserService, BusinessLogicLayer_FranLink.Services.UserService>();
+builder.Services.AddScoped<BusinessLogicLayer_FranLink.Services.IStoreService, BusinessLogicLayer_FranLink.Services.StoreService>();
+builder.Services.AddScoped<BusinessLogicLayer_FranLink.Services.ISystemConfigService, BusinessLogicLayer_FranLink.Services.SystemConfigService>();
+builder.Services.AddScoped<BusinessLogicLayer_FranLink.Services.IAdminReportService, BusinessLogicLayer_FranLink.Services.AdminReportService>();
 
 
 

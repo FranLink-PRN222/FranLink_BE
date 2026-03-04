@@ -1,0 +1,84 @@
+@page
+@model PresentationLayer_FranLink.Pages.Admin.Config.IndexModel
+@{
+    ViewData["Title"] = "Cấu hình Hệ thống";
+}
+
+<h1><i class="bi bi-gear"></i> Cấu hình Hệ thống</h1>
+<hr />
+
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <strong>Thêm cấu hình mới</strong>
+    </div>
+    <div class="card-body">
+        <form method="post" asp-page-handler="Add">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label">Key <span class="text-danger">*</span></label>
+                    <input asp-for="NewKey" class="form-control" placeholder="vd: DefaultUnit" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Value <span class="text-danger">*</span></label>
+                    <input asp-for="NewValue" class="form-control" placeholder="vd: kg" />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Mô tả</label>
+                    <input asp-for="NewDescription" class="form-control" placeholder="vd: Đơn vị tính mặc định" />
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-plus"></i> Thêm
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover table-bordered align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Key</th>
+                <th>Value</th>
+                <th>Mô tả</th>
+                <th>Cập nhật lần cuối</th>
+                <th class="text-center">Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var config in Model.Configs)
+            {
+                <tr>
+                    <td><code>@config.ConfigKey</code></td>
+                    <td>
+                        <form method="post" asp-page-handler="Update" class="d-flex gap-2">
+                            <input type="hidden" name="key" value="@config.ConfigKey" />
+                            <input type="text" name="value" value="@config.ConfigValue" class="form-control form-control-sm" />
+                            <input type="hidden" name="description" value="@config.Description" />
+                            <button type="submit" class="btn btn-sm btn-outline-success" title="Lưu">
+                                <i class="bi bi-check-lg"></i>
+                            </button>
+                        </form>
+                    </td>
+                    <td>@config.Description</td>
+                    <td>@config.UpdatedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
+                    <td class="text-center">
+                        <form method="post" asp-page-handler="Delete" class="d-inline">
+                            <input type="hidden" name="id" value="@config.Id" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Xóa cấu hình này?')">
+                                <i class="bi bi-trash"></i> Xóa
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (!Model.Configs.Any())
+{
+    <div class="alert alert-info text-center">Chưa có cấu hình nào.</div>
+}

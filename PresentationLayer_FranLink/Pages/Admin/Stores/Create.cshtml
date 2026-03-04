@@ -1,0 +1,48 @@
+@page
+@model PresentationLayer_FranLink.Pages.Admin.Stores.CreateModel
+@{
+    ViewData["Title"] = "Thêm Cửa hàng / Bếp trung tâm";
+}
+
+<h1><i class="bi bi-plus-circle"></i> Thêm Cửa hàng / Bếp trung tâm</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Name" class="form-label">Tên <span class="text-danger">*</span></label>
+                <input asp-for="Input.Name" class="form-control" />
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Address" class="form-label">Địa chỉ</label>
+                <input asp-for="Input.Address" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Phone" class="form-label">Số điện thoại</label>
+                <input asp-for="Input.Phone" class="form-control" />
+            </div>
+
+            <div class="mb-3 form-check">
+                <input asp-for="Input.IsCentralKitchen" class="form-check-input" />
+                <label asp-for="Input.IsCentralKitchen" class="form-check-label">Là Bếp trung tâm</label>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-circle"></i> Tạo mới
+                </button>
+                <a asp-page="Index" class="btn btn-secondary ms-2">Hủy</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
