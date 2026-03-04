@@ -16,6 +16,8 @@ builder.Services.AddScoped<BusinessLogicLayer_FranLink.Services.IRecipeService, 
 builder.Services.AddScoped<BusinessLogicLayer_FranLink.Services.IProductionService, BusinessLogicLayer_FranLink.Services.ProductionService>();
 builder.Services.AddScoped<BusinessLogicLayer_FranLink.Services.IDistributionService, BusinessLogicLayer_FranLink.Services.DistributionService>();
 builder.Services.AddScoped<BusinessLogicLayer_FranLink.Services.ILossService, BusinessLogicLayer_FranLink.Services.LossService>();
+builder.Services.AddScoped<BusinessLogicLayer_FranLink.Services.ICentralKitchenStaffService, BusinessLogicLayer_FranLink.Services.CentralKitchenStaffService>();
+
 
 
 builder.Services.AddDbContext<FranLinkContext>(options =>
