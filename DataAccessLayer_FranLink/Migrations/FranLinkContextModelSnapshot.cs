@@ -68,6 +68,9 @@ namespace DataAccessLayer_FranLink.Migrations
                     b.Property<int>("InternalOrderId")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime?>("ScheduledDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("DeliveryId");
 
                     b.HasIndex("InternalOrderId")

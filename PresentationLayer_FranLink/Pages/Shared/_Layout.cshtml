@@ -54,6 +54,13 @@
                                 </ul>
                             </li>
                         }
+                        @if (httpContextAccessor.HttpContext.Session.GetString("Role") == "SupplyCoordinator"
+                            || httpContextAccessor.HttpContext.Session.GetString("Role") == "Supply Coordinator")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Supply/InternalOrders/Index">Supply Coordinator</a>
+                            </li>
+                        }
                         @if (httpContextAccessor.HttpContext.Session.GetString("Role") == "Manager" || httpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
                         {
                             <li class="nav-item dropdown">
