@@ -1,0 +1,93 @@
+@page
+@model PresentationLayer_FranLink.Pages.Manager.Production.StartModel
+@{
+    ViewData["Title"] = "Start Production";
+}
+
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-page="Index">Production</a></li>
+            <li class="breadcrumb-item active">Start Production</li>
+        </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">🚀 Start New Production</h4>
+                </div>
+                <div class="card-body">
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                {
+                                    <li>@error.ErrorMessage</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+
+                    <form method="post">
+                        <div class="mb-3">
+                            <label asp-for="Input.CentralKitchenId" class="form-label">Central Kitchen <span class="text-danger">*</span></label>
+                            <select asp-for="Input.CentralKitchenId" asp-items="Model.CentralKitchens" class="form-select" required>
+                                <option value="">-- Select Kitchen --</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.RecipeId" class="form-label">Recipe <span class="text-danger">*</span></label>
+                            <select asp-for="Input.RecipeId" asp-items="Model.Recipes" class="form-select" required>
+                                <option value="">-- Select Recipe --</option>
+                            </select>
+                            <div class="form-text">
+                                <a asp-page="../Recipes/Index" target="_blank">Manage Recipes</a>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.PlannedQuantity" class="form-label">Planned Quantity <span class="text-danger">*</span></label>
+                            <input asp-for="Input.PlannedQuantity" type="number" min="1" class="form-control" required />
+                            <div class="form-text">Number of units to produce</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.Notes" class="form-label">Notes</label>
+                            <textarea asp-for="Input.Notes" class="form-control" rows="3"></textarea>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-play-fill"></i> Start Production
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Info Card -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0">ℹ️ How it works</h5>
+                </div>
+                <div class="card-body">
+                    <ol>
+                        <li>Select the Central Kitchen where production occurs</li>
+                        <li>Choose a recipe (defines output product and required ingredients)</li>
+                        <li>Set the planned quantity to produce</li>
+                        <li>System checks if ingredients are available in inventory</li>
+                        <li>Production starts - you can complete or cancel later</li>
+                    </ol>
+                    <p class="mb-0 text-muted">
+                        <strong>Note:</strong> Ingredients are deducted and output product is added to inventory when production is completed.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

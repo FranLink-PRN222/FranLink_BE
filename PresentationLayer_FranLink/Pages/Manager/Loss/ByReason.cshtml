@@ -1,0 +1,152 @@
+@page
+@model PresentationLayer_FranLink.Pages.Manager.Loss.ByReasonModel
+@{
+    ViewData["Title"] = "Loss by Reason";
+}
+
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-page="Index">Loss Report</a></li>
+            <li class="breadcrumb-item active">By Reason</li>
+        </ol>
+    </nav>
+
+    <h2>📊 Loss by Reason</h2>
+
+    <!-- Filters -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-2">
+                    <label class="form-label">From Date</label>
+                    <input asp-for="FromDate" type="date" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">To Date</label>
+                    <input asp-for="ToDate" type="date" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Central Kitchen</label>
+                    <select asp-for="CentralKitchenId" asp-items="Model.CentralKitchens" class="form-select">
+                        <option value="">-- All Locations --</option>
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary">Apply Filter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Results -->
+    <div class="row">
+        @foreach (var reason in Model.Reasons)
+        {
+            var colorClass = "bg-secondary";
+            var borderClass = "border-secondary";
+            
+            if (reason.Reason == "Expired")
+            {
+                colorClass = "bg-warning text-dark";
+                borderClass = "border-warning";
+            }
+            else if (reason.Reason == "Damaged")
+            {
+                colorClass = "bg-danger";
+                borderClass = "border-danger";
+            }
+            else if (reason.Reason == "Quality Issue")
+            {
+                colorClass = "bg-info";
+                borderClass = "border-info";
+            }
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card @borderClass h-100" style="border-width: 2px;">
+                    <div class="card-header @colorClass">
+                        <h5 class="mb-0">@reason.Reason</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-6">
+                                <h4 class="text-danger">@reason.TotalValue.ToString("N0")</h4>
+                                <small class="text-muted">Value (VND)</small>
+                            </div>
+                            <div class="col-6">
+                                <h4>@reason.Percentage%</h4>
+                                <small class="text-muted">of Total</small>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row text-center">
+                            <div class="col-6">
+                                <h5>@reason.DisposalCount</h5>
+                                <small class="text-muted">Disposals</small>
+                            </div>
+                            <div class="col-6">
+                                <h5>@reason.ItemCount</h5>
+                                <small class="text-muted">Items</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (!Model.Reasons.Any())
+    {
+        <div class="text-center py-5 text-muted">
+            <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+            <p>No loss data found for the selected criteria.</p>
+        </div>
+    }
+
+    <!-- Summary Table -->
+    @if (Model.Reasons.Any())
+    {
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0">Summary Table</h5>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Reason</th>
+                            <th class="text-center">Disposals</th>
+                            <th class="text-center">Items</th>
+                            <th class="text-end">Value</th>
+                            <th class="text-center">Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var reason in Model.Reasons)
+                        {
+                            <tr>
+                                <td><strong>@reason.Reason</strong></td>
+                                <td class="text-center">@reason.DisposalCount</td>
+                                <td class="text-center">@reason.ItemCount</td>
+                                <td class="text-end text-danger">@reason.TotalValue.ToString("N0")</td>
+                                <td class="text-center">
+                                    <div class="progress" style="height: 20px;">
+                                        <div class="progress-bar bg-danger" style="width: @reason.Percentage%">@reason.Percentage%</div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot class="table-secondary">
+                        <tr>
+                            <th>Total</th>
+                            <th class="text-center">@Model.Reasons.Sum(r => r.DisposalCount)</th>
+                            <th class="text-center">@Model.Reasons.Sum(r => r.ItemCount)</th>
+                            <th class="text-end">@Model.Reasons.Sum(r => r.TotalValue).ToString("N0")</th>
+                            <th class="text-center">100%</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    }
+</div>

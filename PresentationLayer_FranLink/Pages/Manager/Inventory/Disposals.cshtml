@@ -1,0 +1,234 @@
+@page
+@model PresentationLayer_FranLink.Pages.Manager.Inventory.DisposalsModel
+@{
+    ViewData["Title"] = "Inventory Disposals";
+}
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="bi bi-trash"></i> Inventory Disposals</h1>
+        <div>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#createDisposalModal">
+                <i class="bi bi-plus-circle"></i> New Disposal Request
+            </button>
+            <a asp-page="/Manager/Inventory/Dashboard" class="btn btn-outline-secondary ms-2">
+                <i class="bi bi-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- Status Tabs -->
+    <ul class="nav nav-tabs mb-4" id="disposalTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link @(Model.StatusFilter == "Pending" ? "active" : "")" 
+               asp-page="/Manager/Inventory/Disposals" asp-route-status="Pending">
+                <i class="bi bi-clock text-warning"></i> Pending 
+                <span class="badge bg-warning text-dark">@Model.AllDisposals.Count(d => d.Status == "Pending")</span>
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link @(Model.StatusFilter == "Approved" ? "active" : "")" 
+               asp-page="/Manager/Inventory/Disposals" asp-route-status="Approved">
+                <i class="bi bi-check-circle text-success"></i> Approved 
+                <span class="badge bg-success">@Model.AllDisposals.Count(d => d.Status == "Approved")</span>
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link @(Model.StatusFilter == "Rejected" ? "active" : "")" 
+               asp-page="/Manager/Inventory/Disposals" asp-route-status="Rejected">
+                <i class="bi bi-x-circle text-danger"></i> Rejected 
+                <span class="badge bg-danger">@Model.AllDisposals.Count(d => d.Status == "Rejected")</span>
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link @(string.IsNullOrEmpty(Model.StatusFilter) ? "active" : "")" 
+               asp-page="/Manager/Inventory/Disposals">
+                <i class="bi bi-list"></i> All
+            </a>
+        </li>
+    </ul>
+
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div class="alert @(Model.IsSuccess ? "alert-success" : "alert-danger") alert-dismissible fade show" role="alert">
+            @Model.Message
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Disposals Table -->
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">Disposal Requests</h5>
+        </div>
+        <div class="card-body">
+            @if (Model.Disposals.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Location</th>
+                                <th>Product</th>
+                                <th>Batch #</th>
+                                <th>Quantity to Dispose</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+                                <th>Requested By</th>
+                                <th>Request Date</th>
+                                <th>Notes</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var disposal in Model.Disposals)
+                            {
+                                var location = disposal.Inventory?.CentralKitchenId.HasValue == true 
+                                    ? $"🏭 {disposal.Inventory?.CentralKitchen?.Name}" 
+                                    : $"🏪 {disposal.Inventory?.FranchiseStore?.Name}";
+                                
+                                <tr>
+                                    <td><strong>#@disposal.Id</strong></td>
+                                    <td>@location</td>
+                                    <td>@disposal.Inventory?.Product?.Name</td>
+                                    <td>@(disposal.Inventory?.BatchNumber ?? "-")</td>
+                                    <td><strong class="text-danger">@disposal.Quantity</strong></td>
+                                    <td>
+                                        @switch (disposal.Reason)
+                                        {
+                                            case "Expired":
+                                                <span class="badge bg-danger">Expired</span>
+                                                break;
+                                            case "Damaged":
+                                                <span class="badge bg-warning text-dark">Damaged</span>
+                                                break;
+                                            case "QualityIssue":
+                                                <span class="badge bg-info">Quality Issue</span>
+                                                break;
+                                            default:
+                                                <span class="badge bg-secondary">@disposal.Reason</span>
+                                                break;
+                                        }
+                                    </td>
+                                    <td>
+                                        @switch (disposal.Status)
+                                        {
+                                            case "Pending":
+                                                <span class="badge bg-warning text-dark">Pending</span>
+                                                break;
+                                            case "Approved":
+                                                <span class="badge bg-success">Approved</span>
+                                                break;
+                                            case "Rejected":
+                                                <span class="badge bg-danger">Rejected</span>
+                                                break;
+                                        }
+                                    </td>
+                                    <td>@disposal.DisposedBy?.Username</td>
+                                    <td>@disposal.DisposalDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(disposal.Notes))
+                                        {
+                                            <span class="text-truncate d-inline-block" style="max-width: 150px;" title="@disposal.Notes">
+                                                @disposal.Notes
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">-</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (disposal.Status == "Pending")
+                                        {
+                                            <form method="post" class="d-inline">
+                                                <input type="hidden" name="disposalId" value="@disposal.Id" />
+                                                <button type="submit" asp-page-handler="Approve" class="btn btn-sm btn-success" title="Approve">
+                                                    <i class="bi bi-check"></i>
+                                                </button>
+                                                <button type="submit" asp-page-handler="Reject" class="btn btn-sm btn-danger" title="Reject">
+                                                    <i class="bi bi-x"></i>
+                                                </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">-</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> No disposal requests found.
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Create Disposal Modal -->
+<div class="modal fade" id="createDisposalModal" tabindex="-1" aria-labelledby="createDisposalModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="createDisposalModalLabel">
+                    <i class="bi bi-trash"></i> New Disposal Request
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" asp-page-handler="Create">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Select Inventory Item</label>
+                        <select name="inventoryId" class="form-select" required>
+                            <option value="">-- Select Item --</option>
+                            @foreach (var item in Model.InventoryItems)
+                            {
+                                var location = item.CentralKitchenId.HasValue 
+                                    ? item.CentralKitchen?.Name 
+                                    : item.FranchiseStore?.Name;
+                                var expiryInfo = item.ExpiryDate.HasValue 
+                                    ? $" - Exp: {item.ExpiryDate.Value:dd/MM/yyyy}" 
+                                    : "";
+                                <option value="@item.InventoryId">
+                                    @item.Product?.Name (@location) - Qty: @item.Quantity @expiryInfo
+                                </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Quantity to Dispose</label>
+                        <input type="number" name="quantity" class="form-control" min="1" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Reason</label>
+                        <select name="reason" class="form-select" required>
+                            <option value="">-- Select Reason --</option>
+                            <option value="Expired">Expired</option>
+                            <option value="Damaged">Damaged</option>
+                            <option value="QualityIssue">Quality Issue</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Notes (Optional)</label>
+                        <textarea name="notes" class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Submit Disposal Request
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

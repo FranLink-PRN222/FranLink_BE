@@ -1,0 +1,145 @@
+@page
+@model PresentationLayer_FranLink.Pages.Manager.Inventory.DashboardModel
+@{
+    ViewData["Title"] = "Inventory Dashboard";
+}
+
+<div class="container-fluid">
+    <h1 class="mb-4">
+        <i class="bi bi-speedometer2"></i> Inventory Dashboard
+    </h1>
+
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Central Kitchen Items</h5>
+                    <h2 class="card-text">@Model.Summary.TotalCentralKitchenItems</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Store Items</h5>
+                    <h2 class="card-text">@Model.Summary.TotalStoreItems</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Inventory Value</h5>
+                    <h2 class="card-text">@Model.Summary.TotalInventoryValue.ToString("N0") đ</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-secondary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Items</h5>
+                    <h2 class="card-text">@(Model.Summary.TotalCentralKitchenItems + Model.Summary.TotalStoreItems)</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card border-warning">
+                <div class="card-body">
+                    <h5 class="card-title text-warning">
+                        <i class="bi bi-exclamation-triangle"></i> Low Stock
+                    </h5>
+                    <h2 class="card-text">@Model.Summary.LowStockCount</h2>
+                    <a asp-page="/Manager/Inventory/Alerts" asp-route-type="lowstock" class="btn btn-sm btn-outline-warning">View Details</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-info">
+                <div class="card-body">
+                    <h5 class="card-title text-info">
+                        <i class="bi bi-box-seam"></i> Overstock
+                    </h5>
+                    <h2 class="card-text">@Model.Summary.OverstockCount</h2>
+                    <a asp-page="/Manager/Inventory/Alerts" asp-route-type="overstock" class="btn btn-sm btn-outline-info">View Details</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-warning">
+                <div class="card-body">
+                    <h5 class="card-title text-warning">
+                        <i class="bi bi-clock-history"></i> Expiring Soon
+                    </h5>
+                    <h2 class="card-text">@Model.Summary.ExpiringCount</h2>
+                    <a asp-page="/Manager/Inventory/Alerts" asp-route-type="expiring" class="btn btn-sm btn-outline-warning">View Details</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-danger">
+                <div class="card-body">
+                    <h5 class="card-title text-danger">
+                        <i class="bi bi-x-circle"></i> Expired
+                    </h5>
+                    <h2 class="card-text">@Model.Summary.ExpiredCount</h2>
+                    <a asp-page="/Manager/Inventory/Alerts" asp-route-type="expired" class="btn btn-sm btn-outline-danger">View Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Actions -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="bi bi-arrow-left-right"></i> Pending Transfers</h5>
+                </div>
+                <div class="card-body">
+                    <h2>@Model.Summary.PendingTransfers</h2>
+                    <p class="text-muted">Transfer requests awaiting approval</p>
+                    <a asp-page="/Manager/Inventory/Transfers" class="btn btn-warning">Manage Transfers</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="bi bi-trash"></i> Pending Disposals</h5>
+                </div>
+                <div class="card-body">
+                    <h2>@Model.Summary.PendingDisposals</h2>
+                    <p class="text-muted">Disposal requests awaiting approval</p>
+                    <a asp-page="/Manager/Inventory/Disposals" class="btn btn-danger">Manage Disposals</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <a asp-page="/Manager/Inventory/CentralKitchen" class="btn btn-primary me-2">
+                        <i class="bi bi-house-door"></i> Central Kitchen Inventory
+                    </a>
+                    <a asp-page="/Manager/Inventory/Transfers" asp-route-action="create" class="btn btn-success me-2">
+                        <i class="bi bi-plus-circle"></i> New Transfer Request
+                    </a>
+                    <a asp-page="/Manager/Inventory/Disposals" asp-route-action="create" class="btn btn-outline-danger me-2">
+                        <i class="bi bi-trash"></i> New Disposal Request
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

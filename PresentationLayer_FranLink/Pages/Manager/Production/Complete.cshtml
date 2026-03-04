@@ -1,0 +1,96 @@
+@page "{id:int}"
+@model PresentationLayer_FranLink.Pages.Manager.Production.CompleteModel
+@{
+    ViewData["Title"] = "Complete Production";
+    var duration = DateTime.UtcNow - Model.Production.StartTime;
+}
+
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-page="Index">Production</a></li>
+            <li class="breadcrumb-item active">Complete #@Model.Id</li>
+        </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">✅ Complete Production #@Model.Id</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Production Info -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Recipe</h6>
+                            <p class="mb-1"><strong>@Model.Production.Recipe.Name</strong></p>
+                            <small class="text-muted">@Model.Production.Recipe.Product.Name</small>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Central Kitchen</h6>
+                            <p><strong>@Model.Production.CentralKitchen.Name</strong></p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <h6 class="text-muted">Planned Quantity</h6>
+                            <h3 class="text-primary">@Model.Production.PlannedQuantity</h3>
+                        </div>
+                        <div class="col-md-4">
+                            <h6 class="text-muted">Started At</h6>
+                            <p>@Model.Production.StartTime.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h6 class="text-muted">Duration</h6>
+                            <p>@duration.Hours h @duration.Minutes m</p>
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.Production.Notes))
+                    {
+                        <div class="alert alert-secondary">
+                            <strong>Notes:</strong> @Model.Production.Notes
+                        </div>
+                    }
+
+                    <hr />
+
+                    <form method="post">
+                        <div class="mb-3">
+                            <label asp-for="Input.ActualQuantity" class="form-label">
+                                Actual Quantity Produced <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Input.ActualQuantity" type="number" min="0" class="form-control form-control-lg" required />
+                            <div class="form-text">Enter the actual number of units produced</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.Notes" class="form-label">Completion Notes</label>
+                            <textarea asp-for="Input.Notes" class="form-control" rows="3" placeholder="Any issues or observations..."></textarea>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="bi bi-check-circle"></i> Complete Production
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-4 border-info">
+                <div class="card-body">
+                    <h6>📝 What happens when you complete:</h6>
+                    <ul class="mb-0">
+                        <li>Output product will be added to Central Kitchen inventory</li>
+                        <li>Ingredients will be deducted from inventory based on recipe</li>
+                        <li>Production time and efficiency will be calculated</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

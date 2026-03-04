@@ -1,0 +1,53 @@
+@page
+@model PresentationLayer_FranLink.Pages.InternalOrders.IndexModel
+@{
+    ViewData["Title"] = "My Internal Orders";
+}
+
+<h1>My Internal Orders</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Create New Order</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Total Items</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Orders)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.OrderDate.ToLocalTime()</td>
+                <td>
+                    <span class="badge @GetStatusClass(item.Status)">@item.Status</span>
+                </td>
+                <td>@item.TotalItems</td>
+                <td>
+                    <a asp-page="./Details" asp-route-id="@item.Id">View Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@functions {
+    string GetStatusClass(string status)
+    {
+        return status switch
+        {
+            "Pending" => "bg-warning",
+            "Producing" => "bg-info",
+            "Delivering" => "bg-primary",
+            "Completed" => "bg-success",
+            _ => "bg-secondary"
+        };
+    }
+}

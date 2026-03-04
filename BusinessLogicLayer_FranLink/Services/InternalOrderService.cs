@@ -1,0 +1,372 @@
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using BusinessLogicLayer_FranLink.DTOs;
+using DataAccessLayer_FranLink.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace BusinessLogicLayer_FranLink.Services
+{
+    public class InternalOrderService : IInternalOrderService
+    {
+        private readonly FranLinkContext _context;
+
+        public InternalOrderService(FranLinkContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<InternalOrder> CreateOrderAsync(CreateInternalOrderDto dto)
+        {
+            // 1. Validate Store
+            var store = await _context.FranchiseStores.FindAsync(dto.FranchiseStoreId);
+            if (store == null)
+            {
+                throw new Exception("Franchise Store not found.");
+            }
+
+            // 2. Create Order with initial Supply Coordinator flow state
+            var order = new InternalOrder
+            {
+                FranchiseStoreId = dto.FranchiseStoreId,
+                CentralKitchenId = null, // Store does not choose kitchen; Supply will assign later
+                UserId = dto.UserId,
+                OrderDate = DateTime.UtcNow,
+                Status = "Pending",
+                Items = new List<InternalOrderItem>()
+            };
+
+            // Create associated Delivery record with initial NotScheduled status
+            var delivery = new Delivery
+            {
+                DeliveryId = Guid.NewGuid(),
+                DeliveryStatus = "NotScheduled",
+                ScheduledDate = null,
+                DeliveredAt = null
+            };
+            order.Delivery = delivery;
+
+            foreach (var itemDto in dto.Items)
+            {
+                var product = await _context.Products.FindAsync(itemDto.ProductId);
+                if (product == null)
+                {
+                    throw new Exception($"Product not found: ID {itemDto.ProductId}");
+                }
+
+                var orderItem = new InternalOrderItem
+                {
+                    ProductId = itemDto.ProductId,
+                    Quantity = itemDto.Quantity,
+                    UnitPrice = product.Price
+                };
+                order.Items.Add(orderItem);
+            }
+
+            _context.InternalOrders.Add(order);
+            await _context.SaveChangesAsync();
+
+            return order;
+        }
+
+        public async Task<List<InternalOrder>> GetOrdersByStoreIdAsync(int storeId)
+        {
+            return await _context.InternalOrders
+                .Include(o => o.Delivery)
+                .Include(o => o.Items)
+                .ThenInclude(i => i.Product)
+                .Where(o => o.FranchiseStoreId == storeId)
+                .OrderByDescending(o => o.OrderDate)
+                .ToListAsync();
+        }
+
+        public async Task<InternalOrder> GetOrderByIdAsync(int orderId)
+        {
+            return await _context.InternalOrders
+                .Include(o => o.Delivery)
+                .Include(o => o.Items)
+                .ThenInclude(i => i.Product)
+                .Include(o => o.User)
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+        }
+
+        public async Task ConfirmOrderReceivedAsync(int orderId)
+        {
+            var order = await _context.InternalOrders
+                .Include(o => o.Delivery)
+                .Include(o => o.Items)
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (order == null) throw new Exception("Order not found.");
+
+            // Validation: Order must be in a state where it can be received.
+            // Assuming "Completed" delivery means ready to receive, or strictly following workflow.
+            if (order.Delivery == null || order.Delivery.DeliveryStatus != "Delivered")
+            {
+                throw new Exception("Order cannot be confirmed. Delivery is not delivered yet.");
+            }
+
+            if (order.Status == "Completed")
+            {
+                throw new Exception("Order is already completed.");
+            }
+
+            // Update Order Status
+            order.Status = "Completed";
+
+            // Update Inventory
+            foreach (var item in order.Items)
+            {
+                var inventory = await _context.Inventories
+                    .FirstOrDefaultAsync(i => i.FranchiseStoreId == order.FranchiseStoreId && i.ProductId == item.ProductId);
+
+                if (inventory == null)
+                {
+                    // Create new inventory record if it doesn't exist
+                    inventory = new Inventory
+                    {
+                        FranchiseStoreId = order.FranchiseStoreId,
+                        ProductId = item.ProductId,
+                        Quantity = 0
+                    };
+                    _context.Inventories.Add(inventory);
+                }
+
+                inventory.Quantity += item.Quantity;
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<InternalOrder>> GetOrdersForSupplyAsync()
+        {
+            return await _context.InternalOrders
+                .Include(o => o.FranchiseStore)
+                .Include(o => o.CentralKitchen)
+                .Include(o => o.Delivery)
+                .Include(o => o.Items)
+                .OrderByDescending(o => o.OrderDate)
+                .ToListAsync();
+        }
+
+        public async Task ApproveOrderAsync(int orderId, int centralKitchenId)
+        {
+            var order = await _context.InternalOrders
+                .Include(o => o.Delivery)
+                .Include(o => o.Items)
+                .ThenInclude(i => i.Product)
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (order == null)
+            {
+                throw new Exception("Order not found.");
+            }
+
+            if (order.Status == "Completed" || order.Status == "Cancelled")
+            {
+                throw new Exception("Cannot modify a completed or cancelled order.");
+            }
+
+            if (order.Status != "Pending")
+            {
+                throw new Exception("Only pending orders can be approved.");
+            }
+
+            var kitchen = await _context.CentralKitchens.FindAsync(centralKitchenId);
+            if (kitchen == null)
+            {
+                throw new Exception("Central Kitchen not found.");
+            }
+
+            if (order.CentralKitchenId.HasValue && order.CentralKitchenId.Value != centralKitchenId)
+            {
+                throw new Exception("Central kitchen cannot be changed after approval.");
+            }
+
+            // Kiểm tra tồn kho bếp trung tâm trước khi duyệt
+            foreach (var item in order.Items)
+            {
+                var totalQuantity = await _context.Inventories
+                    .Where(i => i.CentralKitchenId == centralKitchenId && i.ProductId == item.ProductId)
+                    .SumAsync(i => i.Quantity);
+
+                if (totalQuantity < item.Quantity)
+                {
+                    var productName = item.Product?.Name ?? $"Product ID {item.ProductId}";
+                    throw new Exception(
+                        $"Insufficient inventory for product '{productName}' at kitchen '{kitchen.Name}'. Available: {totalQuantity}, Requested: {item.Quantity}.");
+                }
+            }
+
+            order.CentralKitchenId = centralKitchenId;
+            order.Status = "Approved";
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task CancelOrderAsync(int orderId)
+        {
+            var order = await _context.InternalOrders
+                .Include(o => o.Delivery)
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (order == null)
+            {
+                throw new Exception("Order not found.");
+            }
+
+            if (order.Status == "Completed" || order.Status == "Cancelled")
+            {
+                throw new Exception("Cannot modify a completed or cancelled order.");
+            }
+
+            if (order.Status != "Pending")
+            {
+                throw new Exception("Only pending orders can be cancelled.");
+            }
+
+            order.Status = "Cancelled";
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task StartProductionAsync(int orderId)
+        {
+            var order = await _context.InternalOrders
+                .Include(o => o.Delivery)
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (order == null)
+            {
+                throw new Exception("Order not found.");
+            }
+
+            if (order.Status == "Completed" || order.Status == "Cancelled")
+            {
+                throw new Exception("Cannot modify a completed or cancelled order.");
+            }
+
+            if (order.Status != "Approved")
+            {
+                throw new Exception("Order must be approved before starting production.");
+            }
+
+            order.Status = "Processing";
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task MarkProductionReadyAsync(int orderId)
+        {
+            var order = await _context.InternalOrders
+                .Include(o => o.Delivery)
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (order == null)
+            {
+                throw new Exception("Order not found.");
+            }
+
+            if (order.Status == "Completed" || order.Status == "Cancelled")
+            {
+                throw new Exception("Cannot modify a completed or cancelled order.");
+            }
+
+            if (order.Status != "Processing")
+            {
+                throw new Exception("Order must be processing before it can be marked ready.");
+            }
+
+            order.Status = "Ready";
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task StartOrAdvanceDeliveryAsync(int orderId, DateTime? scheduledDate = null)
+        {
+            var order = await _context.InternalOrders
+                .Include(o => o.Delivery)
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (order == null)
+            {
+                throw new Exception("Order not found.");
+            }
+
+            if (order.Status == "Completed" || order.Status == "Cancelled")
+            {
+                throw new Exception("Cannot modify a completed or cancelled order.");
+            }
+
+            if (order.Status != "Ready")
+            {
+                throw new Exception("Order must be ready before delivery can start.");
+            }
+
+            if (order.Delivery == null)
+            {
+                throw new Exception("Delivery record not found for this order.");
+            }
+
+            var current = order.Delivery.DeliveryStatus;
+            if (current == "NotScheduled")
+            {
+                if (!scheduledDate.HasValue)
+                {
+                    throw new Exception("Scheduled delivery date is required.");
+                }
+
+                // HTML date input trả về DateTime Kind=Unspecified -> ép sang UTC để phù hợp PostgreSQL 'timestamp with time zone'
+                var utcDate = DateTime.SpecifyKind(scheduledDate.Value.Date, DateTimeKind.Utc);
+                order.Delivery.ScheduledDate = utcDate;
+                order.Delivery.DeliveryStatus = "Preparing";
+            }
+            else if (current == "Preparing")
+            {
+                order.Delivery.DeliveryStatus = "InTransit";
+            }
+            else
+            {
+                throw new Exception("Delivery can only advance from NotScheduled to Preparing or from Preparing to InTransit.");
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task MarkDeliveredAsync(int orderId)
+        {
+            var order = await _context.InternalOrders
+                .Include(o => o.Delivery)
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (order == null)
+            {
+                throw new Exception("Order not found.");
+            }
+
+            if (order.Status == "Completed" || order.Status == "Cancelled")
+            {
+                throw new Exception("Cannot modify a completed or cancelled order.");
+            }
+
+            if (order.Delivery == null)
+            {
+                throw new Exception("Delivery record not found for this order.");
+            }
+
+            if (order.Delivery.DeliveryStatus != "InTransit")
+            {
+                throw new Exception("Only in-transit deliveries can be marked as delivered.");
+            }
+
+            order.Delivery.DeliveryStatus = "Delivered";
+            order.Delivery.DeliveredAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddFeedbackAsync(QualityFeedback feedback)
+        {
+             // Validate if needed
+             _context.QualityFeedbacks.Add(feedback);
+             await _context.SaveChangesAsync();
+        }
+    }
+}
