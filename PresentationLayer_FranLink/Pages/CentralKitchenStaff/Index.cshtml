@@ -1,0 +1,152 @@
+@page
+@model PresentationLayer_FranLink.Pages.CentralKitchenStaff.IndexModel
+@{
+    ViewData["Title"] = "Central Kitchen Staff Dashboard";
+}
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-house-gear"></i> Central Kitchen Staff Dashboard</h2>
+        <form method="get" class="d-flex gap-2">
+            <select name="CentralKitchenId" asp-for="CentralKitchenId" asp-items="Model.CentralKitchens" class="form-select" style="width: auto;" onchange="this.form.submit()">
+                <option value="">-- Select Kitchen --</option>
+            </select>
+        </form>
+    </div>
+
+    @if (!Model.CentralKitchenId.HasValue || Model.CentralKitchenId == 0)
+    {
+        <div class="alert alert-info">Please select a Central Kitchen.</div>
+    }
+    else
+    {
+
+    <!-- Order Status Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card border-warning">
+                <div class="card-body text-center">
+                    <h5 class="text-warning"><i class="bi bi-clock"></i> Pending Orders</h5>
+                    <h2>@Model.PendingOrders</h2>
+                    <a asp-page="Orders/Index" asp-route-centralKitchenId="@Model.CentralKitchenId" asp-route-status="Pending" class="btn btn-sm btn-outline-warning">View & Process</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-info">
+                <div class="card-body text-center">
+                    <h5 class="text-info"><i class="bi bi-gear"></i> Preparing</h5>
+                    <h2>@Model.PreparingOrders</h2>
+                    <a asp-page="Orders/Index" asp-route-centralKitchenId="@Model.CentralKitchenId" asp-route-status="Approved" class="btn btn-sm btn-outline-info">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-primary">
+                <div class="card-body text-center">
+                    <h5 class="text-primary"><i class="bi bi-truck"></i> Delivering</h5>
+                    <h2>@Model.DeliveringOrders</h2>
+                    <a asp-page="Orders/Index" asp-route-centralKitchenId="@Model.CentralKitchenId" asp-route-status="Delivering" class="btn btn-sm btn-outline-primary">View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Production Shortage / Demand -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="bi bi-clipboard-data"></i> Production Shortage (from Orders)</h5>
+                    <a asp-page="ProductionPlanning/Index" asp-route-centralKitchenId="@Model.CentralKitchenId" class="btn btn-sm btn-outline-primary">Full Report</a>
+                </div>
+                <div class="card-body p-0">
+                    @if (Model.TopDemand.Any())
+                    {
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Product</th>
+                                    <th class="text-center">Demanded</th>
+                                    <th class="text-center">Available</th>
+                                    <th class="text-center">Shortage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.TopDemand)
+                                {
+                                    <tr>
+                                        <td><strong>@item.ProductName</strong></td>
+                                        <td class="text-center">@item.TotalQuantityDemanded</td>
+                                        <td class="text-center">@item.AvailableInInventory</td>
+                                        <td class="text-center"><span class="badge bg-danger">@item.ShortageQuantity</span></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4 text-muted">No shortage. Inventory meets demand.</div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- In Progress Productions -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="bi bi-arrow-repeat"></i> In Progress Productions</h5>
+                    <a asp-page="/Manager/Production/Index" asp-route-centralKitchenId="@Model.CentralKitchenId" class="btn btn-sm btn-outline-success">Manage</a>
+                </div>
+                <div class="card-body p-0">
+                    @if (Model.InProgressProductions.Any())
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var p in Model.InProgressProductions)
+                            {
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <div>
+                                        <strong>@p.RecipeName</strong> - @p.ProductName<br />
+                                        <small class="text-muted">Qty: @p.PlannedQuantity | Started: @p.StartTime.ToLocalTime().ToString("HH:mm")</small>
+                                    </div>
+                                    <a asp-page="/Manager/Production/Complete" asp-route-id="@p.ProductionId" class="btn btn-sm btn-success">Complete</a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4 text-muted">No productions in progress</div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <a asp-page="Orders/Index" asp-route-centralKitchenId="@Model.CentralKitchenId" class="btn btn-primary me-2">
+                        <i class="bi bi-inbox"></i> Process Orders
+                    </a>
+                    <a asp-page="ProductionPlanning/Index" asp-route-centralKitchenId="@Model.CentralKitchenId" class="btn btn-info me-2">
+                        <i class="bi bi-graph-up"></i> Production Planning
+                    </a>
+                    <a asp-page="Materials/Index" asp-route-centralKitchenId="@Model.CentralKitchenId" class="btn btn-warning me-2">
+                        <i class="bi bi-box-seam"></i> Materials & Expiry
+                    </a>
+                    <a asp-page="/Manager/Production/Start" class="btn btn-success">
+                        <i class="bi bi-play-fill"></i> Start Production
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>

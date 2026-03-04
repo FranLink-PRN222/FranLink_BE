@@ -163,5 +163,132 @@ namespace BusinessLogicLayer_FranLink.Services
              _context.QualityFeedbacks.Add(feedback);
              await _context.SaveChangesAsync();
         }
+
+        public async Task<List<InternalOrder>> GetOrdersByCentralKitchenIdAsync(int centralKitchenId, string? statusFilter = null)
+        {
+            var query = _context.InternalOrders
+                .Include(o => o.Delivery)
+                .Include(o => o.Items)
+                    .ThenInclude(i => i.Product)
+                .Include(o => o.FranchiseStore)
+                .Include(o => o.User)
+                .Where(o => o.CentralKitchenId == centralKitchenId);
+
+            if (!string.IsNullOrEmpty(statusFilter))
+            {
+                if (statusFilter == "Pending")
+                    query = query.Where(o => o.Status == "Pending");
+                else if (statusFilter == "Approved" || statusFilter == "Producing")
+                    query = query.Where(o => o.Status == "Approved" || o.Status == "Producing");
+                else if (statusFilter == "Delivering")
+                    query = query.Where(o => o.Status == "Delivering" || (o.Delivery != null && o.Delivery.DeliveryStatus == "Delivering"));
+                else if (statusFilter == "Completed")
+                    query = query.Where(o => o.Status == "Completed");
+                else if (statusFilter == "Cancelled" || statusFilter == "Rejected")
+                    query = query.Where(o => o.Status == "Rejected" || o.Status == "Cancelled");
+            }
+
+            return await query.OrderByDescending(o => o.OrderDate).ToListAsync();
+        }
+
+        public async Task ApproveOrderAsync(int orderId)
+        {
+            var order = await _context.InternalOrders
+                .Include(o => o.Delivery)
+                .Include(o => o.Items)
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (order == null) throw new Exception("Order not found.");
+            if (order.Status != "Pending") throw new Exception("Only pending orders can be approved.");
+
+            order.Status = "Approved";
+            if (order.Delivery != null)
+                order.Delivery.DeliveryStatus = "Preparing";
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RejectOrderAsync(int orderId, string? reason = null)
+        {
+            var order = await _context.InternalOrders
+                .Include(o => o.Delivery)
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (order == null) throw new Exception("Order not found.");
+            if (order.Status != "Pending") throw new Exception("Only pending orders can be rejected.");
+
+            order.Status = "Rejected";
+            if (order.Delivery != null)
+                order.Delivery.DeliveryStatus = "Cancelled";
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task StartPreparingOrderAsync(int orderId)
+        {
+            var order = await _context.InternalOrders
+                .Include(o => o.Delivery)
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (order == null) throw new Exception("Order not found.");
+            if (order.Status != "Approved") throw new Exception("Order must be approved first.");
+
+            order.Status = "Producing";
+            if (order.Delivery != null)
+                order.Delivery.DeliveryStatus = "Preparing";
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task MarkAsDeliveringAsync(int orderId)
+        {
+            var order = await _context.InternalOrders
+                .Include(o => o.Delivery)
+                .Include(o => o.Items)
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (order == null) throw new Exception("Order not found.");
+            if (order.CentralKitchenId == null) throw new Exception("Order must be from a Central Kitchen.");
+
+            // Deduct inventory from Central Kitchen
+            foreach (var item in order.Items)
+            {
+                var inventory = await _context.Inventories
+                    .FirstOrDefaultAsync(i => i.CentralKitchenId == order.CentralKitchenId && i.ProductId == item.ProductId);
+
+                if (inventory == null || inventory.Quantity < item.Quantity)
+                {
+                    var product = await _context.Products.FindAsync(item.ProductId);
+                    throw new Exception($"Insufficient inventory for {product?.Name ?? "product"}. Available: {inventory?.Quantity ?? 0}, Required: {item.Quantity}");
+                }
+
+                inventory.Quantity -= item.Quantity;
+                inventory.LastUpdated = DateTime.UtcNow;
+            }
+
+            order.Status = "Delivering";
+            if (order.Delivery != null)
+            {
+                order.Delivery.DeliveryStatus = "Delivering";
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task MarkDeliveryCompletedAsync(int orderId)
+        {
+            var order = await _context.InternalOrders
+                .Include(o => o.Delivery)
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (order == null) throw new Exception("Order not found.");
+            if (order.Delivery == null) throw new Exception("Delivery record not found.");
+            if (order.Delivery.DeliveryStatus != "Delivering") throw new Exception("Order must be in Delivering status.");
+
+            order.Delivery.DeliveryStatus = "Completed";
+            order.Delivery.DeliveredAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

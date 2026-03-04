@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor httpContextAccessor
 <!DOCTYPE html>
 <html lang="en">
@@ -31,6 +31,29 @@
                         <li class="nav-item">
                              <a class="nav-link text-dark" asp-area="" asp-page="/Inventory/Index">Store Inventory</a>
                         </li>
+                        @if (httpContextAccessor.HttpContext.Session.GetString("Role") == "CentralKitchenStaff" || httpContextAccessor.HttpContext.Session.GetString("Role") == "Manager" || httpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="ckStaffDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Central Kitchen Staff
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="ckStaffDropdown">
+                                    <li><a class="dropdown-item" asp-area="" asp-page="/CentralKitchenStaff/Index">Dashboard</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-page="/CentralKitchenStaff/Orders/Index">Process Orders</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-page="/CentralKitchenStaff/ProductionPlanning/Index">Production Planning</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-page="/CentralKitchenStaff/Materials/Index">Materials & Expiry</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-page="/Manager/Production/Index">Production Dashboard</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-page="/Manager/Production/Start">Start Production</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-page="/Manager/Production/Records">Production Records</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-page="/Manager/Inventory/CentralKitchen">Central Kitchen Inventory</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-page="/Manager/Inventory/Transfers">Transfers</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-page="/Manager/Inventory/Disposals">Disposals</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-page="/Manager/Inventory/Alerts">Alerts</a></li>
+                                </ul>
+                            </li>
+                        }
                         @if (httpContextAccessor.HttpContext.Session.GetString("Role") == "Manager" || httpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
                         {
                             <li class="nav-item dropdown">
