@@ -10,6 +10,7 @@ namespace BusinessLogicLayer_FranLink.Services
         Task<InternalOrder> GetOrderByIdAsync(int orderId);
         Task ConfirmOrderReceivedAsync(int orderId);
         Task AddFeedbackAsync(QualityFeedback feedback);
+
         Task<List<InternalOrder>> GetOrdersByCentralKitchenIdAsync(int centralKitchenId, string? statusFilter = null);
 
 
@@ -37,5 +38,13 @@ namespace BusinessLogicLayer_FranLink.Services
         /// Central Kitchen Staff: Mark delivery as completed (arrived at store).
         /// </summary>
         Task MarkDeliveryCompletedAsync(int orderId);
+        // Supply Coordinator flow
+        Task<List<InternalOrder>> GetOrdersForSupplyAsync();
+        Task ApproveOrderAsync(int orderId, int centralKitchenId);
+        Task CancelOrderAsync(int orderId);
+        Task StartProductionAsync(int orderId);
+        Task MarkProductionReadyAsync(int orderId);
+        Task StartOrAdvanceDeliveryAsync(int orderId, DateTime? scheduledDate = null);
+        Task MarkDeliveredAsync(int orderId);
     }
 }

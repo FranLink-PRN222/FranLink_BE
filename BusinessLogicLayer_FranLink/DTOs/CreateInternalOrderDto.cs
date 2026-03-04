@@ -9,10 +9,8 @@ namespace BusinessLogicLayer_FranLink.DTOs
         [Required]
         public int FranchiseStoreId { get; set; }
 
-        [Required]
-        public int CentralKitchenId { get; set; }
+        public int? CentralKitchenId { get; set; }
 
-        [Required]
         public Guid UserId { get; set; }
 
         [Required]
