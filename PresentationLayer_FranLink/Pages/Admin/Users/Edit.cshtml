@@ -1,0 +1,100 @@
+@page "{id}"
+@model PresentationLayer_FranLink.Pages.Admin.Users.EditModel
+@{
+    ViewData["Title"] = "Sửa Người dùng";
+}
+
+<h1><i class="bi bi-pencil-square"></i> Sửa Người dùng: @Model.Username</h1>
+<hr />
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h4>Thông tin cá nhân</h4>
+        <form method="post">
+            <input type="hidden" asp-for="Input.UserId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Input.FullName" class="form-label">Họ tên</label>
+                <input asp-for="Input.FullName" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Email" class="form-label">Email <span class="text-danger">*</span></label>
+                <input asp-for="Input.Email" type="email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Phone" class="form-label">Số điện thoại</label>
+                <input asp-for="Input.Phone" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.FranchiseStoreId" class="form-label">Thuộc Cửa hàng/Bếp</label>
+                <select asp-for="Input.FranchiseStoreId" asp-items="Model.StoreOptions" class="form-select"></select>
+            </div>
+
+            <div class="mb-3 form-check">
+                <input asp-for="Input.IsActive" class="form-check-input" />
+                <label asp-for="Input.IsActive" class="form-check-label">Hoạt động</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-check-circle"></i> Lưu thay đổi
+            </button>
+            <a asp-page="Index" class="btn btn-secondary ms-2">Quay lại</a>
+        </form>
+    </div>
+
+    <div class="col-md-6">
+        <h4>Quản lý Vai trò</h4>
+        <div class="card">
+            <div class="card-body">
+                <p class="text-muted">Vai trò hiện tại:</p>
+                @foreach (var r in Model.AllRoles)
+                {
+                    var isAssigned = Model.CurrentRoleIds.Contains(r.RoleId);
+                    <div class="d-flex justify-content-between align-items-center mb-2 p-2 border rounded">
+                        <span>
+                            @if (isAssigned)
+                            {
+                                <i class="bi bi-check-circle-fill text-success"></i>
+                            }
+                            else
+                            {
+                                <i class="bi bi-circle text-muted"></i>
+                            }
+                            @r.RoleName
+                        </span>
+                        @if (isAssigned)
+                        {
+                            <form method="post" asp-page-handler="RemoveRole" class="d-inline">
+                                <input type="hidden" name="userId" value="@Model.Input.UserId" />
+                                <input type="hidden" name="roleId" value="@r.RoleId" />
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Gỡ</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form method="post" asp-page-handler="AssignRole" class="d-inline">
+                                <input type="hidden" name="userId" value="@Model.Input.UserId" />
+                                <input type="hidden" name="roleId" value="@r.RoleId" />
+                                <button type="submit" class="btn btn-sm btn-outline-success">Gán</button>
+                            </form>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
