@@ -1,53 +1,94 @@
 @page
 @model PresentationLayer_FranLink.Pages.InternalOrders.IndexModel
 @{
-    ViewData["Title"] = "My Internal Orders";
+    ViewData["Title"] = "My Orders";
+    Layout = "_LayoutFranLink";
 }
 
-<h1>My Internal Orders</h1>
+<div class="px-4 md:px-10 lg:px-16 py-8 max-w-[1280px] mx-auto w-full">
 
-<p>
-    <a asp-page="Create" class="btn btn-primary">Create New Order</a>
-</p>
+    <!-- Page Header -->
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+        <div class="flex flex-col gap-1">
+            <h1 class="text-slate-900 text-3xl font-extrabold leading-tight tracking-tight">Internal Orders</h1>
+            <p class="text-slate-500 text-base font-normal">Manage and track all internal franchise supply requests and stock replenishments.</p>
+        </div>
+        <a asp-page="Create"
+           class="flex items-center justify-center gap-2 rounded-xl h-11 px-6 bg-[#137fec] text-white text-sm font-bold shadow-md hover:bg-[#137fec]/90 transition-all">
+            <span class="material-symbols-outlined text-xl">add_circle</span>
+            <span>Create New Order</span>
+        </a>
+    </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Order ID</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Total Items</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Orders)
-        {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.OrderDate.ToLocalTime()</td>
-                <td>
-                    <span class="badge @GetStatusClass(item.Status)">@item.Status</span>
-                </td>
-                <td>@item.TotalItems</td>
-                <td>
-                    <a asp-page="./Details" asp-route-id="@item.Id">View Details</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    <!-- Table Card -->
+    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-200">
+                        <th class="px-6 py-4 text-slate-700 text-xs font-bold uppercase tracking-wider">Order ID</th>
+                        <th class="px-6 py-4 text-slate-700 text-xs font-bold uppercase tracking-wider">Date Requested</th>
+                        <th class="px-6 py-4 text-slate-700 text-xs font-bold uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-4 text-slate-700 text-xs font-bold uppercase tracking-wider">Items</th>
+                        <th class="px-6 py-4 text-slate-500 text-xs font-bold uppercase tracking-wider text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    @foreach (var item in Model.Orders)
+                    {
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="px-6 py-5 text-slate-900 text-sm font-semibold">#ORD-@item.Id</td>
+                            <td class="px-6 py-5 text-slate-600 text-sm">@item.OrderDate.ToLocalTime().ToString("MMM dd, yyyy")</td>
+                            <td class="px-6 py-5">
+                                @{
+                                    var (bgColor, textColor, dotColor) = item.Status switch
+                                    {
+                                        "Pending"    => ("bg-amber-100",   "text-amber-700",   "bg-amber-500"),
+                                        "Producing"  => ("bg-blue-100",    "text-blue-700",    "bg-blue-500"),
+                                        "Approved"   => ("bg-blue-100",    "text-blue-700",    "bg-blue-500"),
+                                        "Delivering" => ("bg-purple-100",  "text-purple-700",  "bg-purple-500"),
+                                        "Completed"  => ("bg-emerald-100", "text-emerald-700", "bg-emerald-500"),
+                                        "Cancelled"  => ("bg-slate-100",   "text-slate-600",   "bg-slate-400"),
+                                        _            => ("bg-slate-100",   "text-slate-600",   "bg-slate-400"),
+                                    };
+                                }
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold @bgColor @textColor">
+                                    <span class="w-1.5 h-1.5 rounded-full @dotColor mr-1.5"></span>
+                                    @item.Status
+                                </span>
+                            </td>
+                            <td class="px-6 py-5 text-slate-600 text-sm">@item.TotalItems items</td>
+                            <td class="px-6 py-5 text-right">
+                                <a asp-page="./Details" asp-route-id="@item.Id"
+                                   class="text-[#137fec] hover:text-[#137fec]/80 text-sm font-bold underline-offset-4 hover:underline">
+                                    View Details
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                    @if (!Model.Orders.Any())
+                    {
+                        <tr>
+                            <td colspan="5" class="px-6 py-16 text-center">
+                                <div class="flex flex-col items-center gap-3 text-slate-400">
+                                    <span class="material-symbols-outlined text-5xl">receipt_long</span>
+                                    <p class="text-sm font-medium">No orders found.</p>
+                                    <a asp-page="Create" class="text-[#137fec] text-sm font-bold hover:underline">Create your first order →</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-@functions {
-    string GetStatusClass(string status)
-    {
-        return status switch
-        {
-            "Pending" => "bg-warning",
-            "Producing" => "bg-info",
-            "Delivering" => "bg-primary",
-            "Completed" => "bg-success",
-            _ => "bg-secondary"
-        };
-    }
-}
+    <!-- CTA Button -->
+    <div class="mt-8 flex justify-center">
+        <a asp-page="Create"
+           class="flex items-center justify-center gap-3 rounded-xl h-14 px-8 bg-[#137fec] text-white text-base font-bold shadow-lg shadow-[#137fec]/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+            <span class="material-symbols-outlined">add</span>
+            <span>New Stock Request</span>
+        </a>
+    </div>
+</div>
