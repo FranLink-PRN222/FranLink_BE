@@ -2,24 +2,257 @@
 @model PresentationLayer_FranLink.Pages.Inventory.IndexModel
 @{
     ViewData["Title"] = "Store Inventory";
+    Layout = "_LayoutFranLink";
+
+    // Compute summary stats from model
+    int totalItems = Model.Inventory.Count;
+    int lowStockCount = Model.Inventory.Count(i => i.Quantity > 0 && i.Quantity <= i.MinThreshold);
+    int outOfStockCount = Model.Inventory.Count(i => i.Quantity == 0);
+    int adequateCount = totalItems - lowStockCount - outOfStockCount;
 }
 
-<h1>Store Inventory</h1>
+<div class="px-6 py-8 lg:px-20 max-w-[1440px] mx-auto w-full">
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Product Name</th>
-            <th>Quantity</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Inventory)
+    <!-- Page Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+            <h1 class="text-slate-900 text-4xl font-black tracking-tight">Inventory Management</h1>
+            <p class="text-slate-500 text-base mt-2">Monitor and manage your franchise stock levels across all categories.</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <a asp-page="/Manager/Inventory/Alerts"
+               class="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-700 text-sm font-semibold hover:bg-slate-50 transition-colors shadow-sm">
+                <span class="material-symbols-outlined text-lg">notifications</span>
+                Alerts
+            </a>
+        </div>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <!-- Total Items -->
+        <div class="flex flex-col gap-2 rounded-xl p-6 border border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow">
+            <p class="text-slate-500 text-sm font-medium">Total Products</p>
+            <div class="flex items-baseline gap-2">
+                <p class="text-slate-900 text-3xl font-bold">@totalItems</p>
+                <span class="text-emerald-600 text-sm font-bold flex items-center">
+                    <span class="material-symbols-outlined text-sm">inventory_2</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Low Stock -->
+        <div class="flex flex-col gap-2 rounded-xl p-6 border border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow">
+            <p class="text-slate-500 text-sm font-medium">Low Stock</p>
+            <div class="flex items-baseline gap-2">
+                <p class="text-slate-900 text-3xl font-bold">@lowStockCount</p>
+                @if (lowStockCount > 0)
+                {
+                    <span class="text-amber-500 text-sm font-bold flex items-center gap-0.5">
+                        <span class="material-symbols-outlined text-sm">warning</span> Action Needed
+                    </span>
+                }
+            </div>
+        </div>
+
+        <!-- Out of Stock -->
+        <div class="flex flex-col gap-2 rounded-xl p-6 border border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow">
+            <p class="text-slate-500 text-sm font-medium">Out of Stock</p>
+            <div class="flex items-baseline gap-2">
+                <p class="text-slate-900 text-3xl font-bold">@outOfStockCount</p>
+                @if (outOfStockCount > 0)
+                {
+                    <span class="text-rose-500 text-sm font-bold">Critical</span>
+                }
+            </div>
+        </div>
+
+        <!-- Adequate -->
+        <div class="flex flex-col gap-2 rounded-xl p-6 border border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow">
+            <p class="text-slate-500 text-sm font-medium">Adequate Stock</p>
+            <div class="flex items-baseline gap-2">
+                <p class="text-slate-900 text-3xl font-bold">@adequateCount</p>
+                <span class="text-emerald-600 text-sm font-bold flex items-center gap-0.5">
+                    <span class="material-symbols-outlined text-sm">check_circle</span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters & Search -->
+    <div class="bg-white border border-slate-200 rounded-xl p-4 mb-6 shadow-sm">
+        <div class="flex flex-col lg:flex-row gap-4">
+            <div class="relative flex-1">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                <input id="searchInput" oninput="filterTable()"
+                       class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 focus:ring-2 focus:ring-[#137fec] focus:border-transparent outline-none text-sm transition-all"
+                       placeholder="Search by product name or batch number..."
+                       type="text" />
+            </div>
+            <div class="flex flex-wrap gap-2 items-center">
+                <select id="statusFilter" onchange="filterTable()"
+                        class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-slate-100 text-slate-700 text-sm font-medium border-none outline-none focus:ring-2 focus:ring-[#137fec]">
+                    <option value="">All Statuses</option>
+                    <option value="In Stock">In Stock</option>
+                    <option value="Low Stock">Low Stock</option>
+                    <option value="Out of Stock">Out of Stock</option>
+                </select>
+                <button onclick="clearFilters()"
+                        class="flex items-center gap-1 px-4 py-2.5 rounded-lg text-[#137fec] text-sm font-bold hover:bg-[#137fec]/5 transition-colors">
+                    <span class="material-symbols-outlined text-lg">filter_alt_off</span>
+                    Reset
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inventory Table -->
+    <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse" id="inventoryTable">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-200">
+                        <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Product</th>
+                        <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Batch / Expiry</th>
+                        <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Last Updated</th>
+                        <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Stock Level</th>
+                        <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 text-right">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100" id="inventoryBody">
+                    @foreach (var item in Model.Inventory)
+                    {
+                        var pct = item.MaxThreshold > 0
+                            ? (int)Math.Min(100, Math.Round((double)item.Quantity / item.MaxThreshold * 100))
+                            : 0;
+
+                        string statusLabel, barColor, statusBg, statusText, dotColor;
+
+                        if (item.Quantity == 0)
+                        {
+                            statusLabel = "Out of Stock"; barColor = "bg-rose-500";
+                            statusBg = "bg-rose-100"; statusText = "text-rose-700"; dotColor = "bg-rose-500";
+                        }
+                        else if (item.Quantity <= item.MinThreshold)
+                        {
+                            statusLabel = "Low Stock"; barColor = "bg-amber-500";
+                            statusBg = "bg-amber-100"; statusText = "text-amber-700"; dotColor = "bg-amber-500";
+                        }
+                        else
+                        {
+                            statusLabel = "In Stock"; barColor = "bg-emerald-500";
+                            statusBg = "bg-emerald-100"; statusText = "text-emerald-700"; dotColor = "bg-emerald-500";
+                        }
+
+                        var expiry = item.ExpiryDate.HasValue ? item.ExpiryDate.Value.ToLocalTime().ToString("MMM dd, yyyy") : "—";
+                        var batch = string.IsNullOrEmpty(item.BatchNumber) ? "—" : item.BatchNumber;
+                        var updated = item.LastUpdated.ToLocalTime().ToString("MMM dd, yyyy");
+
+                        <tr class="hover:bg-slate-50/50 transition-colors inventory-row" data-status="@statusLabel" data-name="@item.Product.Name" data-batch="@batch">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="h-10 w-10 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
+                                        <span class="material-symbols-outlined text-slate-400">inventory_2</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-slate-900 text-sm">@item.Product.Name</p>
+                                        <p class="text-xs text-slate-500">Min: @item.MinThreshold &nbsp;·&nbsp; Max: @item.MaxThreshold</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <p class="text-sm font-mono text-slate-600">@batch</p>
+                                @if (item.ExpiryDate.HasValue)
+                                {
+                                    var daysLeft = (item.ExpiryDate.Value.ToLocalTime().Date - DateTime.Now.Date).Days;
+                                    var expiryClass = daysLeft < 0 ? "text-rose-600 font-bold" : daysLeft <= 7 ? "text-amber-600 font-semibold" : "text-slate-500";
+                                    <p class="text-xs @expiryClass mt-0.5">
+                                        Exp: @expiry @(daysLeft < 0 ? "⚠ Expired" : daysLeft <= 7 ? $"({daysLeft}d left)" : "")
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p class="text-xs text-slate-400 mt-0.5">No expiry</p>
+                                }
+                            </td>
+                            <td class="px-6 py-4 text-sm text-slate-500">@updated</td>
+                            <td class="px-6 py-4">
+                                <div class="w-44">
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <span class="text-xs font-semibold text-slate-600">@item.Quantity / @item.MaxThreshold</span>
+                                        <span class="text-xs font-semibold text-slate-400">@pct%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 rounded-full h-1.5">
+                                        <div class="@barColor h-1.5 rounded-full transition-all" style="width: @(pct)%"></div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold @statusBg @statusText">
+                                    <span class="size-1.5 rounded-full @dotColor"></span>
+                                    @statusLabel
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Empty State -->
+        @if (!Model.Inventory.Any())
         {
-            <tr>
-                <td>@item.Product.Name</td>
-                <td>@item.Quantity</td>
-            </tr>
+            <div class="flex flex-col items-center gap-3 py-20 text-slate-400">
+                <span class="material-symbols-outlined text-5xl">inventory_2</span>
+                <p class="font-semibold text-sm">No inventory items found for this store.</p>
+            </div>
         }
-    </tbody>
-</table>
+
+        <!-- Pagination / Footer -->
+        <div class="px-6 py-4 border-t border-slate-200 flex items-center justify-between bg-slate-50/50">
+            <p class="text-sm text-slate-500" id="rowCount">
+                Showing <span class="font-bold text-slate-900">@Model.Inventory.Count</span> items
+            </p>
+            <div class="flex items-center gap-2 text-xs text-slate-500">
+                <span class="material-symbols-outlined text-base">update</span>
+                Data as of @DateTime.Now.ToLocalTime().ToString("MMM dd, yyyy HH:mm")
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    function filterTable() {
+        const search = document.getElementById('searchInput').value.toLowerCase();
+        const status = document.getElementById('statusFilter').value.toLowerCase();
+        const rows = document.querySelectorAll('.inventory-row');
+        let visible = 0;
+
+        rows.forEach(row => {
+            const name = (row.dataset.name || '').toLowerCase();
+            const batch = (row.dataset.batch || '').toLowerCase();
+            const rowStatus = (row.dataset.status || '').toLowerCase();
+
+            const matchSearch = !search || name.includes(search) || batch.includes(search);
+            const matchStatus = !status || rowStatus === status.toLowerCase();
+
+            if (matchSearch && matchStatus) {
+                row.style.display = '';
+                visible++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        document.getElementById('rowCount').innerHTML =
+            'Showing <span class="font-bold text-slate-900">' + visible + '</span> items';
+    }
+
+    function clearFilters() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('statusFilter').value = '';
+        filterTable();
+    }
+</script>
+}

@@ -1,0 +1,138 @@
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FranLink</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body class="bg-background-light text-slate-900 font-display min-h-screen flex flex-col">
+
+    <!-- Top Navigation Header -->
+    <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 bg-white px-6 lg:px-10 py-3 sticky top-0 z-50 shadow-sm">
+        <div class="flex items-center gap-6">
+            <!-- Brand -->
+            <a asp-page="/Index" class="flex items-center gap-3 text-primary no-underline">
+                <span class="material-symbols-outlined text-3xl">hub</span>
+                <span class="text-slate-900 text-lg font-bold leading-tight tracking-tight">FranLink</span>
+            </a>
+
+            <!-- Role-aware navigation -->
+            <nav class="hidden md:flex items-center gap-1">
+                @{
+                    var role = httpContextAccessor.HttpContext?.Session.GetString("Role") ?? "";
+                    var currentPath = httpContextAccessor.HttpContext?.Request.Path.ToString() ?? "";
+
+                    string NavLinkClass(string path) =>
+                        currentPath.StartsWith(path, StringComparison.OrdinalIgnoreCase)
+                            ? "flex items-center gap-1.5 px-3 py-2 rounded-lg text-primary bg-primary/10 text-sm font-bold transition-colors"
+                            : "flex items-center gap-1.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 text-sm font-medium transition-colors";
+                }
+
+                @if (role == "Admin" || role == "Manager" || role == "CentralKitchenStaff")
+                {
+                    <a class="@NavLinkClass("/CentralKitchenStaff")" asp-page="/CentralKitchenStaff/Index">
+                        <span class="material-symbols-outlined text-lg">dashboard</span>
+                        <span>Dashboard</span>
+                    </a>
+                }
+                <a class="@NavLinkClass("/InternalOrders")" asp-page="/InternalOrders/Index">
+                    <span class="material-symbols-outlined text-lg">receipt_long</span>
+                    <span>My Orders</span>
+                </a>
+                <a class="@NavLinkClass("/Inventory")" asp-page="/Inventory/Index">
+                    <span class="material-symbols-outlined text-lg">warehouse</span>
+                    <span>Inventory</span>
+                </a>
+                @if (role == "SupplyCoordinator" || role == "Supply Coordinator")
+                {
+                    <a class="@NavLinkClass("/Supply")" asp-page="/Supply/InternalOrders/Index">
+                        <span class="material-symbols-outlined text-lg">local_shipping</span>
+                        <span>Supply</span>
+                    </a>
+                }
+                @if (role == "Manager" || role == "Admin")
+                {
+                    <a class="@NavLinkClass("/Manager")" asp-page="/Manager/Operations/Index">
+                        <span class="material-symbols-outlined text-lg">bar_chart</span>
+                        <span>Reports</span>
+                    </a>
+                }
+                @if (role == "Admin")
+                {
+                    <a class="@NavLinkClass("/Admin")" asp-page="/Admin/Dashboard">
+                        <span class="material-symbols-outlined text-lg">admin_panel_settings</span>
+                        <span>Admin</span>
+                    </a>
+                }
+            </nav>
+        </div>
+
+        <div class="flex items-center gap-3">
+            @if (!string.IsNullOrEmpty(httpContextAccessor.HttpContext?.Session.GetString("Username")))
+            {
+                <div class="hidden sm:flex flex-col items-end">
+                    <span class="text-sm font-semibold text-slate-800">@httpContextAccessor.HttpContext.Session.GetString("Username")</span>
+                    <span class="text-xs text-slate-400">@httpContextAccessor.HttpContext.Session.GetString("Role")</span>
+                </div>
+                <div class="h-9 w-9 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-bold text-sm">
+                    @(httpContextAccessor.HttpContext.Session.GetString("Username")?[0].ToString().ToUpper())
+                </div>
+                <a asp-page="/Logout"
+                   class="flex items-center gap-1 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-rose-600 text-sm font-medium transition-colors">
+                    <span class="material-symbols-outlined text-lg">logout</span>
+                    <span class="hidden sm:inline">Logout</span>
+                </a>
+            }
+            else
+            {
+                <a asp-page="/Login"
+                   class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors">
+                    <span class="material-symbols-outlined text-lg">login</span>
+                    <span>Sign In</span>
+                </a>
+            }
+        </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="flex-1">
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 px-6 text-center">
+        <p class="text-xs text-slate-400">© 2026 FranLink Inc. All rights reserved.</p>
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

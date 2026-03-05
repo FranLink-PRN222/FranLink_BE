@@ -1,34 +1,128 @@
 @page
 @model PresentationLayer_FranLink.Pages.LoginModel
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = "Sign In";
+    Layout = "_LayoutLogin";
 }
 
-<div class="row justify-content-center mt-5">
-    <div class="col-md-4">
-        <section>
-            <form id="account" method="post">
-                <h2 class="text-center">Welcome Back</h2>
-                <hr />
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Username" class="form-control" autocomplete="username" aria-required="true" placeholder="Username" />
-                    <label asp-for="Input.Username" class="form-label">Username</label>
-                    <span asp-validation-for="Input.Username" class="text-danger"></span>
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+    <!-- Header -->
+    <header class="flex items-center justify-between whitespace-nowrap border-b border-slate-200 px-6 lg:px-10 py-4 bg-white">
+        <div class="flex items-center gap-3">
+            <div class="text-[#137fec] flex items-center justify-center">
+                <span class="material-symbols-outlined text-3xl">restaurant_menu</span>
+            </div>
+            <h2 class="text-slate-900 text-lg font-bold leading-tight tracking-tight">FranLink Central Kitchen OS</h2>
+        </div>
+        <button class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-[#137fec]/10 text-[#137fec] hover:bg-[#137fec]/20 transition-colors text-sm font-bold">
+            <span>Support</span>
+        </button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col lg:flex-row">
+        <!-- Left: Hero/Visual -->
+        <div class="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-slate-100">
+            <div class="absolute inset-0 bg-cover bg-center"
+                 style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAHymhFDjzSZqem2HdeuKYhdfNQlqh_CLV6kvVDoVxhFo-LGD5MGqVYQa1wgNVoet6loOBgjOuWPjec1BDiIMkwbpA70uG2Wa1WruT2vhOiZ15beNxWPdwuCTEzGPXlixUPhXkccJspmJdy785NhIrFZYP58yi_bCCog8A1w_BRMaKkcB02d5rZ8cXjTZncD4J-2mAsdh8aWbnV5KXgyHlW3zSAz0MspJpNTTVbC0ysVtE3zkuS70EXiailHX5dU6PBdKDOmR4jMXWY');">
+                <div class="absolute inset-0 bg-[#137fec]/20 mix-blend-multiply"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
+            </div>
+            <div class="relative z-10 flex flex-col justify-end p-16 text-white">
+                <h1 class="text-5xl font-extrabold mb-4 leading-tight">Optimizing Central <br/>Kitchen Operations</h1>
+                <p class="text-xl text-slate-200 max-w-md">Streamline supply chain, inventory management, and production scheduling in one unified platform.</p>
+            </div>
+        </div>
+
+        <!-- Right: Login Form -->
+        <div class="flex flex-1 items-center justify-center p-6 lg:p-20 bg-white">
+            <div class="w-full max-w-md space-y-8">
+                <div class="space-y-2">
+                    <h2 class="text-3xl font-black text-slate-900 tracking-tight">Welcome Back</h2>
+                    <p class="text-slate-500">Log in to manage your kitchen operations and supply chain flow.</p>
                 </div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Password" />
-                    <label asp-for="Input.Password" class="form-label">Password</label>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+
+                <form id="account" method="post" class="space-y-5">
+                    <div asp-validation-summary="ModelOnly" class="p-4 rounded-xl bg-rose-50 text-rose-700 text-sm font-medium border border-rose-200"></div>
+
+                    <!-- Username -->
+                    <div class="space-y-2">
+                        <label asp-for="Input.Username" class="text-sm font-semibold text-slate-700 ml-1">Username</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">person</span>
+                            <input asp-for="Input.Username"
+                                   class="w-full pl-12 pr-4 py-4 rounded-xl border border-slate-200 bg-white text-slate-900 focus:ring-2 focus:ring-[#137fec] focus:border-transparent transition-all outline-none"
+                                   placeholder="Enter your username"
+                                   autocomplete="username" aria-required="true" />
+                        </div>
+                        <span asp-validation-for="Input.Username" class="text-rose-600 text-xs ml-1"></span>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="space-y-2">
+                        <label asp-for="Input.Password" class="text-sm font-semibold text-slate-700 ml-1">Password</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">lock</span>
+                            <input asp-for="Input.Password" id="passwordInput"
+                                   class="w-full pl-12 pr-12 py-4 rounded-xl border border-slate-200 bg-white text-slate-900 focus:ring-2 focus:ring-[#137fec] focus:border-transparent transition-all outline-none"
+                                   placeholder="••••••••"
+                                   autocomplete="current-password" aria-required="true" />
+                            <button type="button" onclick="togglePassword()"
+                                    class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+                                <span class="material-symbols-outlined" id="eyeIcon">visibility</span>
+                            </button>
+                        </div>
+                        <span asp-validation-for="Input.Password" class="text-rose-600 text-xs ml-1"></span>
+                    </div>
+
+                    <!-- Submit -->
+                    <button id="login-submit" type="submit"
+                            class="w-full bg-[#137fec] hover:bg-[#137fec]/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-[#137fec]/20 transition-all flex items-center justify-center gap-2">
+                        <span>Sign In to Dashboard</span>
+                        <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                    </button>
+                </form>
+
+                <div class="relative py-2">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-slate-200"></div>
+                    </div>
+                    <div class="relative flex justify-center text-xs uppercase">
+                        <span class="bg-white px-2 text-slate-500">Corporate Login Only</span>
+                    </div>
                 </div>
-                <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+
+                <div class="text-center">
+                    <p class="text-sm text-slate-500">Powered by FranLink Intelligence</p>
                 </div>
-            </form>
-        </section>
-    </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="p-6 bg-white border-t border-slate-200 text-center">
+        <div class="flex flex-wrap justify-center gap-6 text-sm text-slate-500">
+            <a class="hover:text-[#137fec] transition-colors" href="#">Privacy Policy</a>
+            <a class="hover:text-[#137fec] transition-colors" href="#">Terms of Service</a>
+            <span class="hidden md:inline">•</span>
+            <span>© 2026 FranLink Inc. All rights reserved.</span>
+        </div>
+    </footer>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        function togglePassword() {
+            const input = document.getElementById('passwordInput');
+            const icon = document.getElementById('eyeIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = 'visibility_off';
+            } else {
+                input.type = 'password';
+                icon.textContent = 'visibility';
+            }
+        }
+    </script>
 }

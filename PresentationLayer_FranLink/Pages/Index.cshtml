@@ -1,10 +1,75 @@
 ﻿@page
 @model IndexModel
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "FranLink — Central Kitchen OS";
+    Layout = "_LayoutFranLink";
+    var role = httpContextAccessor.HttpContext?.Session.GetString("Role") ?? "";
+    var username = httpContextAccessor.HttpContext?.Session.GetString("Username");
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="flex flex-col items-center justify-center min-h-[75vh] px-6 text-center">
+    <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-[#137fec]/10 text-[#137fec] mb-6">
+        <span class="material-symbols-outlined text-5xl">hub</span>
+    </div>
+
+    <h1 class="text-4xl md:text-5xl font-black tracking-tight text-slate-900 mb-4 leading-tight">
+        FranLink Central Kitchen OS
+    </h1>
+    <p class="text-lg text-slate-500 max-w-xl mb-10 leading-relaxed">
+        Streamline supply chain, inventory management, and production scheduling in one unified platform.
+    </p>
+
+    @if (!string.IsNullOrEmpty(username))
+    {
+        <div class="flex flex-wrap gap-3 justify-center">
+            @if (role == "Admin" || role == "Manager" || role == "CentralKitchenStaff")
+            {
+                <a asp-page="/CentralKitchenStaff/Index"
+                   class="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#137fec] text-white text-sm font-bold hover:bg-[#137fec]/90 transition-all shadow-lg shadow-[#137fec]/20">
+                    <span class="material-symbols-outlined text-lg">dashboard</span>
+                    Go to Dashboard
+                </a>
+            }
+            <a asp-page="/InternalOrders/Index"
+               class="flex items-center gap-2 px-6 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 text-sm font-bold hover:bg-slate-50 transition-all shadow-sm">
+                <span class="material-symbols-outlined text-lg">receipt_long</span>
+                My Orders
+            </a>
+            @if (role == "Admin")
+            {
+                <a asp-page="/Admin/Dashboard"
+                   class="flex items-center gap-2 px-6 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 text-sm font-bold hover:bg-slate-50 transition-all shadow-sm">
+                    <span class="material-symbols-outlined text-lg">admin_panel_settings</span>
+                    Admin Panel
+                </a>
+            }
+        </div>
+    }
+    else
+    {
+        <a asp-page="/Login"
+           class="flex items-center gap-2 px-8 py-4 rounded-xl bg-[#137fec] text-white text-base font-bold hover:bg-[#137fec]/90 transition-all shadow-lg shadow-[#137fec]/20">
+            <span class="material-symbols-outlined">login</span>
+            Sign In to Get Started
+        </a>
+    }
+
+    <!-- Feature Pills -->
+    <div class="mt-16 flex flex-wrap gap-3 justify-center">
+        @foreach (var feat in new[] {
+            ("inventory_2", "Inventory Management"),
+            ("local_shipping", "Supply Chain"),
+            ("restaurant_menu", "Menu & Recipes"),
+            ("bar_chart", "Reports & Analytics"),
+            ("group", "Staff Management"),
+        })
+        {
+            <div class="flex items-center gap-2 bg-white border border-slate-200 rounded-full px-4 py-2 text-sm text-slate-600 shadow-sm">
+                <span class="material-symbols-outlined text-[#137fec] text-base">@feat.Item1</span>
+                @feat.Item2
+            </div>
+        }
+    </div>
 </div>
