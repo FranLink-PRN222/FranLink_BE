@@ -1,4 +1,4 @@
-﻿@page
+@page
 @model IndexModel
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor httpContextAccessor
@@ -7,6 +7,7 @@
     Layout = "_LayoutFranLink";
     var role = httpContextAccessor.HttpContext?.Session.GetString("Role") ?? "";
     var username = httpContextAccessor.HttpContext?.Session.GetString("Username");
+    var isCentralKitchenStaff = role == "CentralKitchenStaff" || role == "Central Kitchen Staff";
 }
 
 <div class="flex flex-col items-center justify-center min-h-[75vh] px-6 text-center">
@@ -24,12 +25,35 @@
     @if (!string.IsNullOrEmpty(username))
     {
         <div class="flex flex-wrap gap-3 justify-center">
-            @if (role == "Admin" || role == "Manager" || role == "CentralKitchenStaff")
+            @if (isCentralKitchenStaff)
             {
                 <a asp-page="/CentralKitchenStaff/Index"
                    class="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#137fec] text-white text-sm font-bold hover:bg-[#137fec]/90 transition-all shadow-lg shadow-[#137fec]/20">
                     <span class="material-symbols-outlined text-lg">dashboard</span>
-                    Go to Dashboard
+                    Central Kitchen Dashboard
+                </a>
+                <a asp-page="/CentralKitchenStaff/Orders/Index"
+                   class="flex items-center gap-2 px-6 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 text-sm font-bold hover:bg-slate-50 transition-all shadow-sm">
+                    <span class="material-symbols-outlined text-lg">inbox</span>
+                    Process Orders
+                </a>
+                <a asp-page="/CentralKitchenStaff/ProductionPlanning/Index"
+                   class="flex items-center gap-2 px-6 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 text-sm font-bold hover:bg-slate-50 transition-all shadow-sm">
+                    <span class="material-symbols-outlined text-lg">insights</span>
+                    Production Planning
+                </a>
+                <a asp-page="/CentralKitchenStaff/Materials/Index"
+                   class="flex items-center gap-2 px-6 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 text-sm font-bold hover:bg-slate-50 transition-all shadow-sm">
+                    <span class="material-symbols-outlined text-lg">inventory_2</span>
+                    Materials & Expiry
+                </a>
+            }
+            @if (role == "Manager")
+            {
+                <a asp-page="/Manager/Operations/Index"
+                   class="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#137fec] text-white text-sm font-bold hover:bg-[#137fec]/90 transition-all shadow-lg shadow-[#137fec]/20">
+                    <span class="material-symbols-outlined text-lg">dashboard</span>
+                    Manager Dashboard
                 </a>
             }
             <a asp-page="/InternalOrders/Index"

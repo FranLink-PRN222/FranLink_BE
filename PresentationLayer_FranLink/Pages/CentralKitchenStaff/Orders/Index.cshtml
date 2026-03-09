@@ -2,75 +2,124 @@
 @model PresentationLayer_FranLink.Pages.CentralKitchenStaff.Orders.IndexModel
 @{
     ViewData["Title"] = "Process Orders";
+    Layout = "_LayoutFranLink";
 }
 
-<div class="container-fluid">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-page="/CentralKitchenStaff/Index">Staff Dashboard</a></li>
-            <li class="breadcrumb-item active">Orders</li>
-        </ol>
-    </nav>
+<div class="max-w-[1280px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-6">
 
-    <h2><i class="bi bi-inbox"></i> Process Orders</h2>
-
-    <form method="get" class="row g-3 mb-4">
-        <div class="col-md-3">
-            <label class="form-label">Central Kitchen</label>
-            <select asp-for="CentralKitchenId" asp-items="Model.CentralKitchens" class="form-select" onchange="this.form.submit()"></select>
+    <!-- Header -->
+    <section class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2">
+                <span class="material-symbols-outlined text-3xl text-[#137fec]">inbox</span>
+                Process internal orders
+            </h1>
+            <p class="text-slate-500 text-sm md:text-base mt-1 max-w-2xl">
+                Tiếp nhận và xử lý đơn đặt hàng từ các cửa hàng franchise cho bếp trung tâm.
+            </p>
         </div>
-        <div class="col-md-3">
-            <label class="form-label">Status</label>
-            <select asp-for="StatusFilter" class="form-select" onchange="this.form.submit()">
-                <option value="">All</option>
-                <option value="Pending">Pending</option>
-                <option value="Approved">Approved / Producing</option>
-                <option value="Delivering">Delivering</option>
-                <option value="Completed">Completed</option>
-                <option value="Rejected">Rejected</option>
-            </select>
-        </div>
-    </form>
+    </section>
 
-    <div class="card">
-        <div class="card-body p-0">
+    <!-- Filters -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 md:p-5 shadow-sm flex flex-col gap-4">
+        <form method="get" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+            <div>
+                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Central Kitchen</label>
+                <select asp-for="CentralKitchenId"
+                        asp-items="Model.CentralKitchens"
+                        class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent"
+                        onchange="this.form.submit()">
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Status</label>
+                <select asp-for="StatusFilter"
+                        class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent"
+                        onchange="this.form.submit()">
+                    <option value="">All</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Approved">Approved / Producing</option>
+                    <option value="Delivering">Delivering</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+            </div>
+        </form>
+    </section>
+
+    <!-- Orders table -->
+    <section class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+        <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-lg text-[#137fec]">receipt_long</span>
+                <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">Orders in kitchen</h2>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
             @if (Model.Orders.Any())
             {
-                <table class="table table-hover mb-0">
-                    <thead class="table-light">
+                <table class="w-full text-left text-sm border-collapse">
+                    <thead class="bg-slate-50 text-xs text-slate-500 uppercase tracking-wide">
                         <tr>
-                            <th>ID</th>
-                            <th>Date</th>
-                            <th>Store</th>
-                            <th class="text-center">Items</th>
-                            <th class="text-end">Value</th>
-                            <th>Status</th>
-                            <th>Delivery</th>
-                            <th>Actions</th>
+                            <th class="px-5 py-2.5">ID</th>
+                            <th class="px-5 py-2.5">Date</th>
+                            <th class="px-5 py-2.5">Store</th>
+                            <th class="px-5 py-2.5 text-center">Items</th>
+                            <th class="px-5 py-2.5 text-right">Value</th>
+                            <th class="px-5 py-2.5 text-center">Status</th>
+                            <th class="px-5 py-2.5 text-center">Delivery</th>
+                            <th class="px-5 py-2.5 text-right">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="divide-y divide-slate-100">
                         @foreach (var o in Model.Orders)
                         {
-                            var statusClass = o.Status switch
+                            string statusBg, statusText;
+                            switch (o.Status)
                             {
-                                "Pending" => "bg-warning text-dark",
-                                "Approved" or "Producing" => "bg-info",
-                                "Delivering" => "bg-primary",
-                                "Completed" => "bg-success",
-                                "Rejected" => "bg-danger",
-                                _ => "bg-secondary"
-                            };
-                            <tr>
-                                <td><strong>#@o.Id</strong></td>
-                                <td>@o.OrderDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
-                                <td>@o.StoreName</td>
-                                <td class="text-center">@o.TotalItems</td>
-                                <td class="text-end">@o.TotalValue.ToString("N0") VND</td>
-                                <td><span class="badge @statusClass">@o.Status</span></td>
-                                <td><span class="badge bg-secondary">@o.DeliveryStatus</span></td>
-                                <td>
-                                    <a asp-page="Details" asp-route-id="@o.Id" class="btn btn-sm btn-outline-primary">Process</a>
+                                case "Pending":
+                                    statusBg = "bg-amber-100 text-amber-700"; break;
+                                case "Approved":
+                                case "Producing":
+                                    statusBg = "bg-sky-100 text-sky-700"; break;
+                                case "Delivering":
+                                    statusBg = "bg-blue-100 text-blue-700"; break;
+                                case "Completed":
+                                    statusBg = "bg-emerald-100 text-emerald-700"; break;
+                                case "Rejected":
+                                    statusBg = "bg-rose-100 text-rose-700"; break;
+                                default:
+                                    statusBg = "bg-slate-100 text-slate-600"; break;
+                            }
+                            statusText = o.Status;
+
+                            <tr class="hover:bg-slate-50/70 transition-colors">
+                                <td class="px-5 py-3 font-semibold text-slate-900">#@o.Id</td>
+                                <td class="px-5 py-3 text-sm text-slate-700">
+                                    @o.OrderDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+                                </td>
+                                <td class="px-5 py-3 text-sm text-slate-800">@o.StoreName</td>
+                                <td class="px-5 py-3 text-center text-slate-700">@o.TotalItems</td>
+                                <td class="px-5 py-3 text-right text-slate-900 font-semibold">
+                                    @o.TotalValue.ToString("N0") <span class="text-xs text-slate-400">VND</span>
+                                </td>
+                                <td class="px-5 py-3 text-center">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold @statusBg">
+                                        @statusText
+                                    </span>
+                                </td>
+                                <td class="px-5 py-3 text-center">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-100 text-slate-700">
+                                        @o.DeliveryStatus
+                                    </span>
+                                </td>
+                                <td class="px-5 py-3 text-right">
+                                    <a asp-page="Details" asp-route-id="@o.Id"
+                                       class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                                        <span class="material-symbols-outlined text-sm">tune</span>
+                                        Process
+                                    </a>
                                 </td>
                             </tr>
                         }
@@ -79,11 +128,11 @@
             }
             else
             {
-                <div class="text-center py-5 text-muted">
-                    <i class="bi bi-inbox" style="font-size: 3rem;"></i>
-                    <p>No orders found for the selected criteria.</p>
+                <div class="py-12 flex flex-col items-center gap-3 text-slate-400">
+                    <span class="material-symbols-outlined text-5xl">inbox</span>
+                    <p class="text-sm font-medium">No orders found for the selected criteria.</p>
                 </div>
             }
         </div>
-    </div>
+    </section>
 </div>

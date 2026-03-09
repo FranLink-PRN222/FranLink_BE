@@ -2,92 +2,129 @@
 @model PresentationLayer_FranLink.Pages.Manager.Production.StartModel
 @{
     ViewData["Title"] = "Start Production";
+    Layout = "_LayoutFranLink";
 }
 
-<div class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-page="Index">Production</a></li>
-            <li class="breadcrumb-item active">Start Production</li>
-        </ol>
-    </nav>
+<div class="max-w-[960px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-6">
 
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header bg-success text-white">
-                    <h4 class="mb-0">🚀 Start New Production</h4>
+    <!-- Header -->
+    <section class="flex flex-col gap-2">
+        <div class="inline-flex items-center gap-2 text-xs text-slate-400 mb-1">
+            <a asp-page="Index" class="hover:text-slate-600">Production</a>
+            <span>/</span>
+            <span>Start production</span>
+        </div>
+        <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2">
+            <span class="material-symbols-outlined text-[#137fec] text-3xl">play_circle</span>
+            Start new production batch
+        </h1>
+        <p class="text-slate-500 text-sm md:text-base max-w-2xl">
+            Choose a central kitchen, recipe and planned quantity to launch a new production batch.
+        </p>
+    </section>
+
+    <!-- Form + info -->
+    <section class="grid grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] gap-6 items-start">
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-5">
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+                    <ul class="list-disc list-inside space-y-0.5">
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    </ul>
                 </div>
-                <div class="card-body">
-                    @if (!ViewData.ModelState.IsValid)
-                    {
-                        <div class="alert alert-danger">
-                            <ul class="mb-0">
-                                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                                {
-                                    <li>@error.ErrorMessage</li>
-                                }
-                            </ul>
-                        </div>
-                    }
+            }
 
-                    <form method="post">
-                        <div class="mb-3">
-                            <label asp-for="Input.CentralKitchenId" class="form-label">Central Kitchen <span class="text-danger">*</span></label>
-                            <select asp-for="Input.CentralKitchenId" asp-items="Model.CentralKitchens" class="form-select" required>
-                                <option value="">-- Select Kitchen --</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Input.RecipeId" class="form-label">Recipe <span class="text-danger">*</span></label>
-                            <select asp-for="Input.RecipeId" asp-items="Model.Recipes" class="form-select" required>
-                                <option value="">-- Select Recipe --</option>
-                            </select>
-                            <div class="form-text">
-                                <a asp-page="../Recipes/Index" target="_blank">Manage Recipes</a>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Input.PlannedQuantity" class="form-label">Planned Quantity <span class="text-danger">*</span></label>
-                            <input asp-for="Input.PlannedQuantity" type="number" min="1" class="form-control" required />
-                            <div class="form-text">Number of units to produce</div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Input.Notes" class="form-label">Notes</label>
-                            <textarea asp-for="Input.Notes" class="form-control" rows="3"></textarea>
-                        </div>
-
-                        <div class="d-flex justify-content-between">
-                            <a asp-page="Index" class="btn btn-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-success">
-                                <i class="bi bi-play-fill"></i> Start Production
-                            </button>
-                        </div>
-                    </form>
+            <form method="post" class="space-y-4">
+                <div>
+                    <label asp-for="Input.CentralKitchenId"
+                           class="block text-xs font-semibold text-slate-600 uppercase mb-1">
+                        Central kitchen <span class="text-rose-500">*</span>
+                    </label>
+                    <select asp-for="Input.CentralKitchenId"
+                            asp-items="Model.CentralKitchens"
+                            class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent"
+                            required>
+                        <option value="">Select kitchen...</option>
+                    </select>
                 </div>
-            </div>
 
-            <!-- Info Card -->
-            <div class="card mt-4">
-                <div class="card-header">
-                    <h5 class="mb-0">ℹ️ How it works</h5>
-                </div>
-                <div class="card-body">
-                    <ol>
-                        <li>Select the Central Kitchen where production occurs</li>
-                        <li>Choose a recipe (defines output product and required ingredients)</li>
-                        <li>Set the planned quantity to produce</li>
-                        <li>System checks if ingredients are available in inventory</li>
-                        <li>Production starts - you can complete or cancel later</li>
-                    </ol>
-                    <p class="mb-0 text-muted">
-                        <strong>Note:</strong> Ingredients are deducted and output product is added to inventory when production is completed.
+                <div>
+                    <label asp-for="Input.RecipeId"
+                           class="block text-xs font-semibold text-slate-600 uppercase mb-1">
+                        Recipe <span class="text-rose-500">*</span>
+                    </label>
+                    <select asp-for="Input.RecipeId"
+                            asp-items="Model.Recipes"
+                            class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent"
+                            required>
+                        <option value="">Select recipe...</option>
+                    </select>
+                    <p class="mt-1 text-xs text-slate-400">
+                        Need to adjust formulas?
+                        <a asp-page="../Recipes/Index" target="_blank" class="text-[#137fec] font-semibold hover:underline">Open recipe manager</a>.
                     </p>
                 </div>
-            </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label asp-for="Input.PlannedQuantity"
+                               class="block text-xs font-semibold text-slate-600 uppercase mb-1">
+                            Planned quantity <span class="text-rose-500">*</span>
+                        </label>
+                        <input asp-for="Input.PlannedQuantity"
+                               type="number"
+                               min="1"
+                               class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent"
+                               required />
+                        <p class="mt-1 text-xs text-slate-400">Number of output units you plan to produce.</p>
+                    </div>
+                </div>
+
+                <div>
+                    <label asp-for="Input.Notes"
+                           class="block text-xs font-semibold text-slate-600 uppercase mb-1">
+                        Notes
+                    </label>
+                    <textarea asp-for="Input.Notes"
+                              rows="3"
+                              class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent"
+                              placeholder="Shift, special instructions, QC notes..."></textarea>
+                </div>
+
+                <div class="flex items-center justify-between pt-2">
+                    <a asp-page="Index"
+                       class="inline-flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-100">
+                        <span class="material-symbols-outlined text-base">arrow_back</span>
+                        Back
+                    </a>
+                    <button type="submit"
+                            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 text-white text-sm font-bold shadow-md hover:bg-emerald-500 transition-colors">
+                        <span class="material-symbols-outlined text-lg">play_circle</span>
+                        Start production
+                    </button>
+                </div>
+            </form>
         </div>
-    </div>
+
+        <aside class="bg-white border border-slate-200 rounded-xl shadow-sm p-5 flex flex-col gap-4">
+            <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide flex items-center gap-2">
+                <span class="material-symbols-outlined text-lg text-amber-500">info</span>
+                How this batch behaves
+            </h2>
+            <ol class="space-y-2 text-sm text-slate-600 list-decimal list-inside">
+                <li>Select the <strong>central kitchen</strong> where production happens.</li>
+                <li>Pick a <strong>recipe</strong> which defines output product and ingredient BOM.</li>
+                <li>Set the <strong>planned quantity</strong> based on store demand.</li>
+                <li>System will track this batch in Manager dashboards until completed or cancelled.</li>
+            </ol>
+            <p class="text-xs text-slate-400 border-t border-slate-100 pt-3">
+                Ingredients and inventory are only updated when you <strong>complete</strong> the batch.
+                This avoids accidental stock movements if a plan changes mid-shift.
+            </p>
+        </aside>
+    </section>
 </div>

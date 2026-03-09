@@ -34,9 +34,8 @@ namespace PresentationLayer_FranLink.Pages.Manager.Inventory
 
         public async Task<IActionResult> OnGetAsync(string? status)
         {
-            // Check if user is Manager or Admin
             var role = HttpContext.Session.GetString("Role");
-            if (role != "Manager" && role != "Admin" && role != "CentralKitchenStaff")
+            if (role != "Manager")
             {
                 return RedirectToPage("/Login");
             }
@@ -60,7 +59,7 @@ namespace PresentationLayer_FranLink.Pages.Manager.Inventory
             int? toCentralKitchenId, int? toStoreId, int productId, int quantity, string? notes)
         {
             var role = HttpContext.Session.GetString("Role");
-            if (role != "Manager" && role != "Admin" && role != "CentralKitchenStaff")
+            if (role != "Manager")
             {
                 return RedirectToPage("/Login");
             }
@@ -102,7 +101,7 @@ namespace PresentationLayer_FranLink.Pages.Manager.Inventory
         public async Task<IActionResult> OnPostApproveAsync(int transferId)
         {
             var role = HttpContext.Session.GetString("Role");
-            if (role != "Manager" && role != "Admin" && role != "CentralKitchenStaff")
+            if (role != "Manager")
             {
                 return RedirectToPage("/Login");
             }
@@ -133,7 +132,7 @@ namespace PresentationLayer_FranLink.Pages.Manager.Inventory
         public async Task<IActionResult> OnPostRejectAsync(int transferId)
         {
             var role = HttpContext.Session.GetString("Role");
-            if (role != "Manager" && role != "Admin" && role != "CentralKitchenStaff")
+            if (role != "Manager")
             {
                 return RedirectToPage("/Login");
             }

@@ -1,336 +1,360 @@
 @page
 @model PresentationLayer_FranLink.Pages.Manager.Operations.IndexModel
 @{
-    ViewData["Title"] = "Operations Dashboard";
+    ViewData["Title"] = "Manager Dashboard";
+    Layout = "_LayoutFranLink";
 }
 
-<div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h2>🎯 Operations Dashboard</h2>
-            <small class="text-muted">Real-time overview of all operations</small>
-        </div>
-        <div>
-            <span class="badge bg-info">Last updated: @DateTime.Now.ToString("HH:mm")</span>
-        </div>
-    </div>
+<div class="max-w-[1280px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-8">
 
-    <!-- Alerts Row -->
-    <div class="row mb-4">
+    <!-- Header -->
+    <section class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900">
+                Manager Operations Dashboard
+            </h1>
+            <p class="text-slate-500 text-sm md:text-base mt-2 max-w-2xl">
+                Monitor production, distribution, inventory health and losses across your franchise network in real-time.
+            </p>
+        </div>
+        <div class="flex items-center gap-3">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 text-xs font-semibold text-slate-600">
+                <span class="material-symbols-outlined text-sm text-emerald-500">schedule</span>
+                Last updated @DateTime.Now.ToLocalTime().ToString("HH:mm")
+            </span>
+        </div>
+    </section>
+
+    <!-- Alert row -->
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
         @if (Model.PendingOrders > 0)
         {
-            <div class="col-md-3">
-                <div class="alert alert-warning mb-0 d-flex justify-content-between align-items-center">
-                    <span>⏳ @Model.PendingOrders Pending Orders</span>
-                    <a asp-page="../Distribution/Index" class="btn btn-sm btn-warning">View</a>
-                </div>
-            </div>
+            <a asp-page="../Distribution/Index"
+               class="flex items-center justify-between gap-3 px-4 py-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm font-semibold hover:bg-amber-100 transition-colors">
+                <span class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-base">pending_actions</span>
+                    <span>@Model.PendingOrders pending orders</span>
+                </span>
+                <span class="text-xs underline underline-offset-2">View</span>
+            </a>
         }
         @if (Model.PendingDisposals > 0)
         {
-            <div class="col-md-3">
-                <div class="alert alert-warning mb-0 d-flex justify-content-between align-items-center">
-                    <span>🗑️ @Model.PendingDisposals Pending Disposals</span>
-                    <a asp-page="../Loss/Index" class="btn btn-sm btn-warning">View</a>
-                </div>
-            </div>
+            <a asp-page="../Loss/Index"
+               class="flex items-center justify-between gap-3 px-4 py-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm font-semibold hover:bg-amber-100 transition-colors">
+                <span class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-base">delete</span>
+                    <span>@Model.PendingDisposals pending disposals</span>
+                </span>
+                <span class="text-xs underline underline-offset-2">Review</span>
+            </a>
         }
         @if (Model.InventorySummary.LowStockCount > 0)
         {
-            <div class="col-md-3">
-                <div class="alert alert-danger mb-0 d-flex justify-content-between align-items-center">
-                    <span>📦 @Model.InventorySummary.LowStockCount Low Stock Items</span>
-                    <a asp-page="../Inventory/Index" class="btn btn-sm btn-danger">View</a>
-                </div>
-            </div>
+            <a asp-page="../Inventory/Alerts" asp-route-type="lowstock"
+               class="flex items-center justify-between gap-3 px-4 py-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm font-semibold hover:bg-rose-100 transition-colors">
+                <span class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-base">warning</span>
+                    <span>@Model.InventorySummary.LowStockCount low stock items</span>
+                </span>
+                <span class="text-xs underline underline-offset-2">Check</span>
+            </a>
         }
         @if (Model.InProgressProductions.Any())
         {
-            <div class="col-md-3">
-                <div class="alert alert-info mb-0 d-flex justify-content-between align-items-center">
-                    <span>🔄 @Model.InProgressProductions.Count In Progress</span>
-                    <a asp-page="../Production/Index" class="btn btn-sm btn-info">View</a>
+            <a asp-page="../Production/Index"
+               class="flex items-center justify-between gap-3 px-4 py-3 rounded-xl bg-sky-50 border border-sky-200 text-sky-700 text-sm font-semibold hover:bg-sky-100 transition-colors">
+                <span class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-base">manufacturing</span>
+                    <span>@Model.InProgressProductions.Count in-progress batches</span>
+                </span>
+                <span class="text-xs underline underline-offset-2">Monitor</span>
+            </a>
+        }
+    </section>
+
+    <!-- Main KPI cards -->
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Production Today -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-xl text-[#137fec]">factory</span>
+                    <span class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        Production Today
+                    </span>
                 </div>
             </div>
-        }
-    </div>
-
-    <!-- Main KPI Cards -->
-    <div class="row mb-4">
-        <!-- Production Today -->
-        <div class="col-md-3">
-            <div class="card border-primary h-100">
-                <div class="card-header bg-primary text-white">
-                    <h6 class="mb-0">🏭 Production Today</h6>
-                </div>
-                <div class="card-body text-center">
-                    <h2 class="text-primary">@Model.ProductionToday.TotalActualQuantity</h2>
-                    <small class="text-muted">units produced</small>
-                    <hr />
-                    <div class="row">
-                        <div class="col-6">
-                            <strong>@Model.ProductionToday.TotalProductions</strong>
-                            <br /><small>batches</small>
-                        </div>
-                        <div class="col-6">
-                            <strong>@Model.ProductionToday.EfficiencyRate%</strong>
-                            <br /><small>efficiency</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer bg-light">
-                    <a asp-page="../Production/Index" class="text-decoration-none">View Details →</a>
-                </div>
+            <div>
+                <p class="text-3xl font-bold text-slate-900">@Model.ProductionToday.TotalActualQuantity</p>
+                <p class="text-xs text-slate-400 mt-0.5">Units produced</p>
+            </div>
+            <div class="flex justify-between text-xs text-slate-500 border-t border-slate-100 pt-3">
+                <span>@Model.ProductionToday.TotalProductions batches</span>
+                <span class="inline-flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px] text-emerald-500">trending_up</span>
+                    @Model.ProductionToday.EfficiencyRate% efficiency
+                </span>
             </div>
         </div>
 
         <!-- Distribution Today -->
-        <div class="col-md-3">
-            <div class="card border-success h-100">
-                <div class="card-header bg-success text-white">
-                    <h6 class="mb-0">🚚 Distribution Today</h6>
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-xl text-emerald-600">local_shipping</span>
+                    <span class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        Distribution Today
+                    </span>
                 </div>
-                <div class="card-body text-center">
-                    <h2 class="text-success">@Model.DistributionToday.TotalOrders</h2>
-                    <small class="text-muted">orders</small>
-                    <hr />
-                    <div class="row">
-                        <div class="col-6">
-                            <strong>@Model.DistributionToday.CompletedOrders</strong>
-                            <br /><small>completed</small>
-                        </div>
-                        <div class="col-6">
-                            <strong>@Model.DistributionToday.OrderFulfillmentRate%</strong>
-                            <br /><small>fulfilled</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer bg-light">
-                    <a asp-page="../Distribution/Index" class="text-decoration-none">View Details →</a>
-                </div>
+            </div>
+            <div>
+                <p class="text-3xl font-bold text-slate-900">@Model.DistributionToday.TotalOrders</p>
+                <p class="text-xs text-slate-400 mt-0.5">Internal orders</p>
+            </div>
+            <div class="flex justify-between text-xs text-slate-500 border-t border-slate-100 pt-3">
+                <span>@Model.DistributionToday.CompletedOrders completed</span>
+                <span class="inline-flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px] text-emerald-500">percent</span>
+                    @Model.DistributionToday.OrderFulfillmentRate% fulfilled
+                </span>
             </div>
         </div>
 
         <!-- Loss This Month -->
-        <div class="col-md-3">
-            <div class="card border-danger h-100">
-                <div class="card-header bg-danger text-white">
-                    <h6 class="mb-0">📉 Loss This Month</h6>
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-xl text-rose-600">trending_down</span>
+                    <span class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        Loss This Month
+                    </span>
                 </div>
-                <div class="card-body text-center">
-                    <h2 class="text-danger">@Model.LossThisMonth.TotalLossValue.ToString("N0")</h2>
-                    <small class="text-muted">VND</small>
-                    <hr />
-                    <div class="row">
-                        <div class="col-6">
-                            <strong>@Model.LossThisMonth.TotalLossItems</strong>
-                            <br /><small>items</small>
-                        </div>
-                        <div class="col-6">
-                            <strong>@Model.LossThisMonth.TotalDisposals</strong>
-                            <br /><small>disposals</small>
-                        </div>
-                    </div>
+            </div>
+            <div>
+                <p class="text-3xl font-bold text-rose-600">@Model.LossThisMonth.TotalLossValue.ToString("N0")</p>
+                <p class="text-xs text-slate-400 mt-0.5">VND value lost</p>
+            </div>
+            <div class="flex justify-between text-xs text-slate-500 border-t border-slate-100 pt-3">
+                <span>@Model.LossThisMonth.TotalLossItems items</span>
+                <span>@Model.LossThisMonth.TotalDisposals disposals</span>
+            </div>
+        </div>
+
+        <!-- Inventory Snapshot -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-xl text-amber-600">inventory_2</span>
+                    <span class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        Inventory Snapshot
+                    </span>
                 </div>
-                <div class="card-footer bg-light">
-                    <a asp-page="../Loss/Index" class="text-decoration-none">View Details →</a>
+            </div>
+            <div>
+                <p class="text-3xl font-bold text-slate-900">
+                    @(Model.InventorySummary.TotalCentralKitchenItems + Model.InventorySummary.TotalStoreItems)
+                </p>
+                <p class="text-xs text-slate-400 mt-0.5">Products tracked across kitchens & stores</p>
+            </div>
+            <div class="flex justify-between text-xs text-slate-500 border-t border-slate-100 pt-3">
+                <span class="inline-flex items-center gap-1">
+                    <span class="size-1.5 rounded-full bg-rose-500"></span>
+                    @Model.InventorySummary.LowStockCount low stock
+                </span>
+                <span class="inline-flex items-center gap-1">
+                    <span class="size-1.5 rounded-full bg-amber-500"></span>
+                    @Model.InventorySummary.ExpiringCount expiring
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Weekly performance + distribution -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Weekly production -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-lg text-[#137fec]">monitoring</span>
+                    <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">
+                        Weekly Production Performance
+                    </h2>
+                </div>
+            </div>
+            <div class="space-y-2 text-sm text-slate-600">
+                <div class="flex justify-between">
+                    <span>Total productions</span>
+                    <span class="font-semibold">@Model.ProductionThisWeek.TotalProductions</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Planned quantity</span>
+                    <span class="font-semibold">@Model.ProductionThisWeek.TotalPlannedQuantity</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Actual quantity</span>
+                    <span class="font-semibold">@Model.ProductionThisWeek.TotalActualQuantity</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Efficiency rate</span>
+                    <span class="inline-flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[16px] text-emerald-500">speed</span>
+                        <span class="font-semibold">@Model.ProductionThisWeek.EfficiencyRate%</span>
+                    </span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Avg production time</span>
+                    <span class="font-semibold">@Model.ProductionThisWeek.AverageProductionTimeMinutes min</span>
                 </div>
             </div>
         </div>
 
-        <!-- Inventory Status -->
-        <div class="col-md-3">
-            <div class="card border-info h-100">
-                <div class="card-header bg-info text-white">
-                    <h6 class="mb-0">📦 Inventory Status</h6>
+        <!-- Weekly distribution -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-lg text-emerald-600">query_stats</span>
+                    <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">
+                        Weekly Distribution Performance
+                    </h2>
                 </div>
-                <div class="card-body text-center">
-                    <h2 class="text-info">@(Model.InventorySummary.TotalCentralKitchenItems + Model.InventorySummary.TotalStoreItems)</h2>
-                    <small class="text-muted">products tracked</small>
-                    <hr />
-                    <div class="row">
-                        <div class="col-6">
-                            <strong class="text-danger">@Model.InventorySummary.LowStockCount</strong>
-                            <br /><small>low stock</small>
-                        </div>
-                        <div class="col-6">
-                            <strong class="text-warning">@Model.InventorySummary.ExpiringCount</strong>
-                            <br /><small>expiring</small>
-                        </div>
-                    </div>
+            </div>
+            <div class="space-y-2 text-sm text-slate-600">
+                <div class="flex justify-between">
+                    <span>Total orders</span>
+                    <span class="font-semibold">@Model.DistributionThisWeek.TotalOrders</span>
                 </div>
-                <div class="card-footer bg-light">
-                    <a asp-page="../Inventory/Index" class="text-decoration-none">View Details →</a>
+                <div class="flex justify-between">
+                    <span>Completed orders</span>
+                    <span class="font-semibold">@Model.DistributionThisWeek.CompletedOrders</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Pending orders</span>
+                    <span class="font-semibold">@Model.DistributionThisWeek.PendingOrders</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Total order value</span>
+                    <span class="font-semibold">@Model.DistributionThisWeek.TotalValue.ToString("N0") VND</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Fulfillment rate</span>
+                    <span class="inline-flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[16px] text-emerald-500">check_circle</span>
+                        <span class="font-semibold">@Model.DistributionThisWeek.OrderFulfillmentRate%</span>
+                    </span>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Weekly Performance -->
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">📊 Weekly Production Performance</h5>
+    <!-- In-progress + quick links -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- In-progress productions -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between px-5 py-4 border-b border-slate-100">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-lg text-amber-600">autorenew</span>
+                    <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">
+                        In-progress productions
+                    </h2>
                 </div>
-                <div class="card-body">
-                    <table class="table table-sm">
-                        <tr>
-                            <td>Total Productions</td>
-                            <td class="text-end"><strong>@Model.ProductionThisWeek.TotalProductions</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Planned Quantity</td>
-                            <td class="text-end"><strong>@Model.ProductionThisWeek.TotalPlannedQuantity</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Actual Quantity</td>
-                            <td class="text-end"><strong>@Model.ProductionThisWeek.TotalActualQuantity</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Efficiency Rate</td>
-                            <td class="text-end">
-                                @{
-                                    var effClass = Model.ProductionThisWeek.EfficiencyRate >= 90 ? "bg-success" : Model.ProductionThisWeek.EfficiencyRate >= 70 ? "bg-warning" : "bg-danger";
-                                }
-                                <span class="badge @effClass">@Model.ProductionThisWeek.EfficiencyRate%</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Avg Production Time</td>
-                            <td class="text-end"><strong>@Model.ProductionThisWeek.AverageProductionTimeMinutes min</strong></td>
-                        </tr>
-                    </table>
-                </div>
+                <a asp-page="../Production/Index" class="text-xs font-semibold text-[#137fec] hover:underline">
+                    View all
+                </a>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">📊 Weekly Distribution Performance</h5>
-                </div>
-                <div class="card-body">
-                    <table class="table table-sm">
-                        <tr>
-                            <td>Total Orders</td>
-                            <td class="text-end"><strong>@Model.DistributionThisWeek.TotalOrders</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Completed Orders</td>
-                            <td class="text-end"><strong>@Model.DistributionThisWeek.CompletedOrders</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Pending Orders</td>
-                            <td class="text-end"><strong>@Model.DistributionThisWeek.PendingOrders</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Total Order Value</td>
-                            <td class="text-end"><strong>@Model.DistributionThisWeek.TotalValue.ToString("N0") VND</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Fulfillment Rate</td>
-                            <td class="text-end">
-                                @{
-                                    var fulfillClass = Model.DistributionThisWeek.OrderFulfillmentRate >= 90 ? "bg-success" : Model.DistributionThisWeek.OrderFulfillmentRate >= 70 ? "bg-warning" : "bg-danger";
-                                }
-                                <span class="badge @fulfillClass">@Model.DistributionThisWeek.OrderFulfillmentRate%</span>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- In Progress Productions & Quick Links -->
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header bg-warning text-dark">
-                    <h5 class="mb-0">🔄 In Progress Productions</h5>
-                </div>
-                <div class="card-body p-0">
-                    @if (Model.InProgressProductions.Any())
-                    {
-                        <table class="table table-hover mb-0">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Recipe / Product</th>
-                                    <th>Kitchen</th>
-                                    <th class="text-center">Qty</th>
-                                    <th>Started</th>
+            <div class="max-h-80 overflow-y-auto">
+                @if (Model.InProgressProductions.Any())
+                {
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-50 text-xs text-slate-500 uppercase tracking-wide">
+                            <tr>
+                                <th class="px-5 py-2">Recipe / Product</th>
+                                <th class="px-5 py-2">Kitchen</th>
+                                <th class="px-5 py-2 text-center">Qty</th>
+                                <th class="px-5 py-2">Started</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            @foreach (var prod in Model.InProgressProductions.Take(5))
+                            {
+                                var duration = DateTime.UtcNow - prod.StartTime;
+                                <tr class="hover:bg-slate-50/60 transition-colors">
+                                    <td class="px-5 py-3">
+                                        <div class="flex flex-col">
+                                            <span class="font-semibold text-slate-900">@prod.RecipeName</span>
+                                            <span class="text-xs text-slate-400">@prod.ProductName</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-3 text-sm text-slate-600">@prod.KitchenName</td>
+                                    <td class="px-5 py-3 text-center text-sm font-semibold text-slate-800">
+                                        @prod.PlannedQuantity
+                                    </td>
+                                    <td class="px-5 py-3 text-xs text-slate-500">
+                                        @duration.Hours h @duration.Minutes m ago
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var prod in Model.InProgressProductions.Take(5))
-                                {
-                                    var duration = DateTime.UtcNow - prod.StartTime;
-                                    <tr>
-                                        <td>
-                                            <strong>@prod.RecipeName</strong><br />
-                                            <small class="text-muted">@prod.ProductName</small>
-                                        </td>
-                                        <td><small>@prod.KitchenName</small></td>
-                                        <td class="text-center">@prod.PlannedQuantity</td>
-                                        <td>
-                                            <small>@duration.Hours h @duration.Minutes m ago</small>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    }
-                    else
-                    {
-                        <div class="text-center py-4 text-muted">
-                            No productions in progress
-                        </div>
-                    }
-                </div>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="flex flex-col items-center justify-center py-10 text-slate-400 text-sm">
+                        <span class="material-symbols-outlined text-4xl mb-2">task_alt</span>
+                        No productions in progress
+                    </div>
+                }
             </div>
         </div>
 
-        <!-- Quick Links -->
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">🔗 Quick Links</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-6">
-                            <a asp-page="../Production/Start" class="btn btn-outline-primary w-100 py-3">
-                                🚀 Start Production
-                            </a>
-                        </div>
-                        <div class="col-6">
-                            <a asp-page="../Products/Index" class="btn btn-outline-secondary w-100 py-3">
-                                📦 Manage Products
-                            </a>
-                        </div>
-                        <div class="col-6">
-                            <a asp-page="../Recipes/Index" class="btn btn-outline-info w-100 py-3">
-                                📖 Manage Recipes
-                            </a>
-                        </div>
-                        <div class="col-6">
-                            <a asp-page="../Inventory/Index" class="btn btn-outline-warning w-100 py-3">
-                                📊 View Inventory
-                            </a>
-                        </div>
-                        <div class="col-6">
-                            <a asp-page="../Production/Report" class="btn btn-outline-success w-100 py-3">
-                                📈 Production Report
-                            </a>
-                        </div>
-                        <div class="col-6">
-                            <a asp-page="../Loss/Index" class="btn btn-outline-danger w-100 py-3">
-                                📉 Loss Report
-                            </a>
-                        </div>
-                    </div>
+        <!-- Quick manager actions -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 flex flex-col gap-5">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-lg text-[#137fec]">bolt</span>
+                    <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">
+                        Quick manager actions
+                    </h2>
                 </div>
             </div>
+            <div class="grid grid-cols-2 gap-3">
+                <a asp-page="../Production/Start"
+                   class="flex flex-col items-start gap-1 px-4 py-3 rounded-xl border border-slate-200 hover:border-[#137fec] hover:bg-[#137fec]/5 text-sm font-semibold text-slate-800 transition-colors">
+                    <span class="material-symbols-outlined text-lg text-[#137fec]">play_circle</span>
+                    <span>Start production</span>
+                    <span class="text-xs text-slate-400">Launch new batches</span>
+                </a>
+                <a asp-page="../Products/Index"
+                   class="flex flex-col items-start gap-1 px-4 py-3 rounded-xl border border-slate-200 hover:border-[#137fec] hover:bg-[#137fec]/5 text-sm font-semibold text-slate-800 transition-colors">
+                    <span class="material-symbols-outlined text-lg text-slate-700">inventory</span>
+                    <span>Manage products</span>
+                    <span class="text-xs text-slate-400">Catalog & pricing</span>
+                </a>
+                <a asp-page="../Recipes/Index"
+                   class="flex flex-col items-start gap-1 px-4 py-3 rounded-xl border border-slate-200 hover:border-[#137fec] hover:bg-[#137fec]/5 text-sm font-semibold text-slate-800 transition-colors">
+                    <span class="material-symbols-outlined text-lg text-slate-700">menu_book</span>
+                    <span>Manage recipes</span>
+                    <span class="text-xs text-slate-400">Formulas & yields</span>
+                </a>
+                <a asp-page="../Inventory/Index"
+                   class="flex flex-col items-start gap-1 px-4 py-3 rounded-xl border border-slate-200 hover:border-[#137fec] hover:bg-[#137fec]/5 text-sm font-semibold text-slate-800 transition-colors">
+                    <span class="material-symbols-outlined text-lg text-amber-600">warehouse</span>
+                    <span>Inventory dashboard</span>
+                    <span class="text-xs text-slate-400">Stock health overview</span>
+                </a>
+                <a asp-page="../Production/Report"
+                   class="flex flex-col items-start gap-1 px-4 py-3 rounded-xl border border-slate-200 hover:border-[#137fec] hover:bg-[#137fec]/5 text-sm font-semibold text-slate-800 transition-colors">
+                    <span class="material-symbols-outlined text-lg text-emerald-600">insights</span>
+                    <span>Production report</span>
+                    <span class="text-xs text-slate-400">Trends & KPIs</span>
+                </a>
+                <a asp-page="../Loss/Index"
+                   class="flex flex-col items-start gap-1 px-4 py-3 rounded-xl border border-slate-200 hover:border-[#137fec] hover:bg-[#137fec]/5 text-sm font-semibold text-slate-800 transition-colors">
+                    <span class="material-symbols-outlined text-lg text-rose-600">warning_amber</span>
+                    <span>Loss report</span>
+                    <span class="text-xs text-slate-400">Waste & reasons</span>
+                </a>
+            </div>
         </div>
-    </div>
+    </section>
 </div>

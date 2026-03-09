@@ -23,7 +23,7 @@ namespace PresentationLayer_FranLink.Pages.CentralKitchenStaff.Orders
         public async Task<IActionResult> OnGetAsync(int id)
         {
             var role = HttpContext.Session.GetString("Role");
-            if (role != "CentralKitchenStaff" && role != "Manager" && role != "Admin")
+            if (role != "CentralKitchenStaff" && role != "Central Kitchen Staff" && role != "Manager" && role != "Admin")
             {
                 return RedirectToPage("/Login");
             }

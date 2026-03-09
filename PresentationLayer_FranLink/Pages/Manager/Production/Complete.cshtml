@@ -2,6 +2,7 @@
 @model PresentationLayer_FranLink.Pages.Manager.Production.CompleteModel
 @{
     ViewData["Title"] = "Complete Production";
+    Layout = "_LayoutFranLink";
     var duration = DateTime.UtcNow - Model.Production.StartTime;
 }
 

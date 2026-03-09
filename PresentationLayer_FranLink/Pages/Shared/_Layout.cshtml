@@ -32,7 +32,7 @@
                         <li class="nav-item">
                              <a class="nav-link text-dark" asp-area="" asp-page="/Inventory/Index">Store Inventory</a>
                         </li>
-                        @if (httpContextAccessor.HttpContext.Session.GetString("Role") == "CentralKitchenStaff" || httpContextAccessor.HttpContext.Session.GetString("Role") == "Manager" || httpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
+                        @if (httpContextAccessor.HttpContext.Session.GetString("Role") == "CentralKitchenStaff" || httpContextAccessor.HttpContext.Session.GetString("Role") == "Manager")
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="ckStaffDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -62,7 +62,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Supply/InternalOrders/Index">Supply Coordinator</a>
                             </li>
                         }
-                        @if (httpContextAccessor.HttpContext.Session.GetString("Role") == "Manager" || httpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
+                        @if (httpContextAccessor.HttpContext.Session.GetString("Role") == "Manager")
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="managerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

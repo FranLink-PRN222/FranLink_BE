@@ -49,6 +49,7 @@
             <nav class="hidden md:flex items-center gap-1">
                 @{
                     var role = httpContextAccessor.HttpContext?.Session.GetString("Role") ?? "";
+                    var isCentralKitchenStaff = role == "CentralKitchenStaff" || role == "Central Kitchen Staff";
                     var currentPath = httpContextAccessor.HttpContext?.Request.Path.ToString() ?? "";
 
                     string NavLinkClass(string path) =>
@@ -57,9 +58,16 @@
                             : "flex items-center gap-1.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 text-sm font-medium transition-colors";
                 }
 
-                @if (role == "Admin" || role == "Manager" || role == "CentralKitchenStaff")
+                @if (isCentralKitchenStaff)
                 {
                     <a class="@NavLinkClass("/CentralKitchenStaff")" asp-page="/CentralKitchenStaff/Index">
+                        <span class="material-symbols-outlined text-lg">dashboard</span>
+                        <span>Dashboard</span>
+                    </a>
+                }
+                @if (role == "Manager")
+                {
+                    <a class="@NavLinkClass("/Manager")" asp-page="/Manager/Operations/Index">
                         <span class="material-symbols-outlined text-lg">dashboard</span>
                         <span>Dashboard</span>
                     </a>
@@ -77,13 +85,6 @@
                     <a class="@NavLinkClass("/Supply")" asp-page="/Supply/InternalOrders/Index">
                         <span class="material-symbols-outlined text-lg">local_shipping</span>
                         <span>Supply</span>
-                    </a>
-                }
-                @if (role == "Manager" || role == "Admin")
-                {
-                    <a class="@NavLinkClass("/Manager")" asp-page="/Manager/Operations/Index">
-                        <span class="material-symbols-outlined text-lg">bar_chart</span>
-                        <span>Reports</span>
                     </a>
                 }
                 @if (role == "Admin")

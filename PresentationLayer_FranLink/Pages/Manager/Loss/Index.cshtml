@@ -2,232 +2,261 @@
 @model PresentationLayer_FranLink.Pages.Manager.Loss.IndexModel
 @{
     ViewData["Title"] = "Loss Report Dashboard";
+    Layout = "_LayoutFranLink";
 }
 
-<div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>📉 Loss Report Dashboard</h2>
-    </div>
+<div class="max-w-[1280px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-6">
+
+    <!-- Header -->
+    <section class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2">
+                <span class="material-symbols-outlined text-rose-500 text-3xl">trending_down</span>
+                Loss & waste dashboard
+            </h1>
+            <p class="text-slate-500 text-sm md:text-base mt-1 max-w-2xl">
+                Track disposals, expired stock and quality-related losses by reason, product and location.
+            </p>
+        </div>
+    </section>
 
     <!-- Filters -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <form method="get" class="row g-3">
-                <div class="col-md-2">
-                    <label class="form-label">From Date</label>
-                    <input asp-for="FromDate" type="date" class="form-control" />
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label">To Date</label>
-                    <input asp-for="ToDate" type="date" class="form-control" />
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Central Kitchen</label>
-                    <select asp-for="CentralKitchenId" asp-items="Model.CentralKitchens" class="form-select">
-                        <option value="">-- All Locations --</option>
-                    </select>
-                </div>
-                <div class="col-md-2 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary">Apply Filter</button>
-                </div>
-            </form>
+    <section class="bg-white border border-slate-200 rounded-xl p-4 md:p-5 shadow-sm flex flex-col gap-4">
+        <div class="text-xs font-semibold text-slate-500 uppercase tracking-wide flex items-center gap-2">
+            <span class="material-symbols-outlined text-base text-slate-400">filter_alt</span>
+            Filter by period & central kitchen
         </div>
-    </div>
+        <form method="get" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+            <div>
+                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">From date</label>
+                <input asp-for="FromDate"
+                       type="date"
+                       class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent" />
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">To date</label>
+                <input asp-for="ToDate"
+                       type="date"
+                       class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent" />
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Central kitchen</label>
+                <select asp-for="CentralKitchenId"
+                        asp-items="Model.CentralKitchens"
+                        class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent">
+                    <option value="">All locations</option>
+                </select>
+            </div>
+            <div class="flex justify-end">
+                <button type="submit"
+                        class="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 text-white text-sm font-semibold px-4 py-2.5 hover:bg-slate-800 transition-colors">
+                    <span class="material-symbols-outlined text-base">refresh</span>
+                    Apply filter
+                </button>
+            </div>
+        </form>
+    </section>
 
-    <!-- Summary Cards -->
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card text-white bg-danger h-100">
-                <div class="card-body text-center">
-                    <h6>Total Loss Value</h6>
-                    <h3>@Model.Summary.TotalLossValue.ToString("N0") VND</h3>
-                </div>
-            </div>
+    <!-- Summary cards -->
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-5 flex flex-col gap-2">
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Total loss value</p>
+            <p class="text-3xl font-bold text-rose-600">@Model.Summary.TotalLossValue.ToString("N0")</p>
+            <p class="text-xs text-slate-400">VND across selected period</p>
         </div>
-        <div class="col-md-3">
-            <div class="card text-white bg-secondary h-100">
-                <div class="card-body text-center">
-                    <h6>Total Items Lost</h6>
-                    <h3>@Model.Summary.TotalLossItems</h3>
-                </div>
-            </div>
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-5 flex flex-col gap-2">
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Total items lost</p>
+            <p class="text-3xl font-bold text-slate-900">@Model.Summary.TotalLossItems</p>
         </div>
-        <div class="col-md-3">
-            <div class="card text-white bg-info h-100">
-                <div class="card-body text-center">
-                    <h6>Total Disposals</h6>
-                    <h3>@Model.Summary.TotalDisposals</h3>
-                </div>
-            </div>
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-5 flex flex-col gap-2">
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Total disposals</p>
+            <p class="text-3xl font-bold text-slate-900">@Model.Summary.TotalDisposals</p>
         </div>
-        <div class="col-md-3">
-            <div class="card text-white bg-warning h-100">
-                <div class="card-body text-center">
-                    <h6>Expired Loss</h6>
-                    <h3>@Model.Summary.ExpiredLossValue.ToString("N0")</h3>
-                </div>
-            </div>
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-5 flex flex-col gap-2">
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Expired-related loss</p>
+            <p class="text-3xl font-bold text-amber-600">@Model.Summary.ExpiredLossValue.ToString("N0")</p>
         </div>
-    </div>
+    </section>
 
-    <div class="row">
-        <!-- Loss by Reason -->
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">📊 Loss by Reason</h5>
-                    <a asp-page="ByReason" class="btn btn-sm btn-outline-primary">Details</a>
+    <!-- Three-column breakdown -->
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Loss by reason -->
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+            <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-lg text-rose-500">flag</span>
+                    <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">Loss by reason</h2>
                 </div>
-                <div class="card-body p-0">
-                    @if (Model.ByReason.Any())
-                    {
-                        <ul class="list-group list-group-flush">
-                            @foreach (var reason in Model.ByReason)
+                <a asp-page="ByReason" class="text-xs font-semibold text-[#137fec] hover:underline">
+                    Details
+                </a>
+            </div>
+            <div class="max-h-80 overflow-y-auto">
+                @if (Model.ByReason.Any())
+                {
+                    <ul class="divide-y divide-slate-100 text-sm">
+                        @foreach (var reason in Model.ByReason)
+                        {
+                            var chipClass = reason.Reason switch
                             {
-                                var colorClass = reason.Reason switch
-                                {
-                                    "Expired" => "bg-warning text-dark",
-                                    "Damaged" => "bg-danger",
-                                    "Quality Issue" => "bg-info",
-                                    _ => "bg-secondary"
-                                };
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <span class="badge @colorClass">@reason.Reason</span>
-                                        <br />
-                                        <small class="text-muted">@reason.ItemCount items</small>
-                                    </div>
-                                    <div class="text-end">
-                                        <strong>@reason.TotalValue.ToString("N0")</strong>
-                                        <br />
-                                        <small class="text-muted">@reason.Percentage%</small>
-                                    </div>
-                                </li>
+                                "Expired" => "bg-amber-100 text-amber-700",
+                                "Damaged" => "bg-rose-100 text-rose-700",
+                                "Quality Issue" => "bg-sky-100 text-sky-700",
+                                _ => "bg-slate-100 text-slate-700"
+                            };
+                            <li class="px-5 py-3 flex items-center justify-between">
+                                <div class="flex flex-col gap-0.5">
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold @chipClass">
+                                        @reason.Reason
+                                    </span>
+                                    <span class="text-xs text-slate-400">@reason.ItemCount items</span>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-semibold text-rose-600">@reason.TotalValue.ToString("N0")</p>
+                                    <p class="text-[11px] text-slate-400">@reason.Percentage%</p>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <div class="py-10 text-center text-sm text-slate-400">
+                        No loss data available for this period.
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Top loss products -->
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+            <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-lg text-amber-600">local_fire_department</span>
+                    <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">Top loss products</h2>
+                </div>
+                <a asp-page="ByProduct" class="text-xs font-semibold text-[#137fec] hover:underline">
+                    View all
+                </a>
+            </div>
+            <div class="max-h-80 overflow-y-auto">
+                @if (Model.TopProducts.Any())
+                {
+                    <table class="w-full text-left text-sm border-collapse">
+                        <thead class="bg-slate-50 text-xs text-slate-500 uppercase tracking-wide">
+                            <tr>
+                                <th class="px-5 py-2.5">Product</th>
+                                <th class="px-5 py-2.5 text-center">Qty</th>
+                                <th class="px-5 py-2.5 text-right">Loss</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            @foreach (var product in Model.TopProducts)
+                            {
+                                <tr class="hover:bg-slate-50/70 transition-colors">
+                                    <td class="px-5 py-3">
+                                        <div class="flex flex-col">
+                                            <span class="font-semibold text-slate-900">@product.ProductName</span>
+                                            <span class="text-xs text-slate-400">@product.TopReason</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-3 text-center text-slate-700">@product.LostQuantity</td>
+                                    <td class="px-5 py-3 text-right text-rose-600 font-semibold">@product.LostValue.ToString("N0")</td>
+                                </tr>
                             }
-                        </ul>
-                    }
-                    else
-                    {
-                        <div class="text-center py-4 text-muted">No loss data available</div>
-                    }
-                </div>
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="py-10 text-center text-sm text-slate-400">
+                        No product-level loss data.
+                    </div>
+                }
             </div>
         </div>
 
-        <!-- Top Loss Products -->
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">🔥 Top Loss Products</h5>
-                    <a asp-page="ByProduct" class="btn btn-sm btn-outline-primary">All</a>
+        <!-- Loss by location -->
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+            <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-lg text-sky-600">location_on</span>
+                    <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">Loss by location</h2>
                 </div>
-                <div class="card-body p-0">
-                    @if (Model.TopProducts.Any())
-                    {
-                        <table class="table table-hover mb-0">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Product</th>
-                                    <th class="text-center">Qty</th>
-                                    <th class="text-end">Loss</th>
+            </div>
+            <div class="max-h-80 overflow-y-auto">
+                @if (Model.ByLocation.Any())
+                {
+                    <table class="w-full text-left text-sm border-collapse">
+                        <thead class="bg-slate-50 text-xs text-slate-500 uppercase tracking-wide">
+                            <tr>
+                                <th class="px-5 py-2.5">Location</th>
+                                <th class="px-5 py-2.5 text-center">Items</th>
+                                <th class="px-5 py-2.5 text-right">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            @foreach (var loc in Model.ByLocation.Take(5))
+                            {
+                                <tr class="hover:bg-slate-50/70 transition-colors">
+                                    <td class="px-5 py-3">
+                                        <div class="flex flex-col">
+                                            <span class="font-semibold text-slate-900">@loc.LocationName</span>
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600 mt-0.5">
+                                                @loc.LocationType
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-3 text-center text-slate-700">@loc.TotalQuantity</td>
+                                    <td class="px-5 py-3 text-right text-rose-600 font-semibold">@loc.TotalValue.ToString("N0")</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var product in Model.TopProducts)
-                                {
-                                    <tr>
-                                        <td>
-                                            <strong>@product.ProductName</strong>
-                                            <br />
-                                            <small class="text-muted">@product.TopReason</small>
-                                        </td>
-                                        <td class="text-center">@product.LostQuantity</td>
-                                        <td class="text-end text-danger">@product.LostValue.ToString("N0")</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    }
-                    else
-                    {
-                        <div class="text-center py-4 text-muted">No data available</div>
-                    }
-                </div>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="py-10 text-center text-sm text-slate-400">
+                        No location-level loss data.
+                    </div>
+                }
             </div>
         </div>
+    </section>
 
-        <!-- Loss by Location -->
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">📍 Loss by Location</h5>
-                </div>
-                <div class="card-body p-0">
-                    @if (Model.ByLocation.Any())
-                    {
-                        <table class="table table-hover mb-0">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Location</th>
-                                    <th class="text-center">Items</th>
-                                    <th class="text-end">Value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var loc in Model.ByLocation.Take(5))
-                                {
-                                    <tr>
-                                        <td>
-                                            <strong>@loc.LocationName</strong>
-                                            <br />
-                                            <small class="badge bg-secondary">@loc.LocationType</small>
-                                        </td>
-                                        <td class="text-center">@loc.TotalQuantity</td>
-                                        <td class="text-end text-danger">@loc.TotalValue.ToString("N0")</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    }
-                    else
-                    {
-                        <div class="text-center py-4 text-muted">No data available</div>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Daily Trend -->
+    <!-- Daily trend -->
     @if (Model.Summary.ByDay.Any())
     {
-        <div class="card mt-4">
-            <div class="card-header">
-                <h5 class="mb-0">📅 Daily Loss Trend</h5>
+        <section class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+            <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-lg text-slate-700">calendar_view_week</span>
+                    <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">Daily loss trend</h2>
+                </div>
             </div>
-            <div class="card-body p-0">
-                <table class="table table-hover mb-0">
-                    <thead class="table-light">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm border-collapse">
+                    <thead class="bg-slate-50 text-xs text-slate-500 uppercase tracking-wide">
                         <tr>
-                            <th>Date</th>
-                            <th class="text-center">Disposals</th>
-                            <th class="text-center">Quantity</th>
-                            <th class="text-end">Value</th>
+                            <th class="px-5 py-2.5">Date</th>
+                            <th class="px-5 py-2.5 text-center">Disposals</th>
+                            <th class="px-5 py-2.5 text-center">Quantity</th>
+                            <th class="px-5 py-2.5 text-right">Value</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="divide-y divide-slate-100">
                         @foreach (var day in Model.Summary.ByDay.OrderByDescending(d => d.Date).Take(10))
                         {
-                            <tr>
-                                <td>@day.Date.ToString("dd/MM/yyyy")</td>
-                                <td class="text-center">@day.DisposalCount</td>
-                                <td class="text-center">@day.Quantity</td>
-                                <td class="text-end text-danger">@day.Value.ToString("N0")</td>
+                            <tr class="hover:bg-slate-50/70 transition-colors">
+                                <td class="px-5 py-3 text-slate-800">@day.Date.ToString("dd/MM/yyyy")</td>
+                                <td class="px-5 py-3 text-center text-slate-700">@day.DisposalCount</td>
+                                <td class="px-5 py-3 text-center text-slate-700">@day.Quantity</td>
+                                <td class="px-5 py-3 text-right text-rose-600 font-semibold">@day.Value.ToString("N0")</td>
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
-        </div>
+        </section>
     }
 </div>

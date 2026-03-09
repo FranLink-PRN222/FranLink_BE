@@ -32,7 +32,7 @@ namespace PresentationLayer_FranLink.Pages.Manager.Products
         {
             // Check if user is Manager or Admin
             var role = HttpContext.Session.GetString("Role");
-            if (role != "Manager" && role != "Admin")
+            if (role != "Manager")
             {
                 return RedirectToPage("/Login");
             }

@@ -1,76 +1,200 @@
 @page
 @model PresentationLayer_FranLink.Pages.Admin.Stores.IndexModel
 @{
-    ViewData["Title"] = "Quản lý Cửa hàng & Bếp trung tâm";
+    ViewData["Title"] = "Stores Management";
+    Layout = "_LayoutFranLink";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1><i class="bi bi-shop"></i> Quản lý Cửa hàng & Bếp trung tâm</h1>
-    <a asp-page="Create" class="btn btn-primary">
-        <i class="bi bi-plus-circle"></i> Thêm mới
-    </a>
+<div class="max-w-[1280px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-6">
+
+    <!-- Page header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">Stores & Central Kitchens</h1>
+            <p class="text-slate-500 text-sm md:text-base mt-1">
+                Configure franchise stores and central kitchens used across ordering, production, and inventory.
+            </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-3">
+            <div class="relative">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-base">search</span>
+                <input id="storeSearch"
+                       type="text"
+                       oninput="filterStores()"
+                       class="pl-9 pr-3 py-2 rounded-xl border border-slate-200 bg-white text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent min-w-[220px]"
+                       placeholder="Search by name, type, address..." />
+            </div>
+            <a asp-page="Create"
+               class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#137fec] text-white text-sm font-bold shadow-md hover:bg-[#137fec]/90 transition-colors">
+                <span class="material-symbols-outlined text-lg">add_business</span>
+                <span>New Store / Kitchen</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Summary chips -->
+    <div class="flex flex-wrap gap-3">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 text-xs font-semibold text-slate-600">
+            <span class="size-1.5 rounded-full bg-[#137fec]"></span>
+            @Model.Stores.Count(s => !s.IsCentralKitchen) franchise stores
+        </div>
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 text-xs font-semibold text-slate-600">
+            <span class="size-1.5 rounded-full bg-amber-500"></span>
+            @Model.Stores.Count(s => s.IsCentralKitchen) central kitchens
+        </div>
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 text-xs font-semibold text-slate-600">
+            <span class="size-1.5 rounded-full bg-emerald-500"></span>
+            @Model.Stores.Count(s => s.IsActive) active locations
+        </div>
+    </div>
+
+    <!-- Stores table card -->
+    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse" id="storesTable">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-200">
+                        <th class="px-5 py-3 text-xs font-bold uppercase tracking-wider text-slate-500">Location</th>
+                        <th class="px-5 py-3 text-xs font-bold uppercase tracking-wider text-slate-500">Type</th>
+                        <th class="px-5 py-3 text-xs font-bold uppercase tracking-wider text-slate-500">Address</th>
+                        <th class="px-5 py-3 text-xs font-bold uppercase tracking-wider text-slate-500">Phone</th>
+                        <th class="px-5 py-3 text-xs font-bold uppercase tracking-wider text-slate-500">Status</th>
+                        <th class="px-5 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100" id="storesBody">
+                    @foreach (var store in Model.Stores)
+                    {
+                        var statusLabel = store.IsActive ? "Active" : "Disabled";
+                        var statusBg = store.IsActive ? "bg-emerald-100" : "bg-rose-100";
+                        var statusText = store.IsActive ? "text-emerald-700" : "text-rose-700";
+                        var dotColor = store.IsActive ? "bg-emerald-500" : "bg-rose-500";
+
+                        <tr class="hover:bg-slate-50/60 transition-colors store-row"
+                            data-search="@($"{store.Id} {store.Name} {(store.IsCentralKitchen ? "Central Kitchen" : "Franchise Store")} {store.Address} {store.Phone}")">
+                            <td class="px-5 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="h-9 w-9 rounded-xl @(store.IsCentralKitchen ? "bg-amber-100 text-amber-700" : "bg-[#137fec]/10 text-[#137fec]") flex items-center justify-center text-base">
+                                        <span class="material-symbols-outlined text-lg">
+                                            @(store.IsCentralKitchen ? "restaurant" : "store")
+                                        </span>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <span class="text-sm font-semibold text-slate-900">@store.Name</span>
+                                        <span class="text-xs text-slate-400">ID: @store.Id</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-5 py-4 text-sm">
+                                @if (store.IsCentralKitchen)
+                                {
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-100 text-amber-700 text-[11px] font-bold">
+                                        <span class="material-symbols-outlined text-sm">restaurant</span>
+                                        Central Kitchen
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#137fec]/10 text-[#137fec] text-[11px] font-bold">
+                                        <span class="material-symbols-outlined text-sm">storefront</span>
+                                        Franchise Store
+                                    </span>
+                                }
+                            </td>
+                            <td class="px-5 py-4 text-sm text-slate-600">
+                                @if (!string.IsNullOrWhiteSpace(store.Address))
+                                {
+                                    @store.Address
+                                }
+                                else
+                                {
+                                    <span class="text-xs text-slate-400 italic">No address set</span>
+                                }
+                            </td>
+                            <td class="px-5 py-4 text-sm text-slate-600">
+                                @if (!string.IsNullOrWhiteSpace(store.Phone))
+                                {
+                                    @store.Phone
+                                }
+                                else
+                                {
+                                    <span class="text-xs text-slate-400 italic">No phone</span>
+                                }
+                            </td>
+                            <td class="px-5 py-4">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold @statusBg @statusText">
+                                    <span class="size-1.5 rounded-full @dotColor"></span>
+                                    @statusLabel
+                                </span>
+                                <div class="mt-1 text-[11px] text-slate-400">
+                                    Created @store.CreatedDate.ToLocalTime().ToString("dd/MM/yyyy")
+                                </div>
+                            </td>
+                            <td class="px-5 py-4 text-right text-sm">
+                                <div class="inline-flex items-center gap-2">
+                                    <a asp-page="Edit" asp-route-id="@store.Id"
+                                       class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                                        <span class="material-symbols-outlined text-sm">edit</span>
+                                        Edit
+                                    </a>
+                                    <form method="post" asp-page-handler="Toggle" asp-route-storeId="@store.Id" class="inline">
+                                        <button type="submit"
+                                                class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold @(store.IsActive ? "text-amber-700 bg-amber-50 hover:bg-amber-100" : "text-emerald-700 bg-emerald-50 hover:bg-emerald-100")">
+                                            <span class="material-symbols-outlined text-sm">power_settings_new</span>
+                                            @(store.IsActive ? "Disable" : "Enable")
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (!Model.Stores.Any())
+        {
+            <div class="py-16 flex flex-col items-center gap-3 text-slate-400">
+                <span class="material-symbols-outlined text-5xl">store</span>
+                <p class="text-sm font-medium">No stores or central kitchens configured.</p>
+                <a asp-page="Create" class="text-[#137fec] text-sm font-bold hover:underline">
+                    Add your first location →
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="px-5 py-3 border-t border-slate-100 bg-slate-50/60 flex items-center justify-between text-xs text-slate-500">
+                <span id="storesCount">
+                    Showing <span class="font-semibold text-slate-900">@Model.Stores.Count()</span> locations
+                </span>
+                <span class="inline-flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">hub</span>
+                    Connected to orders, inventory and production modules
+                </span>
+            </div>
+        }
+    </div>
 </div>
 
-<div class="table-responsive">
-    <table class="table table-hover table-bordered align-middle">
-        <thead class="table-dark">
-            <tr>
-                <th>ID</th>
-                <th>Tên</th>
-                <th>Loại</th>
-                <th>Địa chỉ</th>
-                <th>SĐT</th>
-                <th>Trạng thái</th>
-                <th>Ngày tạo</th>
-                <th class="text-center">Hành động</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var store in Model.Stores)
-            {
-                <tr class="@(store.IsActive ? "" : "table-secondary")">
-                    <td>@store.Id</td>
-                    <td><strong>@store.Name</strong></td>
-                    <td>
-                        @if (store.IsCentralKitchen)
-                        {
-                            <span class="badge bg-warning text-dark"><i class="bi bi-fire"></i> Bếp trung tâm</span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-primary"><i class="bi bi-shop-window"></i> Cửa hàng</span>
-                        }
-                    </td>
-                    <td>@store.Address</td>
-                    <td>@store.Phone</td>
-                    <td>
-                        @if (store.IsActive)
-                        {
-                            <span class="badge bg-success">Hoạt động</span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-danger">Vô hiệu</span>
-                        }
-                    </td>
-                    <td>@store.CreatedDate.ToLocalTime().ToString("dd/MM/yyyy")</td>
-                    <td class="text-center">
-                        <a asp-page="Edit" asp-route-id="@store.Id" class="btn btn-sm btn-outline-primary me-1">
-                            <i class="bi bi-pencil"></i> Sửa
-                        </a>
-                        <form method="post" asp-page-handler="Toggle" asp-route-storeId="@store.Id" class="d-inline">
-                            <button type="submit" class="btn btn-sm @(store.IsActive ? "btn-outline-warning" : "btn-outline-success")">
-                                @(store.IsActive ? "Vô hiệu" : "Kích hoạt")
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+@section Scripts {
+<script>
+    function filterStores() {
+        const q = (document.getElementById('storeSearch').value || '').toLowerCase();
+        const rows = document.querySelectorAll('#storesBody .store-row');
+        let visible = 0;
 
-@if (!Model.Stores.Any())
-{
-    <div class="alert alert-info text-center">Chưa có cửa hàng/bếp nào.</div>
+        rows.forEach(row => {
+            const haystack = (row.dataset.search || '').toLowerCase();
+            const match = !q || haystack.includes(q);
+            row.style.display = match ? '' : 'none';
+            if (match) visible++;
+        });
+
+        const counter = document.getElementById('storesCount');
+        if (counter) {
+            counter.innerHTML = 'Showing <span class="font-semibold text-slate-900">' + visible + '</span> locations';
+        }
+    }
+</script>
 }

@@ -2,106 +2,173 @@
 @model PresentationLayer_FranLink.Pages.CentralKitchenStaff.Orders.DetailsModel
 @{
     ViewData["Title"] = $"Order #{Model.Order?.Id}";
+    Layout = "_LayoutFranLink";
 }
 
-<div class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-page="/CentralKitchenStaff/Index">Staff Dashboard</a></li>
-            <li class="breadcrumb-item"><a asp-page="Index">Orders</a></li>
-            <li class="breadcrumb-item active">Order #@Model.Order.Id</li>
-        </ol>
+<div class="max-w-[960px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-6">
+
+    <!-- Breadcrumb -->
+    <nav class="text-xs text-slate-400 mb-1">
+        <a asp-page="/CentralKitchenStaff/Index" class="hover:text-slate-600">Staff Dashboard</a>
+        <span class="mx-1">/</span>
+        <a asp-page="Index" class="hover:text-slate-600">Orders</a>
+        <span class="mx-1">/</span>
+        <span>Order #@Model.Order.Id</span>
     </nav>
 
+    <!-- Flash message -->
     @if (!string.IsNullOrEmpty(Model.Message))
     {
-        <div class="alert @(Model.IsSuccess ? "alert-success" : "alert-danger") alert-dismissible fade show">
+        <div class="rounded-xl border @(Model.IsSuccess ? "border-emerald-200 bg-emerald-50 text-emerald-800" : "border-rose-200 bg-rose-50 text-rose-800") px-4 py-3 text-sm">
             @Model.Message
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     }
 
-    <h2>Order #@Model.Order.Id</h2>
+    <!-- Header -->
+    <section class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2">
+                <span class="material-symbols-outlined text-3xl text-[#137fec]">receipt_long</span>
+                Order #@Model.Order.Id
+            </h1>
+            <p class="text-slate-500 text-sm md:text-base mt-1">
+                Store: <span class="font-semibold text-slate-800">@Model.Order.FranchiseStore?.Name</span>
+            </p>
+        </div>
+    </section>
 
-    <div class="card mb-4">
-        <div class="card-header">Order Information</div>
-        <div class="card-body">
-            <p><strong>Store:</strong> @Model.Order.FranchiseStore?.Name</p>
-            <p><strong>Date:</strong> @Model.Order.OrderDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</p>
-            <p><strong>Status:</strong> <span class="badge bg-secondary">@Model.Order.Status</span></p>
+    <!-- Order info -->
+    <section class="bg-white border border-slate-200 rounded-xl shadow-sm p-5 flex flex-col gap-3">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-700">
+            <div>
+                <p class="text-xs font-semibold text-slate-500 uppercase mb-1">Order date</p>
+                <p>@Model.Order.OrderDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</p>
+            </div>
+            <div>
+                <p class="text-xs font-semibold text-slate-500 uppercase mb-1">Order status</p>
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-100 text-slate-700">
+                    @Model.Order.Status
+                </span>
+            </div>
             @if (Model.Order.Delivery != null)
             {
-                <p><strong>Delivery:</strong> <span class="badge bg-info">@Model.Order.Delivery.DeliveryStatus</span></p>
+                <div>
+                    <p class="text-xs font-semibold text-slate-500 uppercase mb-1">Delivery status</p>
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-sky-100 text-sky-700">
+                        @Model.Order.Delivery.DeliveryStatus
+                    </span>
+                </div>
                 @if (Model.Order.Delivery.DeliveredAt.HasValue)
                 {
-                    <p><strong>Delivered At:</strong> @Model.Order.Delivery.DeliveredAt.Value.ToLocalTime()</p>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-500 uppercase mb-1">Delivered at</p>
+                        <p>@Model.Order.Delivery.DeliveredAt.Value.ToLocalTime()</p>
+                    </div>
                 }
             }
         </div>
-    </div>
+    </section>
 
-    <h4>Items</h4>
-    <table class="table table-bordered mb-4">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th class="text-center">Quantity</th>
-                <th class="text-end">Unit Price</th>
-                <th class="text-end">Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Order.Items)
-            {
-                <tr>
-                    <td>@item.Product?.Name</td>
-                    <td class="text-center">@item.Quantity</td>
-                    <td class="text-end">@item.UnitPrice.ToString("N0")</td>
-                    <td class="text-end">@((item.Quantity * item.UnitPrice).ToString("N0")) VND</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <!-- Items -->
+    <section class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+        <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+            <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">Items</h2>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm border-collapse">
+                <thead class="bg-slate-50 text-xs text-slate-500 uppercase tracking-wide">
+                    <tr>
+                        <th class="px-5 py-2.5">Product</th>
+                        <th class="px-5 py-2.5 text-center">Quantity</th>
+                        <th class="px-5 py-2.5 text-right">Unit Price</th>
+                        <th class="px-5 py-2.5 text-right">Total</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    @foreach (var item in Model.Order.Items)
+                    {
+                        <tr class="hover:bg-slate-50/70 transition-colors">
+                            <td class="px-5 py-3 text-slate-800">@item.Product?.Name</td>
+                            <td class="px-5 py-3 text-center text-slate-700">@item.Quantity</td>
+                            <td class="px-5 py-3 text-right text-slate-700">@item.UnitPrice.ToString("N0")</td>
+                            <td class="px-5 py-3 text-right text-slate-900 font-semibold">
+                                @((item.Quantity * item.UnitPrice).ToString("N0")) <span class="text-xs text-slate-400">VND</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-    <div class="card">
-        <div class="card-header">Actions</div>
-        <div class="card-body">
+    <!-- Actions -->
+    <section class="bg-white border border-slate-200 rounded-xl shadow-sm p-5">
+        <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide mb-3">Actions</h2>
+        <div class="flex flex-wrap items-center gap-3">
             @if (Model.Order.Status == "Pending")
             {
-                <form method="post" asp-page-handler="Approve" asp-route-id="@Model.Order.Id" class="d-inline">
-                    <button type="submit" class="btn btn-success">Approve Order</button>
+                <form method="post" asp-page-handler="Approve" asp-route-id="@Model.Order.Id" class="inline">
+                    <button type="submit"
+                            class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-500">
+                        <span class="material-symbols-outlined text-base">check</span>
+                        Approve order
+                    </button>
                 </form>
-                <form method="post" asp-page-handler="Reject" asp-route-id="@Model.Order.Id" class="d-inline ms-2">
-                    <button type="submit" class="btn btn-danger">Reject Order</button>
+                <form method="post" asp-page-handler="Reject" asp-route-id="@Model.Order.Id" class="inline">
+                    <button type="submit"
+                            class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-rose-600 text-white text-sm font-semibold hover:bg-rose-500">
+                        <span class="material-symbols-outlined text-base">close</span>
+                        Reject order
+                    </button>
                 </form>
             }
             else if (Model.Order.Status == "Approved")
             {
-                <form method="post" asp-page-handler="StartPreparing" asp-route-id="@Model.Order.Id" class="d-inline">
-                    <button type="submit" class="btn btn-info">Start Preparing</button>
+                <form method="post" asp-page-handler="StartPreparing" asp-route-id="@Model.Order.Id" class="inline">
+                    <button type="submit"
+                            class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-sky-600 text-white text-sm font-semibold hover:bg-sky-500">
+                        <span class="material-symbols-outlined text-base">restaurant</span>
+                        Start preparing
+                    </button>
                 </form>
-                <form method="post" asp-page-handler="MarkDelivering" asp-route-id="@Model.Order.Id" class="d-inline ms-2">
-                    <button type="submit" class="btn btn-primary">Mark as Delivering (Deduct Inventory)</button>
+                <form method="post" asp-page-handler="MarkDelivering" asp-route-id="@Model.Order.Id" class="inline">
+                    <button type="submit"
+                            class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-500">
+                        <span class="material-symbols-outlined text-base">local_shipping</span>
+                        Mark delivering (deduct inventory)
+                    </button>
                 </form>
             }
             else if (Model.Order.Status == "Producing")
             {
-                <form method="post" asp-page-handler="MarkDelivering" asp-route-id="@Model.Order.Id" class="d-inline">
-                    <button type="submit" class="btn btn-primary">Mark as Delivering (Deduct Inventory)</button>
+                <form method="post" asp-page-handler="MarkDelivering" asp-route-id="@Model.Order.Id" class="inline">
+                    <button type="submit"
+                            class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-500">
+                        <span class="material-symbols-outlined text-base">local_shipping</span>
+                        Mark delivering (deduct inventory)
+                    </button>
                 </form>
             }
             else if (Model.Order.Status == "Delivering" && Model.Order.Delivery?.DeliveryStatus == "Delivering")
             {
-                <form method="post" asp-page-handler="MarkDeliveryCompleted" asp-route-id="@Model.Order.Id" class="d-inline">
-                    <button type="submit" class="btn btn-success">Mark Delivery Completed</button>
+                <form method="post" asp-page-handler="MarkDeliveryCompleted" asp-route-id="@Model.Order.Id" class="inline">
+                    <button type="submit"
+                            class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-500">
+                        <span class="material-symbols-outlined text-base">done_all</span>
+                        Mark delivery completed
+                    </button>
                 </form>
             }
             else
             {
-                <p class="text-muted">No actions available for this order status.</p>
+                <p class="text-sm text-slate-500">No actions available for this order status.</p>
             }
 
-            <a asp-page="Index" class="btn btn-outline-secondary ms-2">Back to List</a>
+            <a asp-page="Index"
+               class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-slate-200 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                <span class="material-symbols-outlined text-base">arrow_back</span>
+                Back to list
+            </a>
         </div>
-    </div>
+    </section>
 </div>

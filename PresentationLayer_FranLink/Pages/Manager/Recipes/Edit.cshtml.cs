@@ -54,7 +54,7 @@ namespace PresentationLayer_FranLink.Pages.Manager.Recipes
         public async Task<IActionResult> OnGetAsync(int id)
         {
             var role = HttpContext.Session.GetString("Role");
-            if (role != "Manager" && role != "Admin")
+            if (role != "Manager")
             {
                 return RedirectToPage("/Login");
             }

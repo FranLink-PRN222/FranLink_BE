@@ -2,154 +2,207 @@
 @model PresentationLayer_FranLink.Pages.Manager.Products.IndexModel
 @{
     ViewData["Title"] = "Products Management";
+    Layout = "_LayoutFranLink";
 }
 
-<div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2><i class="bi bi-box-seam me-2"></i>Products Management</h2>
-        <a asp-page="Create" class="btn btn-primary">
-            <i class="bi bi-plus-lg me-1"></i>Add New Product
-        </a>
-    </div>
+<div class="max-w-[1280px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-6">
+
+    <!-- Header -->
+    <section class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">Products Catalog</h1>
+            <p class="text-slate-500 text-sm md:text-base mt-1">
+                Manage finished products used across recipes, production batches and store inventory.
+            </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-3">
+            <div class="relative">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-base">search</span>
+                <input type="text"
+                       asp-for="SearchTerm"
+                       class="pl-9 pr-3 py-2 rounded-xl border border-slate-200 bg-white text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent min-w-[220px]"
+                       placeholder="Search by name or SKU..." />
+            </div>
+            <a asp-page="Create"
+               class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#137fec] text-white text-sm font-bold shadow-md hover:bg-[#137fec]/90 transition-colors">
+                <span class="material-symbols-outlined text-lg">add</span>
+                <span>New Product</span>
+            </a>
+        </div>
+    </section>
 
     @if (!string.IsNullOrEmpty(Model.SuccessMessage))
     {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle me-2"></i>@Model.SuccessMessage
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <div class="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800 flex items-start gap-2">
+            <span class="material-symbols-outlined text-base mt-0.5">check_circle</span>
+            <span>@Model.SuccessMessage</span>
         </div>
     }
 
     <!-- Filters -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <form method="get" class="row g-3">
-                <div class="col-md-4">
-                    <label class="form-label">Search</label>
-                    <input type="text" class="form-control" asp-for="SearchTerm" placeholder="Name or SKU..." />
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Category</label>
-                    <select class="form-select" asp-for="CategoryFilter">
-                        <option value="">All Categories</option>
-                        @foreach (var cat in Model.Categories)
-                        {
-                            <option value="@cat">@cat</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">&nbsp;</label>
-                    <div class="form-check mt-2">
-                        <input class="form-check-input" type="checkbox" asp-for="ShowInactive" />
-                        <label class="form-check-label" asp-for="ShowInactive">Show Inactive Products</label>
-                    </div>
-                </div>
-                <div class="col-md-2 d-flex align-items-end">
-                    <button type="submit" class="btn btn-outline-primary w-100">
-                        <i class="bi bi-search me-1"></i>Filter
-                    </button>
-                </div>
-            </form>
+    <section class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col gap-4">
+        <div class="flex flex-col md:flex-row gap-3 md:items-end">
+            <div class="flex-1">
+                <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">Category</label>
+                <select asp-for="CategoryFilter"
+                        class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent">
+                    <option value="">All categories</option>
+                    @foreach (var cat in Model.Categories)
+                    {
+                        <option value="@cat">@cat</option>
+                    }
+                </select>
+            </div>
+            <div class="flex items-center gap-2">
+                <input asp-for="ShowInactive"
+                       type="checkbox"
+                       class="h-4 w-4 rounded border-slate-300 text-[#137fec] focus:ring-[#137fec]" />
+                <label asp-for="ShowInactive" class="text-sm text-slate-600">Show inactive products</label>
+            </div>
+            <button type="submit"
+                    formmethod="get"
+                    class="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 text-white text-sm font-semibold px-4 py-2 hover:bg-slate-800 transition-colors">
+                <span class="material-symbols-outlined text-base">filter_alt</span>
+                Apply filters
+            </button>
         </div>
-    </div>
+    </section>
 
-    <!-- Products Table -->
-    <div class="card">
-        <div class="card-body">
-            @if (Model.Products.Any())
-            {
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead class="table-light">
-                            <tr>
-                                <th>ID</th>
-                                <th>SKU</th>
-                                <th>Name</th>
-                                <th>Category</th>
-                                <th>Unit</th>
-                                <th class="text-end">Price</th>
-                                <th>Status</th>
-                                <th class="text-center">Actions</th>
+    <!-- Products table -->
+    <section class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+        @if (Model.Products.Any())
+        {
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-wide">
+                            <th class="px-5 py-3">Product</th>
+                            <th class="px-5 py-3">Category</th>
+                            <th class="px-5 py-3">Unit</th>
+                            <th class="px-5 py-3 text-right">Price</th>
+                            <th class="px-5 py-3">Status</th>
+                            <th class="px-5 py-3 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        @foreach (var product in Model.Products)
+                        {
+                            var statusLabel = product.IsActive ? "Active" : "Inactive";
+                            var statusBg = product.IsActive ? "bg-emerald-100" : "bg-slate-100";
+                            var statusText = product.IsActive ? "text-emerald-700" : "text-slate-500";
+                            var dotColor = product.IsActive ? "bg-emerald-500" : "bg-slate-400";
+
+                            <tr class="hover:bg-slate-50/70 transition-colors">
+                                <td class="px-5 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="h-9 w-9 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400">
+                                            <span class="material-symbols-outlined text-base">inventory_2</span>
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <span class="font-semibold text-slate-900">@product.Name</span>
+                                            <span class="text-xs text-slate-400">
+                                                SKU: @(string.IsNullOrEmpty(product.SKU) ? "-" : product.SKU)
+                                            </span>
+                                            @if (!string.IsNullOrEmpty(product.Description))
+                                            {
+                                                var desc = product.Description.Length > 70 ? product.Description.Substring(0, 70) + "..." : product.Description;
+                                                <span class="text-[11px] text-slate-400 mt-0.5">@desc</span>
+                                            }
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-5 py-4 text-sm text-slate-700">
+                                    @if (!string.IsNullOrEmpty(product.Category))
+                                    {
+                                        <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-slate-100 text-[11px] font-semibold text-slate-700">
+                                            @product.Category
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-xs text-slate-400 italic">Uncategorised</span>
+                                    }
+                                </td>
+                                <td class="px-5 py-4 text-sm text-slate-600">
+                                    @(string.IsNullOrEmpty(product.Unit) ? "-" : product.Unit)
+                                </td>
+                                <td class="px-5 py-4 text-sm text-right text-slate-900 font-semibold">
+                                    @product.Price.ToString("N0") <span class="text-xs text-slate-400">VND</span>
+                                </td>
+                                <td class="px-5 py-4">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold @statusBg @statusText">
+                                        <span class="size-1.5 rounded-full @dotColor"></span>
+                                        @statusLabel
+                                    </span>
+                                </td>
+                                <td class="px-5 py-4 text-right">
+                                    <div class="inline-flex items-center gap-2">
+                                        <a asp-page="Details" asp-route-id="@product.Id"
+                                           class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                                            <span class="material-symbols-outlined text-sm">visibility</span>
+                                            View
+                                        </a>
+                                        <a asp-page="Edit" asp-route-id="@product.Id"
+                                           class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                                            <span class="material-symbols-outlined text-sm">edit</span>
+                                            Edit
+                                        </a>
+                                        @if (product.IsActive)
+                                        {
+                                            <form method="post"
+                                                  asp-page-handler="Delete"
+                                                  asp-route-id="@product.Id"
+                                                  class="inline"
+                                                  onsubmit="return confirm('Deactivate this product?');">
+                                                <button type="submit"
+                                                        class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-rose-700 bg-rose-50 hover:bg-rose-100">
+                                                    <span class="material-symbols-outlined text-sm">block</span>
+                                                    Disable
+                                                </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <form method="post"
+                                                  asp-page-handler="Restore"
+                                                  asp-route-id="@product.Id"
+                                                  class="inline">
+                                                <button type="submit"
+                                                        class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100">
+                                                    <span class="material-symbols-outlined text-sm">restart_alt</span>
+                                                    Enable
+                                                </button>
+                                            </form>
+                                        }
+                                    </div>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var product in Model.Products)
-                            {
-                                <tr class="@(product.IsActive ? "" : "table-secondary")">
-                                    <td>@product.Id</td>
-                                    <td><code>@(product.SKU ?? "-")</code></td>
-                                    <td>
-                                        <strong>@product.Name</strong>
-                                        @if (!string.IsNullOrEmpty(product.Description))
-                                        {
-                                            <br /><small class="text-muted">@(product.Description.Length > 50 ? product.Description.Substring(0, 50) + "..." : product.Description)</small>
-                                        }
-                                    </td>
-                                    <td>
-                                        @if (!string.IsNullOrEmpty(product.Category))
-                                        {
-                                            <span class="badge bg-info">@product.Category</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">-</span>
-                                        }
-                                    </td>
-                                    <td>@(product.Unit ?? "-")</td>
-                                    <td class="text-end">@product.Price.ToString("N0") VND</td>
-                                    <td>
-                                        @if (product.IsActive)
-                                        {
-                                            <span class="badge bg-success">Active</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-secondary">Inactive</span>
-                                        }
-                                    </td>
-                                    <td class="text-center">
-                                        <a asp-page="Details" asp-route-id="@product.Id" class="btn btn-sm btn-outline-info" title="View">
-                                            <i class="bi bi-eye"></i>
-                                        </a>
-                                        <a asp-page="Edit" asp-route-id="@product.Id" class="btn btn-sm btn-outline-warning" title="Edit">
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-                                        @if (product.IsActive)
-                                        {
-                                            <form method="post" asp-page-handler="Delete" asp-route-id="@product.Id" class="d-inline"
-                                                  onsubmit="return confirm('Are you sure you want to deactivate this product?');">
-                                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Deactivate">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </form>
-                                        }
-                                        else
-                                        {
-                                            <form method="post" asp-page-handler="Restore" asp-route-id="@product.Id" class="d-inline">
-                                                <button type="submit" class="btn btn-sm btn-outline-success" title="Restore">
-                                                    <i class="bi bi-arrow-counterclockwise"></i>
-                                                </button>
-                                            </form>
-                                        }
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                <div class="mt-3">
-                    <small class="text-muted">Showing @Model.Products.Count product(s)</small>
-                </div>
-            }
-            else
-            {
-                <div class="text-center py-5">
-                    <i class="bi bi-inbox display-1 text-muted"></i>
-                    <p class="mt-3 text-muted">No products found.</p>
-                    <a asp-page="Create" class="btn btn-primary">Add First Product</a>
-                </div>
-            }
-        </div>
-    </div>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="px-5 py-3 border-t border-slate-100 bg-slate-50/70 flex items-center justify-between text-xs text-slate-500">
+                <span>
+                    Showing <span class="font-semibold text-slate-900">@Model.Products.Count</span> products
+                </span>
+                <span class="inline-flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px]">menu_book</span>
+                    Linked to recipes and production plans
+                </span>
+            </div>
+        }
+        else
+        {
+            <div class="flex flex-col items-center justify-center py-16 text-slate-400 gap-3">
+                <span class="material-symbols-outlined text-5xl">inventory_2</span>
+                <p class="text-sm font-medium">No products found.</p>
+                <a asp-page="Create"
+                   class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#137fec] text-white text-sm font-bold shadow-md hover:bg-[#137fec]/90 transition-colors">
+                    <span class="material-symbols-outlined text-lg">add</span>
+                    Add first product
+                </a>
+            </div>
+        }
+    </section>
 </div>

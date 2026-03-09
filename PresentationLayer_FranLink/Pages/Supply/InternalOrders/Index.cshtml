@@ -2,86 +2,244 @@
 @model PresentationLayer_FranLink.Pages.Supply.InternalOrders.IndexModel
 @{
     ViewData["Title"] = "Supply Coordinator - Internal Orders";
+    Layout = "_LayoutFranLink";
 }
 
-<h1>Supply Coordinator - Internal Orders</h1>
-
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
-}
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+@{
+    var pending    = Model.Orders.Count(o => o.Status == "Pending");
+    var approved   = Model.Orders.Count(o => o.Status == "Approved");
+    var producing  = Model.Orders.Count(o => o.Status == "Producing");
+    var ready      = Model.Orders.Count(o => o.Status == "Ready");
+    var delivering = Model.Orders.Count(o => o.Delivery?.DeliveryStatus == "Delivering");
 }
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Order ID</th>
-            <th>Store</th>
-            <th>Kitchen</th>
-            <th>Order Status</th>
-            <th>Delivery Status</th>
-            <th>Items</th>
-            <th>Scheduled Date</th>
-            <th>Order Date</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var order in Model.Orders)
-        {
-            <tr>
-                <td>@order.Id</td>
-                <td>@order.FranchiseStore?.Name</td>
-                <td>@(order.CentralKitchen?.Name ?? "Not assigned")</td>
-                <td>@order.Status</td>
-                <td>@(order.Delivery?.DeliveryStatus ?? "N/A")</td>
-                <td>@(order.Items?.Count ?? 0)</td>
-                <td>@(order.Delivery?.ScheduledDate?.ToShortDateString() ?? "-")</td>
-                <td>@order.OrderDate.ToLocalTime()</td>
-                <td>
-                    @if (order.Status == "Pending")
+<div class="max-w-[1280px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-6">
+
+    <!-- Header -->
+    <section class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2">
+                <span class="material-symbols-outlined text-3xl text-[#137fec]">local_shipping</span>
+                Supply coordination queue
+            </h1>
+            <p class="text-slate-500 text-sm md:text-base mt-1 max-w-2xl">
+                Tổng hợp đơn từ cửa hàng, kiểm tra tồn kho bếp trung tâm, điều phối sản xuất và lập lịch giao hàng.
+            </p>
+        </div>
+    </section>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <!-- Summary cards -->
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-5">
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Pending</p>
+            <p class="text-3xl font-bold text-slate-900">@pending</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-5">
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Approved</p>
+            <p class="text-3xl font-bold text-sky-600">@approved</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-5">
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Producing</p>
+            <p class="text-3xl font-bold text-sky-700">@producing</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-5">
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Ready</p>
+            <p class="text-3xl font-bold text-emerald-600">@ready</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-5">
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Delivering</p>
+            <p class="text-3xl font-bold text-sky-700">@delivering</p>
+        </div>
+    </section>
+
+    <!-- Orders table -->
+    <section class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+        <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-lg text-[#137fec]">receipt_long</span>
+                <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">Internal orders</h2>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm border-collapse">
+                <thead class="bg-slate-50 text-xs text-slate-500 uppercase tracking-wide">
+                    <tr>
+                        <th class="px-5 py-2.5">Order</th>
+                        <th class="px-5 py-2.5">Store</th>
+                        <th class="px-5 py-2.5">Kitchen</th>
+                        <th class="px-5 py-2.5 text-center">Order status</th>
+                        <th class="px-5 py-2.5 text-center">Delivery</th>
+                        <th class="px-5 py-2.5 text-center">Items</th>
+                        <th class="px-5 py-2.5">Scheduled</th>
+                        <th class="px-5 py-2.5">Order date</th>
+                        <th class="px-5 py-2.5 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    @foreach (var order in Model.Orders)
                     {
                         var hasStock = Model.HasSufficientInventory.ContainsKey(order.Id)
                             ? Model.HasSufficientInventory[order.Id]
                             : false;
 
-                        if (hasStock)
+                        string orderStatusBg, orderStatusText;
+                        switch (order.Status)
                         {
-                            <span class="badge bg-success me-2">Sufficient stock</span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-danger me-2">Insufficient stock</span>
+                            case "Pending":
+                                orderStatusBg = "bg-amber-100 text-amber-700"; orderStatusText = "Pending"; break;
+                            case "Approved":
+                                orderStatusBg = "bg-sky-100 text-sky-700"; orderStatusText = "Approved"; break;
+                            case "Producing":
+                                orderStatusBg = "bg-sky-100 text-sky-700"; orderStatusText = "Producing"; break;
+                            case "Ready":
+                                orderStatusBg = "bg-emerald-100 text-emerald-700"; orderStatusText = "Ready"; break;
+                            case "Completed":
+                                orderStatusBg = "bg-emerald-100 text-emerald-700"; orderStatusText = "Completed"; break;
+                            case "Cancelled":
+                                orderStatusBg = "bg-slate-100 text-slate-500"; orderStatusText = "Cancelled"; break;
+                            default:
+                                orderStatusBg = "bg-slate-100 text-slate-600"; orderStatusText = order.Status ?? "Unknown"; break;
                         }
 
-                        <a asp-page="./Details" asp-route-id="@order.Id" class="btn btn-sm btn-primary me-1">Review</a>
+                        var deliveryStatus = order.Delivery?.DeliveryStatus ?? "N/A";
+                        string deliveryBg = deliveryStatus switch
+                        {
+                            "NotScheduled" => "bg-slate-100 text-slate-600",
+                            "Preparing"    => "bg-amber-100 text-amber-700",
+                            "Delivering"   => "bg-sky-100 text-sky-700",
+                            "Delivered"    => "bg-emerald-100 text-emerald-700",
+                            _              => "bg-slate-100 text-slate-600"
+                        };
 
-                        <form method="post" asp-page-handler="Cancel" asp-route-id="@order.Id" class="d-inline">
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Cancel</button>
-                        </form>
+                        bool isOverdue =
+                            order.Delivery?.ScheduledDate.HasValue == true
+                            && order.Delivery.ScheduledDate.Value.Date < DateTime.UtcNow.Date
+                            && !string.Equals(deliveryStatus, "Delivered", StringComparison.OrdinalIgnoreCase);
+
+                        <tr class="hover:bg-slate-50/70 transition-colors">
+                            <td class="px-5 py-3">
+                                <div class="flex flex-col">
+                                    <span class="font-semibold text-slate-900">#@order.Id</span>
+                                    <span class="text-xs text-slate-400">@order.OrderDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</span>
+                                </div>
+                            </td>
+                            <td class="px-5 py-3 text-sm text-slate-800">@order.FranchiseStore?.Name</td>
+                            <td class="px-5 py-3 text-sm text-slate-800">@((order.CentralKitchen?.Name) ?? "Not assigned")</td>
+                            <td class="px-5 py-3 text-center">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold @orderStatusBg">
+                                    @orderStatusText
+                                </span>
+                            </td>
+                            <td class="px-5 py-3 text-center">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold @deliveryBg">
+                                    @deliveryStatus
+                                </span>
+                            </td>
+                            <td class="px-5 py-3 text-center text-slate-700">@(order.Items?.Count ?? 0)</td>
+                            <td class="px-5 py-3 text-sm">
+                                @if (order.Delivery?.ScheduledDate.HasValue == true)
+                                {
+                                    <span class="@(isOverdue ? "text-rose-600 font-semibold" : "text-slate-700")">
+                                        @order.Delivery.ScheduledDate.Value.ToShortDateString()
+                                    </span>
+                                    @if (isOverdue)
+                                    {
+                                        <span class="ml-1 inline-flex items-center px-2 py-0.5 rounded-full bg-rose-100 text-[11px] font-bold text-rose-700">
+                                            Overdue
+                                        </span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="text-slate-400">-</span>
+                                }
+                            </td>
+                            <td class="px-5 py-3 text-sm text-slate-700">
+                                @order.OrderDate.ToLocalTime().ToString("dd/MM/yyyy")
+                            </td>
+                            <td class="px-5 py-3 text-right">
+                                <div class="inline-flex flex-wrap items-center gap-2">
+                                    @if (order.Status == "Pending")
+                                    {
+                                        <a asp-page="./Details" asp-route-id="@order.Id"
+                                           class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                                            <span class="material-symbols-outlined text-sm">visibility</span>
+                                            Review
+                                        </a>
+                                        <form method="post" asp-page-handler="Cancel" asp-route-id="@order.Id" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                Cancel
+                                            </button>
+                                        </form>
+                                    }
+                                    else if (order.Status == "Approved")
+                                    {
+                                        <form method="post" asp-page-handler="StartProduction" asp-route-id="@order.Id" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-outline-primary">
+                                                Start Production
+                                            </button>
+                                        </form>
+                                    }
+                                    else if (order.Status == "Producing")
+                                    {
+                                        <form method="post" asp-page-handler="MarkReady" asp-route-id="@order.Id" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-success">
+                                                Mark Ready
+                                            </button>
+                                        </form>
+                                    }
+                                    else if (order.Status == "Ready" && order.Delivery?.DeliveryStatus == "NotScheduled")
+                                    {
+                                        <form method="post" asp-page-handler="StartDelivery" asp-route-id="@order.Id" class="d-inline">
+                                            <input type="date" name="scheduledDate"
+                                                   class="form-control form-control-sm d-inline w-auto" required />
+                                            <button type="submit" class="btn btn-sm btn-secondary ms-1">
+                                                Schedule Delivery
+                                            </button>
+                                        </form>
+                                    }
+                                    else if (order.Delivery?.DeliveryStatus == "Delivering")
+                                    {
+                                        <form method="post" asp-page-handler="MarkDelivered" asp-route-id="@order.Id" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-success me-1">
+                                                Mark Delivered
+                                            </button>
+                                        </form>
+                                        @if (isOverdue)
+                                        {
+                                            <form method="post" asp-page-handler="StartDelivery" asp-route-id="@order.Id" class="d-inline">
+                                                <input type="date" name="scheduledDate"
+                                                       class="form-control form-control-sm d-inline w-auto" required />
+                                                <button type="submit" class="btn btn-sm btn-outline-warning ms-1">
+                                                    Reschedule
+                                                </button>
+                                            </form>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">No actions</span>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
                     }
-                    else if (order.Status == "Ready")
-                    {
-                        if (order.Delivery?.DeliveryStatus == "NotScheduled")
-                        {
-                            <!-- Supply chỉ lập lịch (NotScheduled -> Preparing) -->
-                            <form method="post" asp-page-handler="StartDelivery" asp-route-id="@order.Id" class="d-inline">
-                                <input type="date" name="scheduledDate" class="form-control form-control-sm d-inline w-auto" required />
-                                <button type="submit" class="btn btn-sm btn-secondary ms-1">Schedule Delivery</button>
-                            </form>
-                        }
-                        else
-                        {
-                            <!-- Các bước vận chuyển tiếp theo do bên giao hàng confirm; Supply chỉ theo dõi trạng thái -->
-                            <span class="text-muted">In delivery pipeline</span>
-                        }
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>

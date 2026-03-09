@@ -2,67 +2,106 @@
 @model PresentationLayer_FranLink.Pages.CentralKitchenStaff.ProductionPlanning.IndexModel
 @{
     ViewData["Title"] = "Production Planning - Aggregated Demand";
+    Layout = "_LayoutFranLink";
 }
 
-<div class="container-fluid">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-page="/CentralKitchenStaff/Index">Staff Dashboard</a></li>
-            <li class="breadcrumb-item active">Production Planning</li>
-        </ol>
-    </nav>
+<div class="max-w-[1280px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-6">
 
-    <h2><i class="bi bi-graph-up"></i> Production Planning - Aggregated Demand</h2>
-    <p class="text-muted">Tổng hợp nhu cầu từ các đơn hàng Pending, Approved, Producing để lập kế hoạch sản xuất.</p>
-
-    <form method="get" class="mb-4">
-        <select asp-for="CentralKitchenId" asp-items="Model.CentralKitchens" class="form-select" style="width: auto;" onchange="this.form.submit()"></select>
-    </form>
-
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <span>Demand by Product</span>
-            <a asp-page="/Manager/Production/Start" class="btn btn-sm btn-success">Start Production</a>
+    <!-- Header -->
+    <section class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2">
+                <span class="material-symbols-outlined text-3xl text-[#137fec]">query_stats</span>
+                Production planning
+            </h1>
+            <p class="text-slate-500 text-sm md:text-base mt-1 max-w-2xl">
+                Tổng hợp nhu cầu từ các đơn hàng Pending, Approved, Producing để lập kế hoạch sản xuất cho bếp trung tâm.
+            </p>
         </div>
-        <div class="card-body p-0">
+        <div class="flex items-center gap-3">
+            <a asp-page="/Manager/Production/Start"
+               class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#137fec] text-white text-sm font-bold shadow-md hover:bg-[#137fec]/90">
+                <span class="material-symbols-outlined text-base">play_arrow</span>
+                Start production run
+            </a>
+        </div>
+    </section>
+
+    <!-- Filter -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 md:p-5 shadow-sm">
+        <form method="get" class="flex flex-wrap items-end gap-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Central Kitchen</label>
+                <select asp-for="CentralKitchenId"
+                        asp-items="Model.CentralKitchens"
+                        class="w-64 max-w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent"
+                        onchange="this.form.submit()">
+                </select>
+            </div>
+        </form>
+    </section>
+
+    <!-- Demand table -->
+    <section class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+        <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-lg text-[#137fec]">stacked_line_chart</span>
+                <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">Demand by product</h2>
+            </div>
+        </div>
+        <div class="overflow-x-auto">
             @if (Model.Demand.Any())
             {
-                <table class="table table-hover mb-0">
-                    <thead class="table-light">
+                <table class="w-full text-left text-sm border-collapse">
+                    <thead class="bg-slate-50 text-xs text-slate-500 uppercase tracking-wide">
                         <tr>
-                            <th>Product</th>
-                            <th>Category</th>
-                            <th class="text-center">Orders</th>
-                            <th class="text-center">Demanded</th>
-                            <th class="text-center">Available</th>
-                            <th class="text-center">Shortage</th>
-                            <th></th>
+                            <th class="px-5 py-2.5">Product</th>
+                            <th class="px-5 py-2.5">Category</th>
+                            <th class="px-5 py-2.5 text-center">Orders</th>
+                            <th class="px-5 py-2.5 text-center">Demanded</th>
+                            <th class="px-5 py-2.5 text-center">Available</th>
+                            <th class="px-5 py-2.5 text-center">Shortage</th>
+                            <th class="px-5 py-2.5 text-right"></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="divide-y divide-slate-100">
                         @foreach (var item in Model.Demand)
                         {
-                            var rowClass = item.ShortageQuantity > 0 ? "table-danger" : "";
-                            <tr class="@rowClass">
-                                <td><strong>@item.ProductName</strong></td>
-                                <td><span class="badge bg-secondary">@(item.Category ?? "-")</span></td>
-                                <td class="text-center">@item.OrderCount</td>
-                                <td class="text-center">@item.TotalQuantityDemanded</td>
-                                <td class="text-center">@item.AvailableInInventory</td>
-                                <td class="text-center">
-                                    @if (item.ShortageQuantity > 0)
+                            var shortage = item.ShortageQuantity > 0;
+                            <tr class="hover:bg-slate-50/70 transition-colors @(shortage ? "bg-rose-50/60" : "")">
+                                <td class="px-5 py-3 text-slate-900 font-semibold">@item.ProductName</td>
+                                <td class="px-5 py-3">
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-slate-100 text-[11px] text-slate-700 font-semibold">
+                                        @(item.Category ?? "-")
+                                    </span>
+                                </td>
+                                <td class="px-5 py-3 text-center text-slate-700">@item.OrderCount</td>
+                                <td class="px-5 py-3 text-center text-slate-700">@item.TotalQuantityDemanded</td>
+                                <td class="px-5 py-3 text-center text-slate-700">@item.AvailableInInventory</td>
+                                <td class="px-5 py-3 text-center">
+                                    @if (shortage)
                                     {
-                                        <span class="badge bg-danger">@item.ShortageQuantity</span>
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-rose-100 text-[11px] font-bold text-rose-700">
+                                            <span class="material-symbols-outlined text-sm">error</span>
+                                            @item.ShortageQuantity
+                                        </span>
                                     }
                                     else
                                     {
-                                        <span class="text-success">OK</span>
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 text-[11px] font-bold text-emerald-700">
+                                            <span class="material-symbols-outlined text-sm">check_circle</span>
+                                            OK
+                                        </span>
                                     }
                                 </td>
-                                <td>
-                                    @if (item.ShortageQuantity > 0)
+                                <td class="px-5 py-3 text-right">
+                                    @if (shortage)
                                     {
-                                        <a asp-page="/Manager/Production/Start" class="btn btn-sm btn-outline-success">Produce</a>
+                                        <a asp-page="/Manager/Production/Start"
+                                           class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-emerald-200 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100">
+                                            <span class="material-symbols-outlined text-sm">add_chart</span>
+                                            Produce
+                                        </a>
                                     }
                                 </td>
                             </tr>
@@ -72,11 +111,11 @@
             }
             else
             {
-                <div class="text-center py-5 text-muted">
-                    <i class="bi bi-inbox" style="font-size: 3rem;"></i>
-                    <p>No pending/approved orders. No demand to plan for.</p>
+                <div class="py-12 flex flex-col items-center gap-3 text-slate-400">
+                    <span class="material-symbols-outlined text-5xl">inbox</span>
+                    <p class="text-sm font-medium">No pending/approved orders. No demand to plan for.</p>
                 </div>
             }
         </div>
-    </div>
+    </section>
 </div>

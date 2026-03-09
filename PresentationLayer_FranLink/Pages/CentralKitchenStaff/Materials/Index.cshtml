@@ -2,107 +2,156 @@
 @model PresentationLayer_FranLink.Pages.CentralKitchenStaff.Materials.IndexModel
 @{
     ViewData["Title"] = "Materials & Expiry";
+    Layout = "_LayoutFranLink";
 }
 
-<div class="container-fluid">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-page="/CentralKitchenStaff/Index">Staff Dashboard</a></li>
-            <li class="breadcrumb-item active">Materials</li>
-        </ol>
-    </nav>
+<div class="max-w-[1280px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-6">
 
-    <h2><i class="bi bi-box-seam"></i> Raw Materials - Expiry & Batch</h2>
-    <p class="text-muted">Quản lý nguyên liệu đầu vào, hạn sử dụng và lô sản xuất.</p>
-
-    <form method="get" class="row g-3 mb-4">
-        <div class="col-auto">
-            <select asp-for="CentralKitchenId" asp-items="Model.CentralKitchens" class="form-select" onchange="this.form.submit()"></select>
+    <!-- Header -->
+    <section class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2">
+                <span class="material-symbols-outlined text-3xl text-[#137fec]">inventory_2</span>
+                Raw materials & expiry
+            </h1>
+            <p class="text-slate-500 text-sm md:text-base mt-1 max-w-2xl">
+                Quản lý nguyên liệu đầu vào, hạn sử dụng, lô sản xuất và các cảnh báo tồn kho rủi ro.
+            </p>
         </div>
-        <div class="col-auto">
-            <div class="form-check">
-                <input asp-for="ExpiringOnly" type="checkbox" class="form-check-input" value="true" onchange="this.form.submit()" />
-                <label asp-for="ExpiringOnly" class="form-check-label">Expiring soon / Expired only</label>
+        <div class="flex items-center gap-3">
+            <a asp-page="/Manager/Inventory/Alerts" asp-route-type="expiring"
+               class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 text-white text-sm font-bold shadow-md hover:bg-amber-400">
+                <span class="material-symbols-outlined text-base">warning</span>
+                View expiry alerts
+            </a>
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="bg-white border border-slate-200 rounded-xl p-4 md:p-5 shadow-sm">
+        <form method="get" class="flex flex-wrap items-center gap-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Central Kitchen</label>
+                <select asp-for="CentralKitchenId"
+                        asp-items="Model.CentralKitchens"
+                        class="w-64 max-w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent"
+                        onchange="this.form.submit()">
+                </select>
             </div>
-        </div>
-    </form>
+            <div class="inline-flex items-center gap-2">
+                <input asp-for="ExpiringOnly"
+                       type="checkbox"
+                       value="true"
+                       onchange="this.form.submit()"
+                       class="h-4 w-4 rounded border-slate-300 text-[#137fec] focus:ring-[#137fec]" />
+                <label asp-for="ExpiringOnly" class="text-xs md:text-sm text-slate-700">
+                    Expiring soon / expired only
+                </label>
+            </div>
+        </form>
+    </section>
 
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <span>@Model.Materials.Count material(s)</span>
-            <a asp-page="/Manager/Inventory/Alerts" asp-route-type="expiring" class="btn btn-sm btn-outline-warning">View Alerts</a>
+    <!-- Materials table -->
+    <section class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+        <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between text-sm text-slate-600">
+            <span>
+                <span class="font-semibold text-slate-900">@Model.Materials.Count</span> material(s) in this kitchen
+            </span>
         </div>
-        <div class="card-body p-0">
+
+        <div class="overflow-x-auto">
             @if (Model.Materials.Any())
             {
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Product</th>
-                                <th>Category</th>
-                                <th class="text-center">Batch #</th>
-                                <th class="text-center">Quantity</th>
-                                <th>Expiry Date</th>
-                                <th class="text-center">Days Left</th>
-                                <th>Status</th>
-                                <th>Actions</th>
+                <table class="w-full text-left text-sm border-collapse">
+                    <thead class="bg-slate-50 text-xs text-slate-500 uppercase tracking-wide">
+                        <tr>
+                            <th class="px-5 py-2.5">Product</th>
+                            <th class="px-5 py-2.5">Category</th>
+                            <th class="px-5 py-2.5 text-center">Batch #</th>
+                            <th class="px-5 py-2.5 text-center">Quantity</th>
+                            <th class="px-5 py-2.5">Expiry date</th>
+                            <th class="px-5 py-2.5 text-center">Days left</th>
+                            <th class="px-5 py-2.5">Status</th>
+                            <th class="px-5 py-2.5 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        @foreach (var m in Model.Materials)
+                        {
+                            var isExpired = m.Status == "Expired";
+                            var isExpiring = m.Status == "ExpiringSoon";
+                            var daysText = m.DaysUntilExpiry >= 9999 ? "N/A" : m.DaysUntilExpiry.ToString();
+                            if (isExpired) daysText = "Expired";
+
+                            <tr class="hover:bg-slate-50/70 transition-colors @(isExpired ? "bg-rose-50/60" : (isExpiring ? "bg-amber-50/60" : ""))">
+                                <td class="px-5 py-3">
+                                    <div class="flex flex-col">
+                                        <span class="text-slate-900 font-semibold">@m.ProductName</span>
+                                    </div>
+                                </td>
+                                <td class="px-5 py-3">
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-slate-100 text-[11px] text-slate-700 font-semibold">
+                                        @(m.Category ?? "-")
+                                    </span>
+                                </td>
+                                <td class="px-5 py-3 text-center text-slate-700">@(m.BatchNumber ?? "-")</td>
+                                <td class="px-5 py-3 text-center text-slate-700">@m.Quantity</td>
+                                <td class="px-5 py-3 text-slate-700">
+                                    @if (m.ExpiryDate.HasValue)
+                                    {
+                                        @m.ExpiryDate.Value.ToString("dd/MM/yyyy")
+                                    }
+                                    else
+                                    {
+                                        <span class="text-slate-400">-</span>
+                                    }
+                                </td>
+                                <td class="px-5 py-3 text-center text-slate-700">@daysText</td>
+                                <td class="px-5 py-3">
+                                    @{
+                                        var statusClasses = "inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold";
+                                        if (isExpired) statusClasses += " bg-rose-100 text-rose-700";
+                                        else if (isExpiring) statusClasses += " bg-amber-100 text-amber-700";
+                                        else statusClasses += " bg-emerald-100 text-emerald-700";
+                                    }
+                                    <span class="@statusClasses">
+                                        @m.Status
+                                    </span>
+                                </td>
+                                <td class="px-5 py-3 text-right">
+                                    <div class="inline-flex items-center gap-2">
+                                        @if (isExpired || isExpiring)
+                                        {
+                                            <a asp-page="/Manager/Inventory/Disposals"
+                                               asp-route-action="create"
+                                               asp-route-inventoryId="@m.InventoryId"
+                                               class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-rose-200 bg-rose-50 text-xs font-semibold text-rose-700 hover:bg-rose-100">
+                                                <span class="material-symbols-outlined text-sm">delete</span>
+                                                Disposal
+                                            </a>
+                                        }
+                                        <a asp-page="/Manager/Inventory/Transfers"
+                                           asp-route-action="create"
+                                           asp-route-fromKitchenId="@Model.CentralKitchenId"
+                                           asp-route-productId="@m.ProductId"
+                                           class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                                            <span class="material-symbols-outlined text-sm">swap_horiz</span>
+                                            Transfer
+                                        </a>
+                                    </div>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var m in Model.Materials)
-                            {
-                                var rowClass = m.Status switch
-                                {
-                                    "Expired" => "table-danger",
-                                    "ExpiringSoon" => "table-warning",
-                                    _ => ""
-                                };
-                                var statusBadge = m.Status switch
-                                {
-                                    "Expired" => "bg-danger",
-                                    "ExpiringSoon" => "bg-warning text-dark",
-                                    _ => "bg-success"
-                                };
-                                var daysText = m.DaysUntilExpiry >= 9999 ? "N/A" : m.DaysUntilExpiry.ToString();
-                                if (m.Status == "Expired") daysText = "Expired";
-                                <tr class="@rowClass">
-                                    <td><strong>@m.ProductName</strong></td>
-                                    <td><span class="badge bg-secondary">@(m.Category ?? "-")</span></td>
-                                    <td class="text-center">@(m.BatchNumber ?? "-")</td>
-                                    <td class="text-center">@m.Quantity</td>
-                                    <td>
-                                        @if (m.ExpiryDate.HasValue)
-                                        {
-                                            @m.ExpiryDate.Value.ToString("dd/MM/yyyy")
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">-</span>
-                                        }
-                                    </td>
-                                    <td class="text-center">@daysText</td>
-                                    <td><span class="badge @statusBadge">@m.Status</span></td>
-                                    <td>
-                                        @if (m.Status == "Expired" || m.Status == "ExpiringSoon")
-                                        {
-                                            <a asp-page="/Manager/Inventory/Disposals" asp-route-action="create" asp-route-inventoryId="@m.InventoryId" class="btn btn-sm btn-outline-danger">Request Disposal</a>
-                                        }
-                                        <a asp-page="/Manager/Inventory/Transfers" asp-route-action="create" asp-route-fromKitchenId="@Model.CentralKitchenId" asp-route-productId="@m.ProductId" class="btn btn-sm btn-outline-primary ms-1">Transfer</a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                        }
+                    </tbody>
+                </table>
             }
             else
             {
-                <div class="text-center py-5 text-muted">
-                    <i class="bi bi-inbox" style="font-size: 3rem;"></i>
-                    <p>No materials found.</p>
+                <div class="py-12 flex flex-col items-center gap-3 text-slate-400">
+                    <span class="material-symbols-outlined text-5xl">inbox</span>
+                    <p class="text-sm font-medium">No materials found.</p>
                 </div>
             }
         </div>
-    </div>
+    </section>
 </div>
