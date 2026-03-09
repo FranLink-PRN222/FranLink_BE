@@ -2,70 +2,126 @@
 @model PresentationLayer_FranLink.Pages.Admin.Users.CreateModel
 @{
     ViewData["Title"] = "Thêm Người dùng";
+    Layout = "_LayoutFranLink";
 }
 
-<h1><i class="bi bi-person-plus"></i> Thêm Người dùng mới</h1>
-<hr />
+<div class="max-w-[960px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-6">
 
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-    <div class="alert alert-danger">@Model.ErrorMessage</div>
-}
+    <!-- Header -->
+    <section class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2">
+                <span class="material-symbols-outlined text-3xl text-[#137fec]">person_add</span>
+                Thêm người dùng
+            </h1>
+            <p class="text-slate-500 text-sm md:text-base mt-1">
+                Tạo tài khoản mới, gán vai trò và (tuỳ chọn) gán cửa hàng/bếp.
+            </p>
+        </div>
+        <div class="flex items-center gap-2">
+            <a asp-page="Index"
+               class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-slate-200 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                <span class="material-symbols-outlined text-base">arrow_back</span>
+                Quay lại
+            </a>
+        </div>
+    </section>
 
-<div class="row">
-    <div class="col-md-6">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="rounded-xl border border-rose-200 bg-rose-50 text-rose-800 px-4 py-3 text-sm">
+            @Model.ErrorMessage
+        </div>
+    }
 
-            <div class="mb-3">
-                <label asp-for="Input.Username" class="form-label">Tên đăng nhập <span class="text-danger">*</span></label>
-                <input asp-for="Input.Username" class="form-control" />
-                <span asp-validation-for="Input.Username" class="text-danger"></span>
+    <!-- Form card -->
+    <section class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+        <div class="px-5 py-4 border-b border-slate-100 flex items-center gap-2">
+            <span class="material-symbols-outlined text-lg text-[#137fec]">badge</span>
+            <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">Thông tin tài khoản</h2>
+        </div>
+
+        <form method="post" class="p-5">
+            <div asp-validation-summary="ModelOnly" class="text-rose-600 text-sm mb-4"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label asp-for="Input.Username" class="block text-xs font-semibold text-slate-600 uppercase mb-1">
+                        Tên đăng nhập <span class="text-rose-600">*</span>
+                    </label>
+                    <input asp-for="Input.Username"
+                           class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent" />
+                    <span asp-validation-for="Input.Username" class="text-rose-600 text-xs"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Input.Password" class="block text-xs font-semibold text-slate-600 uppercase mb-1">
+                        Mật khẩu <span class="text-rose-600">*</span>
+                    </label>
+                    <input asp-for="Input.Password" type="password"
+                           class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent" />
+                    <span asp-validation-for="Input.Password" class="text-rose-600 text-xs"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Input.FullName" class="block text-xs font-semibold text-slate-600 uppercase mb-1">Họ tên</label>
+                    <input asp-for="Input.FullName"
+                           class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent" />
+                    <span asp-validation-for="Input.FullName" class="text-rose-600 text-xs"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Input.Email" class="block text-xs font-semibold text-slate-600 uppercase mb-1">
+                        Email <span class="text-rose-600">*</span>
+                    </label>
+                    <input asp-for="Input.Email" type="email"
+                           class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent" />
+                    <span asp-validation-for="Input.Email" class="text-rose-600 text-xs"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Input.Phone" class="block text-xs font-semibold text-slate-600 uppercase mb-1">Số điện thoại</label>
+                    <input asp-for="Input.Phone"
+                           class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent" />
+                    <span asp-validation-for="Input.Phone" class="text-rose-600 text-xs"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Input.RoleId" class="block text-xs font-semibold text-slate-600 uppercase mb-1">
+                        Vai trò <span class="text-rose-600">*</span>
+                    </label>
+                    <select asp-for="Input.RoleId" asp-items="Model.RoleOptions"
+                            class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent">
+                        <option value="">— Chọn vai trò —</option>
+                    </select>
+                    <span asp-validation-for="Input.RoleId" class="text-rose-600 text-xs"></span>
+                </div>
+
+                <div class="md:col-span-2">
+                    <label asp-for="Input.FranchiseStoreId" class="block text-xs font-semibold text-slate-600 uppercase mb-1">
+                        Thuộc Cửa hàng/Bếp
+                    </label>
+                    <select asp-for="Input.FranchiseStoreId" asp-items="Model.StoreOptions"
+                            class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent">
+                    </select>
+                    <span asp-validation-for="Input.FranchiseStoreId" class="text-rose-600 text-xs"></span>
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label asp-for="Input.Password" class="form-label">Mật khẩu <span class="text-danger">*</span></label>
-                <input asp-for="Input.Password" type="password" class="form-control" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Input.FullName" class="form-label">Họ tên</label>
-                <input asp-for="Input.FullName" class="form-control" />
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Input.Email" class="form-label">Email <span class="text-danger">*</span></label>
-                <input asp-for="Input.Email" type="email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Input.Phone" class="form-label">Số điện thoại</label>
-                <input asp-for="Input.Phone" class="form-control" />
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Input.RoleId" class="form-label">Vai trò <span class="text-danger">*</span></label>
-                <select asp-for="Input.RoleId" asp-items="Model.RoleOptions" class="form-select">
-                    <option value="">— Chọn vai trò —</option>
-                </select>
-                <span asp-validation-for="Input.RoleId" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Input.FranchiseStoreId" class="form-label">Thuộc Cửa hàng/Bếp</label>
-                <select asp-for="Input.FranchiseStoreId" asp-items="Model.StoreOptions" class="form-select"></select>
-            </div>
-
-            <div class="mt-4">
-                <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-check-circle"></i> Tạo người dùng
+            <div class="mt-6 flex flex-wrap items-center gap-3">
+                <button type="submit"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#137fec] text-white text-sm font-bold shadow-md hover:bg-[#137fec]/90 transition-colors">
+                    <span class="material-symbols-outlined text-base">check_circle</span>
+                    Tạo người dùng
                 </button>
-                <a asp-page="Index" class="btn btn-secondary ms-2">Hủy</a>
+                <a asp-page="Index"
+                   class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-700 text-sm font-bold hover:bg-slate-50 transition-colors">
+                    <span class="material-symbols-outlined text-base">close</span>
+                    Hủy
+                </a>
             </div>
         </form>
-    </div>
+    </section>
 </div>
 
 @section Scripts {

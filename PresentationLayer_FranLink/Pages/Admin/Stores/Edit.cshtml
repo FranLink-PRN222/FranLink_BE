@@ -2,51 +2,94 @@
 @model PresentationLayer_FranLink.Pages.Admin.Stores.EditModel
 @{
     ViewData["Title"] = "Sửa Cửa hàng / Bếp";
+    Layout = "_LayoutFranLink";
 }
 
-<h1><i class="bi bi-pencil-square"></i> Sửa: @Model.Input.Name</h1>
-<hr />
+<div class="max-w-[960px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-6">
 
-<div class="row">
-    <div class="col-md-6">
-        <form method="post">
+    <!-- Header -->
+    <section class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2">
+                <span class="material-symbols-outlined text-3xl text-[#137fec]">edit_square</span>
+                Sửa địa điểm
+            </h1>
+            <p class="text-slate-500 text-sm md:text-base mt-1">
+                Đang chỉnh: <span class="font-semibold text-slate-800">@Model.Input.Name</span>
+            </p>
+        </div>
+        <div class="flex items-center gap-2">
+            <a asp-page="Index"
+               class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-slate-200 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                <span class="material-symbols-outlined text-base">arrow_back</span>
+                Quay lại
+            </a>
+        </div>
+    </section>
+
+    <!-- Form card -->
+    <section class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+        <div class="px-5 py-4 border-b border-slate-100 flex items-center gap-2">
+            <span class="material-symbols-outlined text-lg text-[#137fec]">location_on</span>
+            <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">Thông tin địa điểm</h2>
+        </div>
+
+        <form method="post" class="p-5">
             <input type="hidden" asp-for="Input.Id" />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-rose-600 text-sm mb-4"></div>
 
-            <div class="mb-3">
-                <label asp-for="Input.Name" class="form-label">Tên <span class="text-danger">*</span></label>
-                <input asp-for="Input.Name" class="form-control" />
-                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="md:col-span-2">
+                    <label asp-for="Input.Name" class="block text-xs font-semibold text-slate-600 uppercase mb-1">
+                        Tên <span class="text-rose-600">*</span>
+                    </label>
+                    <input asp-for="Input.Name"
+                           class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent" />
+                    <span asp-validation-for="Input.Name" class="text-rose-600 text-xs"></span>
+                </div>
+
+                <div class="md:col-span-2">
+                    <label asp-for="Input.Address" class="block text-xs font-semibold text-slate-600 uppercase mb-1">Địa chỉ</label>
+                    <input asp-for="Input.Address"
+                           class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent" />
+                    <span asp-validation-for="Input.Address" class="text-rose-600 text-xs"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Input.Phone" class="block text-xs font-semibold text-slate-600 uppercase mb-1">Số điện thoại</label>
+                    <input asp-for="Input.Phone"
+                           class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent" />
+                    <span asp-validation-for="Input.Phone" class="text-rose-600 text-xs"></span>
+                </div>
+
+                <div class="flex flex-col gap-3 justify-end">
+                    <label class="inline-flex items-center gap-2 text-sm text-slate-700">
+                        <input asp-for="Input.IsCentralKitchen" type="checkbox"
+                               class="h-4 w-4 rounded border-slate-300 text-[#137fec] focus:ring-[#137fec]" />
+                        <span class="font-semibold">Là bếp trung tâm</span>
+                    </label>
+                    <label class="inline-flex items-center gap-2 text-sm text-slate-700">
+                        <input asp-for="Input.IsActive" type="checkbox"
+                               class="h-4 w-4 rounded border-slate-300 text-[#137fec] focus:ring-[#137fec]" />
+                        <span class="font-semibold">Hoạt động</span>
+                    </label>
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label asp-for="Input.Address" class="form-label">Địa chỉ</label>
-                <input asp-for="Input.Address" class="form-control" />
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Input.Phone" class="form-label">Số điện thoại</label>
-                <input asp-for="Input.Phone" class="form-control" />
-            </div>
-
-            <div class="mb-3 form-check">
-                <input asp-for="Input.IsCentralKitchen" class="form-check-input" />
-                <label asp-for="Input.IsCentralKitchen" class="form-check-label">Là Bếp trung tâm</label>
-            </div>
-
-            <div class="mb-3 form-check">
-                <input asp-for="Input.IsActive" class="form-check-input" />
-                <label asp-for="Input.IsActive" class="form-check-label">Hoạt động</label>
-            </div>
-
-            <div class="mt-4">
-                <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-check-circle"></i> Lưu thay đổi
+            <div class="mt-6 flex flex-wrap items-center gap-3">
+                <button type="submit"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#137fec] text-white text-sm font-bold shadow-md hover:bg-[#137fec]/90 transition-colors">
+                    <span class="material-symbols-outlined text-base">save</span>
+                    Lưu thay đổi
                 </button>
-                <a asp-page="Index" class="btn btn-secondary ms-2">Quay lại</a>
+                <a asp-page="Index"
+                   class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-700 text-sm font-bold hover:bg-slate-50 transition-colors">
+                    <span class="material-symbols-outlined text-base">close</span>
+                    Hủy
+                </a>
             </div>
         </form>
-    </div>
+    </section>
 </div>
 
 @section Scripts {
