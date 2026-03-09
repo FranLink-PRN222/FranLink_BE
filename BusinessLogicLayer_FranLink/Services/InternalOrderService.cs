@@ -25,11 +25,18 @@ namespace BusinessLogicLayer_FranLink.Services
                 throw new Exception("Franchise Store not found.");
             }
 
-            // 2. Create Order with initial Supply Coordinator flow state
+            // 2. Validate Central Kitchen (store chọn bếp ngay khi tạo đơn)
+            var kitchen = await _context.CentralKitchens.FindAsync(dto.CentralKitchenId);
+            if (kitchen == null)
+            {
+                throw new Exception("Central Kitchen not found.");
+            }
+
+            // 3. Create Order with initial Supply Coordinator flow state
             var order = new InternalOrder
             {
                 FranchiseStoreId = dto.FranchiseStoreId,
-                CentralKitchenId = null, // Store does not choose kitchen; Supply will assign later
+                CentralKitchenId = dto.CentralKitchenId,
                 UserId = dto.UserId,
                 OrderDate = DateTime.UtcNow,
                 Status = "Pending",
@@ -145,11 +152,12 @@ namespace BusinessLogicLayer_FranLink.Services
                 .Include(o => o.CentralKitchen)
                 .Include(o => o.Delivery)
                 .Include(o => o.Items)
+                .ThenInclude(i => i.Product)
                 .OrderByDescending(o => o.OrderDate)
                 .ToListAsync();
         }
 
-        public async Task ApproveOrderAsync(int orderId, int centralKitchenId)
+        public async Task ApproveOrderForSupplyAsync(int orderId)
         {
             var order = await _context.InternalOrders
                 .Include(o => o.Delivery)
@@ -172,15 +180,16 @@ namespace BusinessLogicLayer_FranLink.Services
                 throw new Exception("Only pending orders can be approved.");
             }
 
+            if (!order.CentralKitchenId.HasValue)
+            {
+                throw new Exception("Order does not have an assigned central kitchen.");
+            }
+
+            var centralKitchenId = order.CentralKitchenId.Value;
             var kitchen = await _context.CentralKitchens.FindAsync(centralKitchenId);
             if (kitchen == null)
             {
                 throw new Exception("Central Kitchen not found.");
-            }
-
-            if (order.CentralKitchenId.HasValue && order.CentralKitchenId.Value != centralKitchenId)
-            {
-                throw new Exception("Central kitchen cannot be changed after approval.");
             }
 
             // Kiểm tra tồn kho bếp trung tâm trước khi duyệt
@@ -198,7 +207,6 @@ namespace BusinessLogicLayer_FranLink.Services
                 }
             }
 
-            order.CentralKitchenId = centralKitchenId;
             order.Status = "Approved";
 
             await _context.SaveChangesAsync();

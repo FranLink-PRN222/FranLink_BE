@@ -22,10 +22,8 @@ namespace PresentationLayer_FranLink.Pages.Supply.InternalOrders
         }
 
         public IList<InternalOrder> Orders { get; set; } = new List<InternalOrder>();
-        public SelectList CentralKitchens { get; set; }
-
-        [BindProperty]
-        public int SelectedCentralKitchenId { get; set; }
+        // Đánh dấu mỗi order có đủ tồn kho tại bếp hay không
+        public Dictionary<int, bool> HasSufficientInventory { get; set; } = new();
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -36,30 +34,37 @@ namespace PresentationLayer_FranLink.Pages.Supply.InternalOrders
             }
 
             Orders = await _orderService.GetOrdersForSupplyAsync();
-            CentralKitchens = new SelectList(_context.CentralKitchens.ToList(), "Id", "Name");
+
+            // Tính xem từng order có đủ hàng tại bếp được gán hay không (để hiển thị UI)
+            HasSufficientInventory.Clear();
+            foreach (var order in Orders)
+            {
+                var ok = true;
+
+                if (!order.CentralKitchenId.HasValue || order.Items == null || !order.Items.Any())
+                {
+                    ok = false;
+                }
+                else
+                {
+                    foreach (var item in order.Items)
+                    {
+                        var totalQty = _context.Inventories
+                            .Where(i => i.CentralKitchenId == order.CentralKitchenId && i.ProductId == item.ProductId)
+                            .Sum(i => i.Quantity);
+
+                        if (totalQty < item.Quantity)
+                        {
+                            ok = false;
+                            break;
+                        }
+                    }
+                }
+
+                HasSufficientInventory[order.Id] = ok;
+            }
 
             return Page();
-        }
-
-        public async Task<IActionResult> OnPostApproveAsync(int id, int centralKitchenId)
-        {
-            var role = HttpContext.Session.GetString("Role");
-            if (role != "SupplyCoordinator" && role != "Supply Coordinator")
-            {
-                return RedirectToPage("/Login");
-            }
-
-            try
-            {
-                await _orderService.ApproveOrderAsync(id, centralKitchenId);
-                TempData["SuccessMessage"] = "Order approved successfully.";
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = ex.Message;
-            }
-
-            return RedirectToPage();
         }
 
         public async Task<IActionResult> OnPostCancelAsync(int id)
