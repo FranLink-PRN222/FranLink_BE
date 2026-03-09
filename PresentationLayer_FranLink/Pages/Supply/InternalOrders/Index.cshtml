@@ -23,7 +23,7 @@
             <th>Kitchen</th>
             <th>Order Status</th>
             <th>Delivery Status</th>
-            <th>Total Qty</th>
+            <th>Items</th>
             <th>Scheduled Date</th>
             <th>Order Date</th>
             <th>Actions</th>
@@ -38,25 +38,28 @@
                 <td>@(order.CentralKitchen?.Name ?? "Not assigned")</td>
                 <td>@order.Status</td>
                 <td>@(order.Delivery?.DeliveryStatus ?? "N/A")</td>
-                <td>@(order.Items?.Sum(i => i.Quantity) ?? 0)</td>
+                <td>@(order.Items?.Count ?? 0)</td>
                 <td>@(order.Delivery?.ScheduledDate?.ToShortDateString() ?? "-")</td>
                 <td>@order.OrderDate.ToLocalTime()</td>
                 <td>
                     @if (order.Status == "Pending")
                     {
-                        <!-- Supply chỉ chọn bếp + duyệt / hủy -->
-                        <form method="post" asp-page-handler="Approve" asp-route-id="@order.Id" class="d-inline">
-                            <select name="centralKitchenId" class="form-select form-select-sm d-inline w-auto" required>
-                                <option value="">Select Kitchen</option>
-                                @foreach (var ck in Model.CentralKitchens)
-                                {
-                                    <option value="@ck.Value">@ck.Text</option>
-                                }
-                            </select>
-                            <button type="submit" class="btn btn-sm btn-success ms-1">Approve</button>
-                        </form>
+                        var hasStock = Model.HasSufficientInventory.ContainsKey(order.Id)
+                            ? Model.HasSufficientInventory[order.Id]
+                            : false;
 
-                        <form method="post" asp-page-handler="Cancel" asp-route-id="@order.Id" class="d-inline ms-1">
+                        if (hasStock)
+                        {
+                            <span class="badge bg-success me-2">Sufficient stock</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger me-2">Insufficient stock</span>
+                        }
+
+                        <a asp-page="./Details" asp-route-id="@order.Id" class="btn btn-sm btn-primary me-1">Review</a>
+
+                        <form method="post" asp-page-handler="Cancel" asp-route-id="@order.Id" class="d-inline">
                             <button type="submit" class="btn btn-sm btn-outline-danger">Cancel</button>
                         </form>
                     }

@@ -13,34 +13,16 @@ namespace BusinessLogicLayer_FranLink.Services
 
         Task<List<InternalOrder>> GetOrdersByCentralKitchenIdAsync(int centralKitchenId, string? statusFilter = null);
 
-
-        /// <summary>
-        /// Central Kitchen Staff: Approve pending order.
-        /// </summary>
+        // Central Kitchen staff flow (giữ nguyên cho trang CentralKitchenStaff đang dùng)
         Task ApproveOrderAsync(int orderId);
-
-        /// <summary>
-        /// Central Kitchen Staff: Reject pending order.
-        /// </summary>
         Task RejectOrderAsync(int orderId, string? reason = null);
-
-        /// <summary>
-        /// Central Kitchen Staff: Start preparing/fulfilling order (Status -> Approved/Producing).
-        /// </summary>
         Task StartPreparingOrderAsync(int orderId);
-
-        /// <summary>
-        /// Central Kitchen Staff: Mark order as out for delivery. Deducts from Central Kitchen inventory.
-        /// </summary>
         Task MarkAsDeliveringAsync(int orderId);
-
-        /// <summary>
-        /// Central Kitchen Staff: Mark delivery as completed (arrived at store).
-        /// </summary>
         Task MarkDeliveryCompletedAsync(int orderId);
+
         // Supply Coordinator flow
         Task<List<InternalOrder>> GetOrdersForSupplyAsync();
-        Task ApproveOrderAsync(int orderId, int centralKitchenId);
+        Task ApproveOrderForSupplyAsync(int orderId);
         Task CancelOrderAsync(int orderId);
         Task StartProductionAsync(int orderId);
         Task MarkProductionReadyAsync(int orderId);
