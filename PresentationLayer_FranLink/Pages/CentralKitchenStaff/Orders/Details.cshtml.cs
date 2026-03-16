@@ -80,7 +80,24 @@ namespace PresentationLayer_FranLink.Pages.CentralKitchenStaff.Orders
             try
             {
                 await _orderService.StartPreparingOrderAsync(id);
-                TempData["Message"] = "Order is now in preparation.";
+                TempData["Message"] = "Order is now in production (Producing).";
+                TempData["IsSuccess"] = true;
+            }
+            catch (System.Exception ex)
+            {
+                TempData["Message"] = ex.Message;
+                TempData["IsSuccess"] = false;
+            }
+            return RedirectToPage("Details", new { id });
+        }
+
+        public async Task<IActionResult> OnPostMarkReadyAsync(int id)
+        {
+            try
+            {
+                // In service: Producing -> Ready
+                await _orderService.MarkProductionReadyAsync(id);
+                TempData["Message"] = "Order marked as Ready for pickup/delivery.";
                 TempData["IsSuccess"] = true;
             }
             catch (System.Exception ex)
@@ -95,8 +112,9 @@ namespace PresentationLayer_FranLink.Pages.CentralKitchenStaff.Orders
         {
             try
             {
-                await _orderService.MarkAsDeliveringAsync(id);
-                TempData["Message"] = "Order marked as delivering. Inventory deducted.";
+                // In service: Ready -> DeliveryStatus=InTransit
+                await _orderService.StartOrAdvanceDeliveryAsync(id);
+                TempData["Message"] = "Order has been dispatched (In Transit).";
                 TempData["IsSuccess"] = true;
             }
             catch (System.Exception ex)
@@ -111,8 +129,9 @@ namespace PresentationLayer_FranLink.Pages.CentralKitchenStaff.Orders
         {
             try
             {
-                await _orderService.MarkDeliveryCompletedAsync(id);
-                TempData["Message"] = "Delivery marked as completed.";
+                // In service: InTransit -> Delivered (Arrived at store)
+                await _orderService.MarkDeliveredAsync(id);
+                TempData["Message"] = "Order marked as Delivered (Arrived at store). Waiting for store confirmation.";
                 TempData["IsSuccess"] = true;
             }
             catch (System.Exception ex)

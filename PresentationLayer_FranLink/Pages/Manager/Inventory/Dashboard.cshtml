@@ -5,142 +5,215 @@
     Layout = "_LayoutFranLink";
 }
 
-<div class="container-fluid">
-    <h1 class="mb-4">
-        <i class="bi bi-speedometer2"></i> Inventory Dashboard
-    </h1>
+<div class="px-6 py-8 lg:px-20 max-w-[1440px] mx-auto w-full flex flex-col gap-8">
+    
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2">
+                <span class="material-symbols-outlined text-4xl text-[#137fec]">warehouse</span>
+                Inventory Dashboard
+            </h1>
+            <p class="text-slate-500 text-base mt-2">Manage stock levels, track alerts, and approve pending requests across the network.</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <a asp-page="/Manager/Inventory/CentralKitchen"
+               class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 text-white text-sm font-bold shadow-md hover:bg-slate-700 transition-colors">
+                <span class="material-symbols-outlined text-xl">home_work</span>
+                Central Kitchen Inventory
+            </a>
+        </div>
+    </div>
 
     <!-- Summary Cards -->
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card bg-primary text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Central Kitchen Items</h5>
-                    <h2 class="card-text">@Model.Summary.TotalCentralKitchenItems</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+                <div class="p-2.5 bg-blue-50 rounded-lg text-blue-600">
+                    <span class="material-symbols-outlined">kitchen</span>
                 </div>
             </div>
+            <p class="text-slate-500 text-sm font-semibold uppercase tracking-wider mt-2">Central Kitchen</p>
+            <p class="text-slate-900 text-3xl font-extrabold tracking-tight">@Model.Summary.TotalCentralKitchenItems <span class="text-sm font-normal text-slate-400">items</span></p>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-success text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Store Items</h5>
-                    <h2 class="card-text">@Model.Summary.TotalStoreItems</h2>
+
+        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+                <div class="p-2.5 bg-emerald-50 rounded-lg text-emerald-600">
+                    <span class="material-symbols-outlined">storefront</span>
                 </div>
             </div>
+            <p class="text-slate-500 text-sm font-semibold uppercase tracking-wider mt-2">Store Items</p>
+            <p class="text-slate-900 text-3xl font-extrabold tracking-tight">@Model.Summary.TotalStoreItems <span class="text-sm font-normal text-slate-400">items</span></p>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-info text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Total Inventory Value</h5>
-                    <h2 class="card-text">@Model.Summary.TotalInventoryValue.ToString("N0") đ</h2>
+
+        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+                <div class="p-2.5 bg-purple-50 rounded-lg text-purple-600">
+                    <span class="material-symbols-outlined">paid</span>
                 </div>
             </div>
+            <p class="text-slate-500 text-sm font-semibold uppercase tracking-wider mt-2">Total Value</p>
+            <p class="text-slate-900 text-3xl font-extrabold tracking-tight">@Model.Summary.TotalInventoryValue.ToString("N0") <span class="text-sm font-normal text-slate-400">đ</span></p>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-secondary text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Total Items</h5>
-                    <h2 class="card-text">@(Model.Summary.TotalCentralKitchenItems + Model.Summary.TotalStoreItems)</h2>
+
+        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+                <div class="p-2.5 bg-slate-100 rounded-lg text-slate-600">
+                    <span class="material-symbols-outlined">inventory_2</span>
                 </div>
             </div>
+            <p class="text-slate-500 text-sm font-semibold uppercase tracking-wider mt-2">Total Items</p>
+            <p class="text-slate-900 text-3xl font-extrabold tracking-tight">@(Model.Summary.TotalCentralKitchenItems + Model.Summary.TotalStoreItems)</p>
         </div>
     </div>
 
-    <!-- Alert Cards -->
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card border-warning">
-                <div class="card-body">
-                    <h5 class="card-title text-warning">
-                        <i class="bi bi-exclamation-triangle"></i> Low Stock
-                    </h5>
-                    <h2 class="card-text">@Model.Summary.LowStockCount</h2>
-                    <a asp-page="/Manager/Inventory/Alerts" asp-route-type="lowstock" class="btn btn-sm btn-outline-warning">View Details</a>
+    <!-- Alerts Section -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="group relative bg-white p-5 rounded-xl border-l-[4px] border-amber-400 border-y border-r border-y-slate-200 border-r-slate-200 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-start justify-between">
+                <div>
+                    <div class="flex items-center gap-1.5 text-amber-600 mb-1">
+                        <span class="material-symbols-outlined text-lg">warning</span>
+                        <h3 class="text-sm font-bold uppercase tracking-wide">Low Stock</h3>
+                    </div>
+                    <p class="text-3xl font-extrabold text-slate-900">@Model.Summary.LowStockCount</p>
+                </div>
+                <div class="p-2 bg-amber-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span class="material-symbols-outlined text-amber-500">chevron_right</span>
                 </div>
             </div>
+            <a asp-page="/Manager/Inventory/Alerts" asp-route-type="lowstock" class="absolute inset-0 z-10"></a>
         </div>
-        <div class="col-md-3">
-            <div class="card border-info">
-                <div class="card-body">
-                    <h5 class="card-title text-info">
-                        <i class="bi bi-box-seam"></i> Overstock
-                    </h5>
-                    <h2 class="card-text">@Model.Summary.OverstockCount</h2>
-                    <a asp-page="/Manager/Inventory/Alerts" asp-route-type="overstock" class="btn btn-sm btn-outline-info">View Details</a>
+
+        <div class="group relative bg-white p-5 rounded-xl border-l-[4px] border-sky-400 border-y border-r border-y-slate-200 border-r-slate-200 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-start justify-between">
+                <div>
+                    <div class="flex items-center gap-1.5 text-sky-600 mb-1">
+                        <span class="material-symbols-outlined text-lg">box_seam</span>
+                        <h3 class="text-sm font-bold uppercase tracking-wide">Overstock</h3>
+                    </div>
+                    <p class="text-3xl font-extrabold text-slate-900">@Model.Summary.OverstockCount</p>
+                </div>
+                <div class="p-2 bg-sky-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span class="material-symbols-outlined text-sky-500">chevron_right</span>
                 </div>
             </div>
+            <a asp-page="/Manager/Inventory/Alerts" asp-route-type="overstock" class="absolute inset-0 z-10"></a>
         </div>
-        <div class="col-md-3">
-            <div class="card border-warning">
-                <div class="card-body">
-                    <h5 class="card-title text-warning">
-                        <i class="bi bi-clock-history"></i> Expiring Soon
-                    </h5>
-                    <h2 class="card-text">@Model.Summary.ExpiringCount</h2>
-                    <a asp-page="/Manager/Inventory/Alerts" asp-route-type="expiring" class="btn btn-sm btn-outline-warning">View Details</a>
+
+        <div class="group relative bg-white p-5 rounded-xl border-l-[4px] border-orange-400 border-y border-r border-y-slate-200 border-r-slate-200 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-start justify-between">
+                <div>
+                    <div class="flex items-center gap-1.5 text-orange-600 mb-1">
+                        <span class="material-symbols-outlined text-lg">hourglass_bottom</span>
+                        <h3 class="text-sm font-bold uppercase tracking-wide">Expiring Soon</h3>
+                    </div>
+                    <p class="text-3xl font-extrabold text-slate-900">@Model.Summary.ExpiringCount</p>
+                </div>
+                <div class="p-2 bg-orange-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span class="material-symbols-outlined text-orange-500">chevron_right</span>
                 </div>
             </div>
+            <a asp-page="/Manager/Inventory/Alerts" asp-route-type="expiring" class="absolute inset-0 z-10"></a>
         </div>
-        <div class="col-md-3">
-            <div class="card border-danger">
-                <div class="card-body">
-                    <h5 class="card-title text-danger">
-                        <i class="bi bi-x-circle"></i> Expired
-                    </h5>
-                    <h2 class="card-text">@Model.Summary.ExpiredCount</h2>
-                    <a asp-page="/Manager/Inventory/Alerts" asp-route-type="expired" class="btn btn-sm btn-outline-danger">View Details</a>
+
+        <div class="group relative bg-white p-5 rounded-xl border-l-[4px] border-rose-500 border-y border-r border-y-slate-200 border-r-slate-200 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-start justify-between">
+                <div>
+                    <div class="flex items-center gap-1.5 text-rose-600 mb-1">
+                        <span class="material-symbols-outlined text-lg">error</span>
+                        <h3 class="text-sm font-bold uppercase tracking-wide">Expired</h3>
+                    </div>
+                    <p class="text-3xl font-extrabold text-slate-900">@Model.Summary.ExpiredCount</p>
+                </div>
+                <div class="p-2 bg-rose-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span class="material-symbols-outlined text-rose-500">chevron_right</span>
                 </div>
             </div>
+            <a asp-page="/Manager/Inventory/Alerts" asp-route-type="expired" class="absolute inset-0 z-10"></a>
         </div>
     </div>
 
-    <!-- Pending Actions -->
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header bg-warning text-dark">
-                    <h5 class="mb-0"><i class="bi bi-arrow-left-right"></i> Pending Transfers</h5>
+    <!-- Pending Actions & Quick Links -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Pending Actions -->
+        <div class="flex flex-col gap-4">
+            <h2 class="text-lg font-bold text-slate-900 px-1">Pending Actions</h2>
+            
+            <div class="bg-white rounded-xl border border-slate-200 p-6 flex items-center justify-between shadow-sm">
+                <div class="flex items-center gap-4">
+                    <div class="p-3 bg-amber-100 text-amber-600 rounded-full">
+                        <span class="material-symbols-outlined text-2xl">sync_alt</span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Pending Transfers</p>
+                        <p class="text-3xl font-extrabold text-slate-900">@Model.Summary.PendingTransfers</p>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <h2>@Model.Summary.PendingTransfers</h2>
-                    <p class="text-muted">Transfer requests awaiting approval</p>
-                    <a asp-page="/Manager/Inventory/Transfers" class="btn btn-warning">Manage Transfers</a>
-                </div>
+                <a asp-page="/Manager/Inventory/Transfers" 
+                   class="px-5 py-2.5 rounded-lg bg-amber-100 text-amber-700 text-sm font-bold hover:bg-amber-200 transition-colors">
+                    Manage Transfers
+                </a>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header bg-danger text-white">
-                    <h5 class="mb-0"><i class="bi bi-trash"></i> Pending Disposals</h5>
-                </div>
-                <div class="card-body">
-                    <h2>@Model.Summary.PendingDisposals</h2>
-                    <p class="text-muted">Disposal requests awaiting approval</p>
-                    <a asp-page="/Manager/Inventory/Disposals" class="btn btn-danger">Manage Disposals</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Quick Links -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Quick Actions</h5>
+            <div class="bg-white rounded-xl border border-slate-200 p-6 flex items-center justify-between shadow-sm">
+                <div class="flex items-center gap-4">
+                    <div class="p-3 bg-rose-100 text-rose-600 rounded-full">
+                        <span class="material-symbols-outlined text-2xl">delete</span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Pending Disposals</p>
+                        <p class="text-3xl font-extrabold text-slate-900">@Model.Summary.PendingDisposals</p>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <a asp-page="/Manager/Inventory/CentralKitchen" class="btn btn-primary me-2">
-                        <i class="bi bi-house-door"></i> Central Kitchen Inventory
-                    </a>
-                    <a asp-page="/Manager/Inventory/Transfers" asp-route-action="create" class="btn btn-success me-2">
-                        <i class="bi bi-plus-circle"></i> New Transfer Request
-                    </a>
-                    <a asp-page="/Manager/Inventory/Disposals" asp-route-action="create" class="btn btn-outline-danger me-2">
-                        <i class="bi bi-trash"></i> New Disposal Request
-                    </a>
-                </div>
+                <a asp-page="/Manager/Inventory/Disposals" 
+                   class="px-5 py-2.5 rounded-lg bg-rose-100 text-rose-700 text-sm font-bold hover:bg-rose-200 transition-colors">
+                    Manage Disposals
+                </a>
             </div>
         </div>
+
+        <!-- Quick Actions Grid -->
+        <div class="flex flex-col gap-4">
+            <h2 class="text-lg font-bold text-slate-900 px-1">Quick Actions</h2>
+            
+            <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col gap-4 h-full">
+                <a asp-page="/Manager/Inventory/Transfers" asp-route-action="create"
+                   class="flex items-center gap-3 p-4 rounded-xl border-2 border-dashed border-slate-200 hover:border-[#137fec] hover:bg-sky-50 transition-colors group">
+                    <div class="p-2 bg-sky-100 text-sky-600 rounded-lg group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined">add</span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold text-slate-900 group-hover:text-[#137fec] transition-colors">New Transfer Request</p>
+                        <p class="text-xs text-slate-500">Move inventory between locations</p>
+                    </div>
+                </a>
+
+                <a asp-page="/Manager/Inventory/Disposals" asp-route-action="create"
+                   class="flex items-center gap-3 p-4 rounded-xl border-2 border-dashed border-slate-200 hover:border-rose-500 hover:bg-rose-50 transition-colors group">
+                    <div class="p-2 bg-rose-100 text-rose-600 rounded-lg group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined">delete_sweep</span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold text-slate-900 group-hover:text-rose-600 transition-colors">New Disposal Request</p>
+                        <p class="text-xs text-slate-500">Record spoiled or damaged items</p>
+                    </div>
+                </a>
+                
+                <a asp-page="/Manager/Products/Index"
+                   class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-colors group mt-auto">
+                    <div class="p-2 bg-slate-100 text-slate-600 rounded-lg group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined">category</span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold text-slate-900 transition-colors">Manage Product Catalog</p>
+                        <p class="text-xs text-slate-500">View and update product details</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
     </div>
 </div>

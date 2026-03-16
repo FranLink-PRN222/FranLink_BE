@@ -1,74 +1,97 @@
 @page
 @model PresentationLayer_FranLink.Pages.Manager.Inventory.AlertsModel
 @{
-    ViewData["Title"] = "Inventory Alerts";
+    ViewData["Title"] = "Inventory Intelligence";
     Layout = "_LayoutFranLink";
 }
 
-<div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1><i class="bi bi-exclamation-triangle"></i> Inventory Alerts</h1>
-        <a asp-page="/Manager/Inventory/Dashboard" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left"></i> Back to Dashboard
-        </a>
+<div class="max-w-[1440px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-8">
+    
+    <!-- Intelligent Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div class="flex flex-col gap-2">
+            <nav class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
+                <a asp-page="/Manager/Inventory/Dashboard" class="hover:text-[#137fec] transition-colors">Inventory</a>
+                <span class="material-symbols-outlined text-[10px]">chevron_right</span>
+                <span class="text-slate-500">Alert Center</span>
+            </nav>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 flex items-center gap-3">
+                <span class="material-symbols-outlined text-4xl text-rose-500">notifications_active</span>
+                Inventory Alerts
+            </h1>
+            <p class="text-slate-500 text-sm md:text-base max-w-2xl">
+                Critical stock notifications and lifecycle tracking across all franchises and central kitchens.
+            </p>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="px-4 py-2 bg-slate-900 text-white rounded-xl flex items-center gap-3 shadow-xl shadow-slate-900/10">
+                <span class="material-symbols-outlined text-rose-400">warning</span>
+                <div class="flex flex-col">
+                    <span class="text-[10px] font-black uppercase tracking-tighter text-slate-400 leading-none">Total Alerts</span>
+                    <span class="text-lg font-black leading-none">@(Model.LowStockItems.Count + Model.OverstockItems.Count + Model.ExpiringItems.Count + Model.ExpiredItems.Count)</span>
+                </div>
+            </div>
+            <a asp-page="/Manager/Inventory/Dashboard" class="p-3 rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 transition-all flex items-center gap-2">
+                <span class="material-symbols-outlined">dashboard</span>
+            </a>
+        </div>
     </div>
 
-    <!-- Alert Type Tabs -->
-    <ul class="nav nav-tabs mb-4" id="alertTabs" role="tablist">
-        <li class="nav-item" role="presentation">
-            <a class="nav-link @(Model.AlertType == "lowstock" ? "active" : "")" 
-               asp-page="/Manager/Inventory/Alerts" asp-route-type="lowstock">
-                <i class="bi bi-exclamation-triangle text-warning"></i> Low Stock 
-                <span class="badge bg-warning text-dark">@Model.LowStockItems.Count</span>
-            </a>
-        </li>
-        <li class="nav-item" role="presentation">
-            <a class="nav-link @(Model.AlertType == "overstock" ? "active" : "")" 
-               asp-page="/Manager/Inventory/Alerts" asp-route-type="overstock">
-                <i class="bi bi-box-seam text-info"></i> Overstock 
-                <span class="badge bg-info">@Model.OverstockItems.Count</span>
-            </a>
-        </li>
-        <li class="nav-item" role="presentation">
-            <a class="nav-link @(Model.AlertType == "expiring" ? "active" : "")" 
-               asp-page="/Manager/Inventory/Alerts" asp-route-type="expiring">
-                <i class="bi bi-clock-history text-warning"></i> Expiring Soon 
-                <span class="badge bg-warning text-dark">@Model.ExpiringItems.Count</span>
-            </a>
-        </li>
-        <li class="nav-item" role="presentation">
-            <a class="nav-link @(Model.AlertType == "expired" ? "active" : "")" 
-               asp-page="/Manager/Inventory/Alerts" asp-route-type="expired">
-                <i class="bi bi-x-circle text-danger"></i> Expired 
-                <span class="badge bg-danger">@Model.ExpiredItems.Count</span>
-            </a>
-        </li>
-    </ul>
+    <!-- Alert Navigator -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        @{
+            var alertTypes = new[] { 
+                new { Id = "lowstock", Label = "Low Stock", Icon = "trending_down", Color = "amber", Count = Model.LowStockItems.Count },
+                new { Id = "overstock", Label = "Overstock", Icon = "inventory_2", Color = "sky", Count = Model.OverstockItems.Count },
+                new { Id = "expiring", Label = "Expiring", Icon = "schedule", Color = "orange", Count = Model.ExpiringItems.Count },
+                new { Id = "expired", Label = "Expired", Icon = "event_busy", Color = "rose", Count = Model.ExpiredItems.Count }
+            };
+        }
 
-    <!-- Alert Content -->
-    <div class="card">
-        <div class="card-header">
-            <h5 class="mb-0">
-                @switch (Model.AlertType)
+        @foreach (var alert in alertTypes)
+        {
+            var isActive = Model.AlertType == alert.Id;
+            var accentColor = alert.Color;
+            
+            <a asp-page="/Manager/Inventory/Alerts" asp-route-type="@alert.Id" 
+               class="group relative overflow-hidden bg-white p-6 rounded-[24px] border-2 transition-all duration-300 @(isActive ? $"border-{accentColor}-500 ring-4 ring-{accentColor}-500/10" : "border-slate-100 hover:border-slate-300") shadow-sm">
+                
+                @if (isActive)
                 {
-                    case "lowstock":
-                        <span class="text-warning"><i class="bi bi-exclamation-triangle"></i> Low Stock Items</span>
-                        break;
-                    case "overstock":
-                        <span class="text-info"><i class="bi bi-box-seam"></i> Overstock Items</span>
-                        break;
-                    case "expiring":
-                        <span class="text-warning"><i class="bi bi-clock-history"></i> Items Expiring Within 7 Days</span>
-                        break;
-                    case "expired":
-                        <span class="text-danger"><i class="bi bi-x-circle"></i> Expired Items</span>
-                        break;
+                    <div class="absolute top-0 right-0 p-3">
+                        <span class="material-symbols-outlined text-@accentColor-500 text-xl">check_circle</span>
+                    </div>
                 }
-            </h5>
+
+                <div class="flex flex-col gap-4">
+                    <div class="size-12 rounded-2xl @(isActive ? $"bg-{accentColor}-500 text-white shadow-lg shadow-{accentColor}-500/30" : $"bg-{accentColor}-50 text-{accentColor}-500") flex items-center justify-center transition-all">
+                        <span class="material-symbols-outlined text-2xl">@alert.Icon</span>
+                    </div>
+                    <div>
+                        <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">@alert.Label</h3>
+                        <p class="text-2xl font-black text-slate-900 group-hover:scale-110 transition-transform origin-left">@alert.Count</p>
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+
+    <!-- Alert Registry Table -->
+    <div class="bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+        <div class="px-8 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <h2 class="text-slate-900 font-bold flex items-center gap-2">
+                <span class="material-symbols-outlined text-slate-400">list_alt</span>
+                Detailed Alert Registry
+            </h2>
+            <div class="flex items-center gap-2">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Active Filter:</span>
+                <span class="px-2.5 py-1 bg-slate-900 text-white text-[10px] font-black uppercase tracking-tight rounded-lg">@Model.AlertType</span>
+            </div>
         </div>
-        <div class="card-body">
+
+        <div class="overflow-x-auto">
             @{
-                var items = Model.AlertType switch
+                var activeItems = Model.AlertType switch
                 {
                     "lowstock" => Model.LowStockItems,
                     "overstock" => Model.OverstockItems,
@@ -78,113 +101,125 @@
                 };
             }
 
-            @if (items.Any())
+            @if (activeItems.Any())
             {
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Location</th>
-                                <th>Product</th>
-                                <th>Batch #</th>
-                                <th>Quantity</th>
-                                <th>Min/Max Threshold</th>
-                                <th>Expiry Date</th>
-                                <th>Days Until Expiry</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in items)
-                            {
-                                var location = item.CentralKitchenId.HasValue 
-                                    ? $"🏭 {item.CentralKitchen?.Name}" 
-                                    : $"🏪 {item.FranchiseStore?.Name}";
-                                var daysUntilExpiry = item.ExpiryDate.HasValue 
-                                    ? (item.ExpiryDate.Value - DateTime.UtcNow).Days 
-                                    : (int?)null;
-                                
-                                <tr class="@GetRowClass(Model.AlertType)">
-                                    <td>@location</td>
-                                    <td><strong>@item.Product?.Name</strong></td>
-                                    <td>@(item.BatchNumber ?? "-")</td>
-                                    <td>
-                                        <span class="@(item.Quantity <= item.MinThreshold ? "text-danger fw-bold" : item.Quantity >= item.MaxThreshold ? "text-info fw-bold" : "")">
-                                            @item.Quantity
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-100">
+                            <th class="px-8 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">Location Information</th>
+                            <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">Product & Batch</th>
+                            <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">Stock Level</th>
+                            <th class="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest">Lifecycle Status</th>
+                            <th class="px-8 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">Operational Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        @foreach (var item in activeItems)
+                        {
+                            var daysUntilExpiry = item.ExpiryDate.HasValue 
+                                ? (item.ExpiryDate.Value - DateTime.UtcNow).Days 
+                                : (int?)null;
+                            
+                            <tr class="group hover:bg-slate-50/80 transition-all border-l-4 @GetRowAccent(Model.AlertType)">
+                                <td class="px-8 py-6">
+                                    <div class="flex flex-col">
+                                        <span class="text-[10px] font-bold text-[#137fec] uppercase tracking-tighter leading-none mb-1">
+                                            @(item.CentralKitchenId.HasValue ? "Central Kitchen" : "Franchise Store")
                                         </span>
-                                    </td>
-                                    <td>@item.MinThreshold / @item.MaxThreshold</td>
-                                    <td>
-                                        @if (item.ExpiryDate.HasValue)
-                                        {
-                                            <span class="@(daysUntilExpiry <= 0 ? "text-danger fw-bold" : daysUntilExpiry <= 7 ? "text-warning fw-bold" : "")">
-                                                @item.ExpiryDate.Value.ToString("dd/MM/yyyy")
+                                        <span class="text-sm font-bold text-slate-900">
+                                            @(item.CentralKitchen?.Name ?? item.FranchiseStore?.Name)
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-6">
+                                    <div class="flex flex-col">
+                                        <span class="text-sm font-black text-slate-900 tracking-tight">@item.Product?.Name</span>
+                                        <span class="text-[10px] font-mono text-slate-400">Batch: @(item.BatchNumber ?? "NO_BATCH")</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-6 font-mono">
+                                    <div class="flex items-center gap-3">
+                                        <div class="flex flex-col">
+                                            <span class="text-lg font-black text-slate-900">@item.Quantity @item.Product?.Unit</span>
+                                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
+                                                Threshold: @item.MinThreshold / @item.MaxThreshold
                                             </span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">N/A</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        @if (daysUntilExpiry.HasValue)
-                                        {
-                                            if (daysUntilExpiry <= 0)
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-6">
+                                    @if (item.ExpiryDate.HasValue)
+                                    {
+                                        <div class="flex flex-col">
+                                            <span class="text-sm font-bold text-slate-900 mb-1">@item.ExpiryDate.Value.ToString("dd MMM yyyy")</span>
+                                            @if (daysUntilExpiry <= 0)
                                             {
-                                                <span class="badge bg-danger">Expired</span>
+                                                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 bg-rose-50 text-rose-600 rounded-md text-[10px] font-black uppercase w-fit">
+                                                    <span class="size-1.5 rounded-full bg-rose-500"></span> Expired
+                                                </span>
                                             }
                                             else
                                             {
-                                                <span class="badge @(daysUntilExpiry <= 3 ? "bg-danger" : "bg-warning text-dark")">
-                                                    @daysUntilExpiry days
+                                                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 @(daysUntilExpiry <= 7 ? "bg-amber-50 text-amber-600" : "bg-emerald-50 text-emerald-600") rounded-md text-[10px] font-black uppercase w-fit">
+                                                    <span class="size-1.5 rounded-full @(daysUntilExpiry <= 7 ? "bg-amber-500" : "bg-emerald-500")"></span>
+                                                    @daysUntilExpiry Days Left
                                                 </span>
                                             }
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">-</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        <div class="btn-group btn-group-sm">
-                                            @if (Model.AlertType == "lowstock")
-                                            {
-                                                <a asp-page="/Manager/Inventory/Transfers" asp-route-action="create" 
-                                                   asp-route-toStoreId="@item.FranchiseStoreId" asp-route-toKitchenId="@item.CentralKitchenId"
-                                                   asp-route-productId="@item.ProductId" 
-                                                   class="btn btn-outline-success" title="Request Transfer In">
-                                                    <i class="bi bi-box-arrow-in-right"></i> Request
-                                                </a>
-                                            }
-                                            @if (Model.AlertType == "overstock")
-                                            {
-                                                <a asp-page="/Manager/Inventory/Transfers" asp-route-action="create" 
-                                                   asp-route-fromStoreId="@item.FranchiseStoreId" asp-route-fromKitchenId="@item.CentralKitchenId"
-                                                   asp-route-productId="@item.ProductId" 
-                                                   class="btn btn-outline-primary" title="Transfer Out">
-                                                    <i class="bi bi-box-arrow-right"></i> Transfer
-                                                </a>
-                                            }
-                                            @if (Model.AlertType == "expired" || Model.AlertType == "expiring")
-                                            {
-                                                <a asp-page="/Manager/Inventory/Disposals" asp-route-action="create" 
-                                                   asp-route-inventoryId="@item.InventoryId" 
-                                                   class="btn btn-outline-danger" title="Dispose">
-                                                    <i class="bi bi-trash"></i> Dispose
-                                                </a>
-                                            }
                                         </div>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-[10px] font-bold text-slate-300 uppercase italic">Indefinite Lifecycle</span>
+                                    }
+                                </td>
+                                <td class="px-8 py-6 text-right">
+                                    <div class="flex items-center justify-end gap-2">
+                                        @if (Model.AlertType == "lowstock")
+                                        {
+                                            <a asp-page="/Manager/Inventory/Transfers" asp-route-action="create" 
+                                               asp-route-toStoreId="@item.FranchiseStoreId" asp-route-toKitchenId="@item.CentralKitchenId"
+                                               asp-route-productId="@item.ProductId" 
+                                               class="h-9 px-4 bg-emerald-500 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-emerald-600 transition-all flex items-center gap-2">
+                                                <span class="material-symbols-outlined text-sm">local_shipping</span>
+                                                Request
+                                            </a>
+                                        }
+                                        @if (Model.AlertType == "overstock")
+                                        {
+                                            <a asp-page="/Manager/Inventory/Transfers" asp-route-action="create" 
+                                               asp-route-fromStoreId="@item.FranchiseStoreId" asp-route-fromKitchenId="@item.CentralKitchenId"
+                                               asp-route-productId="@item.ProductId" 
+                                               class="h-9 px-4 bg-sky-500 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-sky-600 transition-all flex items-center gap-2">
+                                                <span class="material-symbols-outlined text-sm">move_down</span>
+                                                Transfer
+                                            </a>
+                                        }
+                                        @if (Model.AlertType == "expired" || Model.AlertType == "expiring")
+                                        {
+                                            <a asp-page="/Manager/Inventory/Disposals" asp-route-action="create" 
+                                               asp-route-inventoryId="@item.InventoryId" 
+                                               class="h-9 px-4 bg-rose-500 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-rose-600 transition-all flex items-center gap-2">
+                                                <span class="material-symbols-outlined text-sm">delete_sweep</span>
+                                                Dispose
+                                            </a>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             }
             else
             {
-                <div class="alert alert-success">
-                    <i class="bi bi-check-circle"></i> No alerts in this category. Everything looks good!
+                <div class="p-20 flex flex-col items-center justify-center text-center gap-4">
+                    <div class="size-20 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-5xl">task_alt</span>
+                    </div>
+                    <div class="max-w-xs">
+                        <h3 class="text-slate-900 font-bold text-lg">Clear Horizon</h3>
+                        <p class="text-slate-500 text-sm">No critical alerts detected for <span class="font-bold text-slate-900 uppercase">@Model.AlertType</span>. Inventory healthy.</p>
+                    </div>
                 </div>
             }
         </div>
@@ -192,15 +227,15 @@
 </div>
 
 @functions {
-    string GetRowClass(string alertType)
+    string GetRowAccent(string alertType)
     {
         return alertType switch
         {
-            "lowstock" => "table-warning",
-            "overstock" => "table-info",
-            "expiring" => "table-warning",
-            "expired" => "table-danger",
-            _ => ""
+            "lowstock" => "border-amber-500/30",
+            "overstock" => "border-sky-500/30",
+            "expiring" => "border-orange-500/30",
+            "expired" => "border-rose-500/30",
+            _ => "border-transparent"
         };
     }
 }

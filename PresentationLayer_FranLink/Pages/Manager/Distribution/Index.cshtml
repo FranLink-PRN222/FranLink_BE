@@ -1,234 +1,249 @@
 @page
 @model PresentationLayer_FranLink.Pages.Manager.Distribution.IndexModel
 @{
-    ViewData["Title"] = "Distribution Dashboard";
+    ViewData["Title"] = "Distribution Hub";
     Layout = "_LayoutFranLink";
 }
 
-<div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>🚚 Distribution Dashboard</h2>
-    </div>
+<div class="flex flex-col gap-8 pb-12">
+    <!-- Header & Action Row -->
+    <section class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900">
+                Distribution Hub
+            </h1>
+            <p class="text-slate-500 text-sm md:text-base mt-2">
+                Supply chain oversight across kitchens and stores.
+            </p>
+        </div>
+        <div class="flex items-center gap-3">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 text-xs font-semibold text-blue-700 border border-blue-100">
+                <span class="material-symbols-outlined text-sm">local_shipping</span>
+                @Model.Summary.DeliveringOrders In-Transit
+            </span>
+        </div>
+    </section>
 
-    <!-- Filters -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <form method="get" class="row g-3">
-                <div class="col-md-2">
-                    <label class="form-label">From Date</label>
-                    <input asp-for="FromDate" type="date" class="form-control" />
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label">To Date</label>
-                    <input asp-for="ToDate" type="date" class="form-control" />
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Central Kitchen</label>
-                    <select asp-for="CentralKitchenId" asp-items="Model.CentralKitchens" class="form-select">
-                        <option value="">-- All Kitchens --</option>
-                    </select>
-                </div>
-                <div class="col-md-2 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary">Apply Filter</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <!-- Filters Bar -->
+    <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-2">
+        <form method="get" class="flex flex-col lg:flex-row items-center gap-2 p-1">
+            <div class="flex items-center gap-2 px-3 py-2 bg-slate-50 rounded-xl border border-slate-100 flex-1 w-full lg:w-auto">
+                <span class="material-symbols-outlined text-slate-400 text-lg">calendar_month</span>
+                <input asp-for="FromDate" type="date" class="bg-transparent border-none text-sm font-semibold text-slate-700 focus:outline-none w-full" />
+                <span class="text-slate-300">→</span>
+                <input asp-for="ToDate" type="date" class="bg-transparent border-none text-sm font-semibold text-slate-700 focus:outline-none w-full" />
+            </div>
+            <div class="flex items-center gap-2 px-3 py-2 bg-slate-50 rounded-xl border border-slate-100 flex-1 w-full lg:w-auto">
+                <span class="material-symbols-outlined text-slate-400 text-lg">kitchen</span>
+                <select asp-for="CentralKitchenId" asp-items="Model.CentralKitchens" class="bg-transparent border-none text-sm font-semibold text-slate-700 focus:outline-none w-full">
+                    <option value="">All Central Kitchens</option>
+                </select>
+            </div>
+            <button type="submit" class="px-6 py-2.5 rounded-xl bg-slate-900 text-white text-sm font-bold hover:bg-slate-800 transition-colors flex items-center gap-2 w-full lg:w-auto justify-center">
+                <span class="material-symbols-outlined text-sm">filter_list</span>
+                Apply
+            </button>
+        </form>
+    </section>
 
-    <!-- Summary Cards -->
-    <div class="row mb-4">
-        <div class="col-md-2">
-            <div class="card text-white bg-primary h-100">
-                <div class="card-body text-center">
-                    <h6>Total Orders</h6>
-                    <h2>@Model.Summary.TotalOrders</h2>
-                </div>
-            </div>
+    <!-- KPI Dashboard -->
+    <section class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+            <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Total Orders</p>
+            <p class="text-2xl font-black text-slate-900">@Model.Summary.TotalOrders</p>
         </div>
-        <div class="col-md-2">
-            <div class="card text-white bg-success h-100">
-                <div class="card-body text-center">
-                    <h6>Completed</h6>
-                    <h2>@Model.Summary.CompletedOrders</h2>
-                </div>
-            </div>
+        <div class="bg-emerald-50 p-5 rounded-2xl border border-emerald-100 shadow-sm">
+            <p class="text-emerald-600/60 text-[10px] font-bold uppercase tracking-widest mb-1">Completed</p>
+            <p class="text-2xl font-black text-emerald-700">@Model.Summary.CompletedOrders</p>
         </div>
-        <div class="col-md-2">
-            <div class="card text-dark bg-warning h-100">
-                <div class="card-body text-center">
-                    <h6>Pending</h6>
-                    <h2>@Model.Summary.PendingOrders</h2>
-                </div>
-            </div>
+        <div class="bg-amber-50 p-5 rounded-2xl border border-amber-100 shadow-sm">
+            <p class="text-amber-600/60 text-[10px] font-bold uppercase tracking-widest mb-1">Pending</p>
+            <p class="text-2xl font-black text-amber-700">@Model.Summary.PendingOrders</p>
         </div>
-        <div class="col-md-2">
-            <div class="card text-white bg-info h-100">
-                <div class="card-body text-center">
-                    <h6>Delivering</h6>
-                    <h2>@Model.Summary.DeliveringOrders</h2>
-                </div>
-            </div>
+        <div class="bg-blue-50 p-5 rounded-2xl border border-blue-100 shadow-sm">
+            <p class="text-blue-600/60 text-[10px] font-bold uppercase tracking-widest mb-1">Delivering</p>
+            <p class="text-2xl font-black text-blue-700">@Model.Summary.DeliveringOrders</p>
         </div>
-        <div class="col-md-2">
-            <div class="card text-white bg-danger h-100">
-                <div class="card-body text-center">
-                    <h6>Cancelled</h6>
-                    <h2>@Model.Summary.CancelledOrders</h2>
-                </div>
-            </div>
+        <div class="bg-rose-50 p-5 rounded-2xl border border-rose-100 shadow-sm">
+            <p class="text-rose-600/60 text-[10px] font-bold uppercase tracking-widest mb-1">Cancelled</p>
+            <p class="text-2xl font-black text-rose-700">@Model.Summary.CancelledOrders</p>
         </div>
-        <div class="col-md-2">
-            <div class="card text-white bg-secondary h-100">
-                <div class="card-body text-center">
-                    <h6>Fulfillment Rate</h6>
-                    <h2>@Model.Summary.OrderFulfillmentRate%</h2>
-                </div>
-            </div>
+        <div class="bg-slate-900 p-5 rounded-2xl shadow-lg shadow-slate-900/10">
+            <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1 text-center">Fulfillment</p>
+            <p class="text-2xl font-black text-white text-center">@Model.Summary.OrderFulfillmentRate%</p>
         </div>
-    </div>
+    </section>
 
-    <!-- Value Stats -->
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="card border-primary">
-                <div class="card-body">
-                    <h5 class="text-muted">Total Order Value</h5>
-                    <h2 class="text-primary">@Model.Summary.TotalValue.ToString("N0") VND</h2>
-                </div>
+    <!-- Efficiency & Value Metrics -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex items-center gap-4">
+            <div class="size-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
+                <span class="material-symbols-outlined">payments</span>
+            </div>
+            <div>
+                <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-0.5">Total Value</p>
+                <p class="text-xl font-black text-slate-900">@Model.Summary.TotalValue.ToString("N0") <span class="text-xs font-normal text-slate-400 tracking-tight">VND</span></p>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card border-info">
-                <div class="card-body">
-                    <h5 class="text-muted">Average Order Value</h5>
-                    <h2 class="text-info">@Model.Summary.AverageOrderValue.ToString("N0") VND</h2>
-                </div>
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex items-center gap-4">
+            <div class="size-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
+                <span class="material-symbols-outlined">analytics</span>
+            </div>
+            <div>
+                <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-0.5">Average Order</p>
+                <p class="text-xl font-black text-slate-900">@Model.Summary.AverageOrderValue.ToString("N0") <span class="text-xs font-normal text-slate-400 tracking-tight">VND</span></p>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card border-success">
-                <div class="card-body">
-                    <h5 class="text-muted">Avg Delivery Time</h5>
-                    <h2 class="text-success">@Model.DeliveryStats.AverageDeliveryTimeHours hours</h2>
-                </div>
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex items-center gap-4">
+            <div class="size-12 rounded-xl bg-rose-50 flex items-center justify-center text-rose-600">
+                <span class="material-symbols-outlined">timer</span>
+            </div>
+            <div>
+                <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-0.5">Avg Delivery Time</p>
+                <p class="text-xl font-black text-slate-900">@Model.DeliveryStats.AverageDeliveryTimeHours <span class="text-xs font-normal text-slate-400 tracking-tight">HOURS</span></p>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="row">
-        <!-- Top Stores -->
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">🏪 Top Stores by Value</h5>
-                    <a asp-page="ByStore" asp-route-fromDate="@Model.FromDate?.ToString("yyyy-MM-dd")" asp-route-toDate="@Model.ToDate?.ToString("yyyy-MM-dd")" class="btn btn-sm btn-outline-primary">View All</a>
+    <!-- Top Performing Entities -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Top Stores Card -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col">
+            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-blue-600">storefront</span>
+                    <h3 class="text-slate-900 font-bold">Top Stores by Value</h3>
                 </div>
-                <div class="card-body p-0">
-                    @if (Model.TopStores.Any())
-                    {
-                        <table class="table table-hover mb-0">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Store</th>
-                                    <th class="text-center">Orders</th>
-                                    <th class="text-end">Value</th>
+                <a asp-page="ByStore" asp-route-fromDate="@Model.FromDate?.ToString("yyyy-MM-dd")" asp-route-toDate="@Model.ToDate?.ToString("yyyy-MM-dd")" 
+                   class="text-[#137fec] text-xs font-bold hover:underline">View Detailed</a>
+            </div>
+            <div class="flex-1">
+                @if (Model.TopStores.Any())
+                {
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50/50 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                <th class="px-6 py-3">Store</th>
+                                <th class="px-6 py-3 text-center">Orders</th>
+                                <th class="px-6 py-3 text-end">Value (VND)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            @foreach (var store in Model.TopStores)
+                            {
+                                <tr class="hover:bg-slate-50/50 transition-colors group">
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col">
+                                            <span class="text-sm font-bold text-slate-900 group-hover:text-[#137fec] transition-colors">@store.StoreName</span>
+                                            <span class="text-[11px] text-slate-400 truncate max-w-[200px]">@store.StoreAddress</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-center">
+                                        <span class="text-sm font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-lg">@store.OrderCount</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-end text-sm font-black text-slate-900">
+                                        @store.TotalValue.ToString("N0")
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var store in Model.TopStores)
-                                {
-                                    <tr>
-                                        <td>
-                                            <strong>@store.StoreName</strong><br />
-                                            <small class="text-muted">@store.StoreAddress</small>
-                                        </td>
-                                        <td class="text-center">@store.OrderCount</td>
-                                        <td class="text-end">@store.TotalValue.ToString("N0")</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    }
-                    else
-                    {
-                        <div class="text-center py-4 text-muted">No data available</div>
-                    }
-                </div>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="flex flex-col items-center gap-2 py-12 text-slate-400 scale-75 opacity-50">
+                        <span class="material-symbols-outlined text-4xl">inbox</span>
+                        <p class="text-sm font-medium uppercase tracking-widest">No store data yet</p>
+                    </div>
+                }
             </div>
         </div>
 
-        <!-- Top Products -->
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">📦 Top Products Distributed</h5>
-                    <a asp-page="ByProduct" asp-route-fromDate="@Model.FromDate?.ToString("yyyy-MM-dd")" asp-route-toDate="@Model.ToDate?.ToString("yyyy-MM-dd")" class="btn btn-sm btn-outline-primary">View All</a>
+        <!-- Top Products Card -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col">
+            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-emerald-600">inventory_2</span>
+                    <h3 class="text-slate-900 font-bold">Top Products Distributed</h3>
                 </div>
-                <div class="card-body p-0">
-                    @if (Model.TopProducts.Any())
-                    {
-                        <table class="table table-hover mb-0">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Product</th>
-                                    <th class="text-center">Qty Ordered</th>
-                                    <th class="text-center">Qty Delivered</th>
+                <a asp-page="ByProduct" asp-route-fromDate="@Model.FromDate?.ToString("yyyy-MM-dd")" asp-route-toDate="@Model.ToDate?.ToString("yyyy-MM-dd")" 
+                   class="text-[#137fec] text-xs font-bold hover:underline">Full Analytics</a>
+            </div>
+            <div class="flex-1">
+                @if (Model.TopProducts.Any())
+                {
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50/50 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                <th class="px-6 py-3">Product</th>
+                                <th class="px-6 py-3 text-center">Ordered</th>
+                                <th class="px-6 py-3 text-center">Delivered</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            @foreach (var product in Model.TopProducts)
+                            {
+                                <tr class="hover:bg-slate-50/50 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col">
+                                            <span class="text-sm font-bold text-slate-900">@product.ProductName</span>
+                                            <span class="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded self-start mt-1">@product.Category</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-center text-sm font-semibold text-slate-500">
+                                        @product.TotalQuantityOrdered
+                                    </td>
+                                    <td class="px-6 py-4 text-center">
+                                        <span class="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-600 text-white shadow-sm shadow-emerald-500/20">
+                                            @product.TotalQuantityDelivered
+                                        </span>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var product in Model.TopProducts)
-                                {
-                                    <tr>
-                                        <td>
-                                            <strong>@product.ProductName</strong><br />
-                                            <small class="text-muted">@product.Category</small>
-                                        </td>
-                                        <td class="text-center">@product.TotalQuantityOrdered</td>
-                                        <td class="text-center">
-                                            <span class="badge bg-success">@product.TotalQuantityDelivered</span>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    }
-                    else
-                    {
-                        <div class="text-center py-4 text-muted">No data available</div>
-                    }
-                </div>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="flex flex-col items-center gap-2 py-12 text-slate-400 scale-75 opacity-50">
+                        <span class="material-symbols-outlined text-4xl">inventory</span>
+                        <p class="text-sm font-medium uppercase tracking-widest">No distribution data</p>
+                    </div>
+                }
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Daily Distribution Chart Data -->
+    <!-- Daily Log -->
     @if (Model.Summary.ByDay.Any())
     {
-        <div class="card mt-4">
-            <div class="card-header">
-                <h5 class="mb-0">📅 Daily Distribution</h5>
+        <section class="bg-slate-900 rounded-3xl p-8 text-white shadow-2xl">
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center gap-3">
+                    <div class="size-2 rounded-full bg-blue-500 animate-pulse"></div>
+                    <h3 class="text-lg font-bold tracking-tight">Recent Daily Distribution Log</h3>
+                </div>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Live Updates</span>
             </div>
-            <div class="card-body p-0">
-                <table class="table table-hover mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Date</th>
-                            <th class="text-center">Orders</th>
-                            <th class="text-end">Total Value</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var day in Model.Summary.ByDay.OrderByDescending(d => d.Date).Take(10))
-                        {
-                            <tr>
-                                <td>@day.Date.ToString("dd/MM/yyyy")</td>
-                                <td class="text-center">@day.OrderCount</td>
-                                <td class="text-end">@day.TotalValue.ToString("N0") VND</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                @foreach (var day in Model.Summary.ByDay.OrderByDescending(d => d.Date).Take(5))
+                {
+                    <div class="bg-slate-800/50 rounded-2xl p-5 border border-slate-800 hover:border-slate-700 transition-all group">
+                        <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-3">@day.Date.ToString("ddd, dd MMM")</p>
+                        <div class="flex items-end justify-between">
+                            <div>
+                                <p class="text-xl font-black group-hover:text-blue-400 transition-colors">@day.OrderCount</p>
+                                <p class="text-[10px] text-slate-500 font-bold">Orders</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs font-bold">@((day.TotalValue / 1000000).ToString("N1"))M</p>
+                                <p class="text-[10px] text-slate-500 font-bold uppercase">Value</p>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
-        </div>
+        </section>
     }
 </div>

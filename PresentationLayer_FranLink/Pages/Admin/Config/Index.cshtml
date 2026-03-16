@@ -2,83 +2,104 @@
 @model PresentationLayer_FranLink.Pages.Admin.Config.IndexModel
 @{
     ViewData["Title"] = "Cấu hình Hệ thống";
+    Layout = "_LayoutFranLink";
 }
 
-<h1><i class="bi bi-gear"></i> Cấu hình Hệ thống</h1>
-<hr />
+<div class="px-6 py-8 lg:px-20 max-w-[1440px] mx-auto w-full flex flex-col gap-6">
 
-<div class="card mb-4">
-    <div class="card-header bg-primary text-white">
-        <strong>Thêm cấu hình mới</strong>
+    <!-- Page Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2">
+                <span class="material-symbols-outlined text-3xl text-[#137fec]">settings</span>
+                Cấu hình Hệ thống
+            </h1>
+            <p class="text-slate-500 text-sm md:text-base mt-1">
+                Quản lý các thông số cấu hình chung cho toàn hệ thống.
+            </p>
+        </div>
     </div>
-    <div class="card-body">
-        <form method="post" asp-page-handler="Add">
-            <div class="row g-3 align-items-end">
-                <div class="col-md-3">
-                    <label class="form-label">Key <span class="text-danger">*</span></label>
-                    <input asp-for="NewKey" class="form-control" placeholder="vd: DefaultUnit" />
+
+    <!-- Create config card -->
+    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+        <div class="px-6 py-4 border-b border-slate-100 bg-slate-50">
+            <h2 class="text-base font-bold text-slate-900">Thêm cấu hình mới</h2>
+        </div>
+        <div class="p-6">
+            <form method="post" asp-page-handler="Add" class="flex flex-col md:flex-row items-end gap-4">
+                <div class="flex-1 w-full relative">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Key <span class="text-rose-500">*</span></label>
+                    <input asp-for="NewKey" class="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent transition-all" placeholder="vd: DefaultUnit" />
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label">Value <span class="text-danger">*</span></label>
-                    <input asp-for="NewValue" class="form-control" placeholder="vd: kg" />
+                <div class="flex-1 w-full relative">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Value <span class="text-rose-500">*</span></label>
+                    <input asp-for="NewValue" class="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent transition-all" placeholder="vd: kg" />
                 </div>
-                <div class="col-md-4">
-                    <label class="form-label">Mô tả</label>
-                    <input asp-for="NewDescription" class="form-control" placeholder="vd: Đơn vị tính mặc định" />
+                <div class="flex-[1.5] w-full relative">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Mô tả</label>
+                    <input asp-for="NewDescription" class="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent transition-all" placeholder="vd: Đơn vị tính mặc định" />
                 </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="bi bi-plus"></i> Thêm
-                    </button>
-                </div>
+                <button type="submit" class="w-full md:w-auto px-6 py-2.5 rounded-lg bg-[#137fec] text-white text-sm font-bold shadow-md hover:bg-[#137fec]/90 transition-colors flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-lg">add</span> Thêm
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Config list -->
+    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-200">
+                        <th class="px-6 py-3 text-xs font-bold uppercase tracking-wider text-slate-500">Key</th>
+                        <th class="px-6 py-3 text-xs font-bold uppercase tracking-wider text-slate-500">Value</th>
+                        <th class="px-6 py-3 text-xs font-bold uppercase tracking-wider text-slate-500">Mô tả</th>
+                        <th class="px-6 py-3 text-xs font-bold uppercase tracking-wider text-slate-500">Cập nhật lần cuối</th>
+                        <th class="px-6 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 text-right">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    @foreach (var config in Model.Configs)
+                    {
+                        <tr class="hover:bg-slate-50/50 transition-colors group">
+                            <td class="px-6 py-4">
+                                <span class="inline-flex items-center px-2 py-1 rounded bg-slate-100 text-slate-700 text-sm font-bold border border-slate-200 font-mono">
+                                    @config.ConfigKey
+                                </span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <form method="post" asp-page-handler="Update" class="flex items-center gap-2">
+                                    <input type="hidden" name="key" value="@config.ConfigKey" />
+                                    <input type="text" name="value" value="@config.ConfigValue" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent transition-all" />
+                                    <input type="hidden" name="description" value="@config.Description" />
+                                    <button type="submit" class="p-1.5 rounded-lg text-emerald-600 bg-emerald-50 hover:bg-emerald-100 transition-colors opacity-0 group-hover:opacity-100" title="Lưu">
+                                        <span class="material-symbols-outlined text-base">check</span>
+                                    </button>
+                                </form>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-slate-600">@config.Description</td>
+                            <td class="px-6 py-4 text-sm text-slate-500">@config.UpdatedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
+                            <td class="px-6 py-4 text-right">
+                                <form method="post" asp-page-handler="Delete" class="inline">
+                                    <input type="hidden" name="id" value="@config.Id" />
+                                    <button type="submit" class="p-1.5 rounded-lg text-rose-600 bg-rose-50 hover:bg-rose-100 transition-colors opacity-0 group-hover:opacity-100" title="Xóa" onclick="return confirm('Xóa cấu hình này?')">
+                                        <span class="material-symbols-outlined text-base">delete</span>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        
+        @if (!Model.Configs.Any())
+        {
+            <div class="py-12 flex flex-col items-center gap-3 text-slate-400">
+                <span class="material-symbols-outlined text-5xl">tune</span>
+                <p class="text-sm font-medium">Chưa có cấu hình nào.</p>
             </div>
-        </form>
+        }
     </div>
 </div>
-
-<div class="table-responsive">
-    <table class="table table-hover table-bordered align-middle">
-        <thead class="table-dark">
-            <tr>
-                <th>Key</th>
-                <th>Value</th>
-                <th>Mô tả</th>
-                <th>Cập nhật lần cuối</th>
-                <th class="text-center">Hành động</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var config in Model.Configs)
-            {
-                <tr>
-                    <td><code>@config.ConfigKey</code></td>
-                    <td>
-                        <form method="post" asp-page-handler="Update" class="d-flex gap-2">
-                            <input type="hidden" name="key" value="@config.ConfigKey" />
-                            <input type="text" name="value" value="@config.ConfigValue" class="form-control form-control-sm" />
-                            <input type="hidden" name="description" value="@config.Description" />
-                            <button type="submit" class="btn btn-sm btn-outline-success" title="Lưu">
-                                <i class="bi bi-check-lg"></i>
-                            </button>
-                        </form>
-                    </td>
-                    <td>@config.Description</td>
-                    <td>@config.UpdatedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
-                    <td class="text-center">
-                        <form method="post" asp-page-handler="Delete" class="d-inline">
-                            <input type="hidden" name="id" value="@config.Id" />
-                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Xóa cấu hình này?')">
-                                <i class="bi bi-trash"></i> Xóa
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
-@if (!Model.Configs.Any())
-{
-    <div class="alert alert-info text-center">Chưa có cấu hình nào.</div>
-}

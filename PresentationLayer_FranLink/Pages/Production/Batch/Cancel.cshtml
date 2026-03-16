@@ -1,0 +1,163 @@
+@page "{id:int}"
+@model PresentationLayer_FranLink.Pages.Production.Batch.CancelModel
+@{
+    ViewData["Title"] = "Cancel Production";
+    Layout = "_LayoutFranLink";
+    var duration = DateTime.UtcNow - Model.Production.StartTime;
+}
+
+<div class="max-w-4xl mx-auto px-4 py-8">
+    <!-- Breadcrumbs -->
+    <nav class="flex mb-6" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3 text-sm font-medium">
+            <li class="inline-flex items-center">
+                <a href="@Model.DashboardUrl" class="text-slate-500 hover:text-primary transition-colors flex items-center">
+                    <span class="material-symbols-outlined text-base mr-1">factory</span>
+                    Production
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <span class="material-symbols-outlined text-slate-400 text-lg">chevron_right</span>
+                    <span class="ml-1 text-slate-400 md:ml-2">Cancel #@Model.Id</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Main Form Column -->
+        <div class="lg:col-span-2 space-y-6">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <!-- Danger Header -->
+                <div class="bg-rose-500 px-6 py-4 flex items-center gap-3">
+                    <div class="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center text-white">
+                        <span class="material-symbols-outlined">cancel</span>
+                    </div>
+                    <div>
+                        <h1 class="text-white text-lg font-bold">Cancel Production</h1>
+                        <p class="text-rose-50 text-xs text-opacity-80">Stop and invalidate Batch #@Model.Id</p>
+                    </div>
+                </div>
+
+                <div class="p-6">
+                    <!-- Production Details Summary -->
+                    <div class="grid grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-wider text-slate-400 font-bold mb-1">Recipe & Product</p>
+                            <p class="text-slate-900 font-bold text-base leading-tight">@Model.Production.Recipe.Name</p>
+                            <p class="text-slate-500 text-xs mt-0.5">@Model.Production.Recipe.Product.Name</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] uppercase tracking-wider text-slate-400 font-bold mb-1">Central Kitchen</p>
+                            <div class="flex items-center gap-1.5 text-slate-700">
+                                <span class="material-symbols-outlined text-base text-slate-400">location_on</span>
+                                <span class="font-semibold text-sm">@Model.Production.CentralKitchen.Name</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Strip -->
+                    <div class="grid grid-cols-3 gap-4 p-4 bg-slate-50 rounded-xl mb-8 border border-slate-100">
+                        <div class="text-center">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Planned</p>
+                            <p class="text-xl font-extrabold text-slate-700">@Model.Production.PlannedQuantity</p>
+                        </div>
+                        <div class="text-center border-x border-slate-200 px-2">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Started At</p>
+                            <p class="text-sm font-bold text-slate-600">@Model.Production.StartTime.ToLocalTime().ToString("HH:mm")</p>
+                            <p class="text-[10px] text-slate-400">@Model.Production.StartTime.ToLocalTime().ToString("dd/MM/yyyy")</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Time Elapsed</p>
+                            <p class="text-sm font-bold text-slate-600">@duration.Hours h @duration.Minutes m</p>
+                        </div>
+                    </div>
+
+                    <!-- Serious Warning -->
+                    <div class="mb-8 p-4 bg-rose-50 rounded-xl border border-rose-100 flex gap-4">
+                        <div class="flex-shrink-0 mt-0.5">
+                            <span class="material-symbols-outlined text-rose-500 text-2xl">warning</span>
+                        </div>
+                        <div class="space-y-1">
+                            <h4 class="text-rose-900 font-bold text-sm">Critical Action Warning</h4>
+                            <p class="text-xs text-rose-700 leading-relaxed">
+                                Cancellation is <span class="font-bold underline">irreversible</span>. No raw materials will be deducted, and no finished goods will be added to inventory. The batch will be marked as "Cancelled" in history.
+                            </p>
+                        </div>
+                    </div>
+
+                    <form method="post" class="space-y-6">
+                        <div class="space-y-2">
+                            <label asp-for="Reason" class="block text-sm font-bold text-slate-700">
+                                Reason for Cancellation <span class="text-rose-500">*</span>
+                            </label>
+                            <div class="relative group">
+                                <textarea asp-for="Reason" rows="4" required
+                                          class="block w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:ring-4 focus:ring-rose-500/10 focus:border-rose-500 transition-all placeholder:text-slate-300"
+                                          placeholder="e.g., Equipment failure, personnel issues, or incorrect recipe selection..."></textarea>
+                            </div>
+                            <span asp-validation-for="Reason" class="text-[10px] font-bold text-rose-500 uppercase tracking-tight"></span>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-4 gap-4">
+                            <a href="@Model.DashboardUrl" class="px-6 py-3 rounded-xl border border-slate-200 text-slate-600 font-bold text-sm hover:bg-slate-50 transition-colors">
+                                Go Back
+                            </a>
+                            <button type="submit" class="flex-1 flex items-center justify-center gap-2 px-8 py-3 bg-rose-500 text-white rounded-xl font-bold text-sm shadow-lg shadow-rose-500/20 hover:bg-rose-600 hover:-translate-y-0.5 transition-all">
+                                <span class="material-symbols-outlined text-lg">delete_forever</span>
+                                Invalidate Production Batch
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Info -->
+        <div class="space-y-6">
+            <div class="bg-slate-900 rounded-2xl shadow-xl p-6 text-white relative overflow-hidden">
+                <h3 class="font-bold text-base mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-rose-400">history</span>
+                    Audit Trail
+                </h3>
+                <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                   All cancellations are recorded for accountability. Your username and the reason provided will be attached to this production record indefinitely.
+                </p>
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-white/5">
+                        <span class="material-symbols-outlined text-slate-500 text-sm">person</span>
+                        <div class="text-[10px]">
+                            <p class="text-slate-400 font-bold">Authorized By</p>
+                            <p class="text-white">@HttpContext.Session.GetString("Username")</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+                 <h4 class="text-slate-400 font-bold text-[10px] uppercase tracking-widest mb-4">System Impact</h4>
+                 <div class="space-y-4">
+                     <div class="flex gap-3">
+                         <div class="p-2 h-8 w-8 rounded-lg bg-orange-50 text-orange-500 flex items-center justify-center">
+                             <span class="material-symbols-outlined text-sm">inventory</span>
+                         </div>
+                         <div>
+                             <p class="text-[10px] font-bold text-slate-700">No Inventory Change</p>
+                             <p class="text-[10px] text-slate-400 leading-tight">Resources remain untouched in current storage.</p>
+                         </div>
+                     </div>
+                     <div class="flex gap-3">
+                         <div class="p-2 h-8 w-8 rounded-lg bg-sky-50 text-sky-500 flex items-center justify-center">
+                             <span class="material-symbols-outlined text-sm">leaderboard</span>
+                         </div>
+                         <div>
+                             <p class="text-[10px] font-bold text-slate-700">Efficiency Logging</p>
+                             <p class="text-[10px] text-slate-400 leading-tight">Wasted time may affect kitchen throughput stats.</p>
+                         </div>
+                     </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>

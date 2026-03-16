@@ -2,110 +2,213 @@
 @model PresentationLayer_FranLink.Pages.InternalOrders.DetailsModel
 @{
     ViewData["Title"] = "Order Details";
+    Layout = "_LayoutFranLink";
 }
 
-<h1>Order Details: #@Model.Order.Id</h1>
+<div class="px-6 py-8 lg:px-20 max-w-[1280px] mx-auto w-full">
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
-}
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
-}
+    <!-- Header Actions & Alerts -->
+    <div class="mb-6">
+        <div class="flex items-center justify-between mb-4">
+            <h1 class="text-slate-900 text-3xl font-extrabold tracking-tight">Order #@Model.Order.Id</h1>
+            <a asp-page="./Index" class="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 bg-white text-slate-600 text-sm font-bold hover:bg-slate-50 transition-colors">
+                <span class="material-symbols-outlined text-lg">arrow_back</span> Back to List
+            </a>
+        </div>
 
-<div class="card mb-4">
-    <div class="card-header">
-        Order Information
-    </div>
-    <div class="card-body">
-        <p><strong>Order Date:</strong> @Model.Order.OrderDate.ToLocalTime()</p>
-        <p><strong>Status:</strong> @Model.Order.Status</p>
-        @if (Model.Order.Delivery != null)
+        @if (TempData["SuccessMessage"] != null)
         {
-            <p><strong>Delivery Status:</strong> @Model.Order.Delivery.DeliveryStatus</p>
-            <p><strong>Delivered At:</strong> @Model.Order.Delivery.DeliveredAt?.ToLocalTime()</p>
+            <div class="p-4 mb-4 text-sm text-emerald-800 rounded-lg bg-emerald-50 bg-opacity-50 ring-1 ring-emerald-200" role="alert">
+                <span class="font-medium">Success:</span> @TempData["SuccessMessage"]
+            </div>
         }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="p-4 mb-4 text-sm text-rose-800 rounded-lg bg-rose-50 bg-opacity-50 ring-1 ring-rose-200" role="alert">
+                <span class="font-medium">Error:</span> @TempData["ErrorMessage"]
+            </div>
+        }
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Order Info Sidebar -->
+        <div class="lg:col-span-1 space-y-6">
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+                <h3 class="text-slate-900 text-lg font-bold mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-slate-400">info</span>
+                    Order Information
+                </h3>
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Order Date</p>
+                        <p class="text-slate-800 font-medium mt-1">@Model.Order.OrderDate.ToLocalTime().ToString("MMM dd, yyyy HH:mm")</p>
+                    </div>
+                    <div>
+                        <p class="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-1">Status</p>
+                        @{
+                            var (bgColor, textColor, dotColor) = Model.Order.Status switch
+                            {
+                                "Pending"    => ("bg-amber-100",   "text-amber-700",   "bg-amber-500"),
+                                "Producing"  => ("bg-blue-100",    "text-blue-700",    "bg-blue-500"),
+                                "Approved"   => ("bg-blue-100",    "text-blue-700",    "bg-blue-500"),
+                                "Delivering" => ("bg-purple-100",  "text-purple-700",  "bg-purple-500"),
+                                "Completed"  => ("bg-emerald-100", "text-emerald-700", "bg-emerald-500"),
+                                "Cancelled"  => ("bg-slate-100",   "text-slate-600",   "bg-slate-400"),
+                                _            => ("bg-slate-100",   "text-slate-600",   "bg-slate-400"),
+                            };
+                        }
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold @bgColor @textColor">
+                            <span class="w-1.5 h-1.5 rounded-full @dotColor mr-1.5"></span>
+                            @Model.Order.Status
+                        </span>
+                    </div>
+
+                    @if (Model.Order.Delivery != null)
+                    {
+                        <div class="pt-4 border-t border-slate-100">
+                            <p class="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-1">Delivery Status</p>
+                            <p class="text-slate-800 font-medium">@Model.Order.Delivery.DeliveryStatus</p>
+                        </div>
+                        @if (Model.Order.Delivery.DeliveredAt.HasValue)
+                        {
+                            <div>
+                                <p class="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-1">Delivered At</p>
+                                <p class="text-slate-800 font-medium">@Model.Order.Delivery.DeliveredAt.Value.ToLocalTime().ToString("MMM dd, yyyy HH:mm")</p>
+                            </div>
+                        }
+                    }
+                </div>
+
+                @if (Model.CanConfirmReceived)
+                {
+                    <div class="mt-6 pt-6 border-t border-slate-100">
+                        <form method="post" asp-page-handler="ConfirmReceived" asp-route-id="@Model.Order.Id">
+                            <button type="submit" class="w-full flex justify-center items-center gap-2 py-3 px-4 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg font-bold shadow-md transition-colors">
+                                <span class="material-symbols-outlined">check_circle</span>
+                                Confirm Received
+                            </button>
+                            <p class="text-slate-400 text-xs text-center mt-2">Clicking this will update store inventory.</p>
+                        </form>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Order Items Main Area -->
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+                <div class="px-6 py-5 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+                    <h3 class="text-slate-900 text-lg font-bold">Order Items</h3>
+                    <span class="text-slate-500 text-sm font-medium">@Model.Order.Items.Count items total</span>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-white border-b border-slate-200">
+                            <tr>
+                                <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Product</th>
+                                <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 text-center">Qty</th>
+                                <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 text-right">Unit Price</th>
+                                <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 text-right">Total</th>
+                                @if (Model.CanGiveFeedback)
+                                {
+                                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 text-center">Action</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            @foreach (var item in Model.Order.Items)
+                            {
+                                <tr class="hover:bg-slate-50/50 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <p class="font-bold text-slate-900 text-sm">@item.Product.Name</p>
+                                    </td>
+                                    <td class="px-6 py-4 text-center">
+                                        <span class="inline-flex items-center justify-center bg-slate-100 text-slate-700 rounded px-2.5 py-1 text-sm font-semibold">@item.Quantity</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right text-sm text-slate-600">@item.UnitPrice.ToString("C")</td>
+                                    <td class="px-6 py-4 text-right text-sm font-bold text-slate-900">@((item.Quantity * item.UnitPrice).ToString("C"))</td>
+                                    
+                                    @if (Model.CanGiveFeedback)
+                                    {
+                                        <td class="px-6 py-4 text-center">
+                                            <button type="button" onclick="openFeedbackModal(@item.ProductId)" class="px-3 py-1.5 rounded-md bg-[#137fec]/10 text-[#137fec] hover:bg-[#137fec]/20 text-xs font-bold transition-colors">
+                                                Feedback
+                                            </button>
+
+                                            <!-- Feedback Modal (Hidden by default) -->
+                                            <div id="feedbackModal-@item.ProductId" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm transition-opacity">
+                                                <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden transform scale-100 transition-transform">
+                                                    <form method="post" asp-page-handler="SubmitFeedback" asp-route-id="@Model.Order.Id">
+                                                        <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                                                            <h5 class="text-lg font-bold text-slate-900">Feedback: @item.Product.Name</h5>
+                                                            <button type="button" onclick="closeFeedbackModal(@item.ProductId)" class="text-slate-400 hover:text-slate-600">
+                                                                <span class="material-symbols-outlined">close</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="p-6 text-left space-y-4">
+                                                            <input type="hidden" name="Feedback.ProductId" value="@item.ProductId" />
+                                                            <div>
+                                                                <label class="block text-slate-700 text-sm font-bold mb-2">Rating</label>
+                                                                <div class="relative">
+                                                                    <select class="w-full pl-3 pr-10 py-2.5 rounded-lg border border-slate-200 bg-white focus:ring-2 focus:ring-[#137fec] focus:border-transparent outline-none text-slate-700 text-sm appearance-none" name="Feedback.Rating" required>
+                                                                        <option value="5">5 - Excellent</option>
+                                                                        <option value="4">4 - Good</option>
+                                                                        <option value="3">3 - Average</option>
+                                                                        <option value="2">2 - Poor</option>
+                                                                        <option value="1">1 - Terrible</option>
+                                                                    </select>
+                                                                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">expand_more</span>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <label class="block text-slate-700 text-sm font-bold mb-2">Comment</label>
+                                                                <textarea class="w-full px-3 py-2.5 rounded-lg border border-slate-200 bg-white focus:ring-2 focus:ring-[#137fec] focus:border-transparent outline-none text-slate-700 text-sm resize-none" name="Feedback.Comment" rows="3" placeholder="Tell us about the quality..."></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
+                                                            <button type="button" onclick="closeFeedbackModal(@item.ProductId)" class="px-4 py-2 rounded-lg border border-slate-200 text-slate-600 text-sm font-bold hover:bg-white transition-colors">Cancel</button>
+                                                            <button type="submit" class="px-4 py-2 rounded-lg bg-[#137fec] text-white text-sm font-bold hover:bg-[#137fec]/90 transition-colors shadow-sm">Submit Feedback</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<h3>Items</h3>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Unit Price</th>
-            <th>Total</th>
-            @if (Model.CanGiveFeedback)
-            {
-                <th>Action</th>
-            }
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Order.Items)
-        {
-            <tr>
-                <td>@item.Product.Name</td>
-                <td>@item.Quantity</td>
-                <td>@item.UnitPrice</td>
-                <td>@(item.Quantity * item.UnitPrice)</td>
-                 @if (Model.CanGiveFeedback)
-                {
-                    <td>
-                        <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#feedbackModal-@item.ProductId">
-                            Give Feedback
-                        </button>
-
-                        <!-- Feedback Modal -->
-                        <div class="modal fade" id="feedbackModal-@item.ProductId" tabindex="-1">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form method="post" asp-page-handler="SubmitFeedback" asp-route-id="@Model.Order.Id">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Feedback for @item.Product.Name</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <input type="hidden" name="Feedback.ProductId" value="@item.ProductId" />
-                                            <div class="mb-3">
-                                                <label class="form-label">Rating</label>
-                                                <select class="form-select" name="Feedback.Rating" required>
-                                                    <option value="5">5 - Excellent</option>
-                                                    <option value="4">4 - Good</option>
-                                                    <option value="3">3 - Average</option>
-                                                    <option value="2">2 - Poor</option>
-                                                    <option value="1">1 - Terrible</option>
-                                                </select>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label">Comment</label>
-                                                <textarea class="form-control" name="Feedback.Comment" rows="3"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Submit Feedback</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                }
-            </tr>
+@section Scripts {
+    <script>
+        function openFeedbackModal(productId) {
+            document.getElementById('feedbackModal-' + productId).classList.remove('hidden');
         }
-    </tbody>
-</table>
 
-@if (Model.CanConfirmReceived)
-{
-    <form method="post" asp-page-handler="ConfirmReceived" asp-route-id="@Model.Order.Id" class="mt-3">
-        <button type="submit" class="btn btn-success btn-lg">Confirm Received</button>
-        <p class="text-muted mt-1">Clicking this will update inventory.</p>
-    </form>
+        function closeFeedbackModal(productId) {
+            document.getElementById('feedbackModal-' + productId).classList.add('hidden');
+        }
+
+        // Close on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('[id^="feedbackModal-"]').forEach(modal => {
+                    modal.classList.add('hidden');
+                });
+            }
+        });
+        
+        // Close on click outside
+        document.addEventListener('click', function(e) {
+            if(e.target.classList.contains('backdrop-blur-sm')) {
+                e.target.classList.add('hidden');
+            }
+        });
+    </script>
 }
-
-<a asp-page="./Index" class="btn btn-secondary mt-3">Back to List</a>

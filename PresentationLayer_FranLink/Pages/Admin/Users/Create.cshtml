@@ -2,67 +2,111 @@
 @model PresentationLayer_FranLink.Pages.Admin.Users.CreateModel
 @{
     ViewData["Title"] = "Thêm Người dùng";
+    Layout = "_LayoutFranLink";
 }
 
-<h1><i class="bi bi-person-plus"></i> Thêm Người dùng mới</h1>
-<hr />
+<div class="px-6 py-8 lg:px-20 max-w-[1440px] mx-auto w-full flex flex-col gap-8">
+    
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2">
+                <span class="material-symbols-outlined text-4xl text-[#137fec]">person_add</span>
+                Thêm Người dùng mới
+            </h1>
+            <p class="text-slate-500 text-sm md:text-base mt-2">
+                Tạo tài khoản mới và cấp quyền truy cập vào hệ thống.
+            </p>
+        </div>
+        <a asp-page="Index" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition-colors">
+            <span class="material-symbols-outlined text-lg">arrow_back</span>
+            Quay lại danh sách
+        </a>
+    </div>
 
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-    <div class="alert alert-danger">@Model.ErrorMessage</div>
-}
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 flex items-start gap-3">
+            <span class="material-symbols-outlined text-rose-500 mt-0.5">error</span>
+            <span class="text-sm font-medium">@Model.ErrorMessage</span>
+        </div>
+    }
 
-<div class="row">
-    <div class="col-md-6">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <!-- Form Section -->
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm max-w-3xl">
+        <form method="post" class="p-6 md:p-8 flex flex-col gap-6">
+            <div asp-validation-summary="ModelOnly" class="text-sm text-rose-600 font-medium"></div>
 
-            <div class="mb-3">
-                <label asp-for="Input.Username" class="form-label">Tên đăng nhập <span class="text-danger">*</span></label>
-                <input asp-for="Input.Username" class="form-control" />
-                <span asp-validation-for="Input.Username" class="text-danger"></span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Username -->
+                <div class="flex flex-col gap-1.5">
+                    <label asp-for="Input.Username" class="text-sm font-bold text-slate-700">Tên đăng nhập <span class="text-rose-500">*</span></label>
+                    <input asp-for="Input.Username" class="px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:bg-white transition-all" placeholder="Nhập tên đăng nhập" />
+                    <span asp-validation-for="Input.Username" class="text-xs text-rose-500 font-medium"></span>
+                </div>
+
+                <!-- Password -->
+                <div class="flex flex-col gap-1.5">
+                    <label asp-for="Input.Password" class="text-sm font-bold text-slate-700">Mật khẩu <span class="text-rose-500">*</span></label>
+                    <input asp-for="Input.Password" type="password" class="px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:bg-white transition-all" placeholder="Nhập mật khẩu" />
+                    <span asp-validation-for="Input.Password" class="text-xs text-rose-500 font-medium"></span>
+                </div>
+
+                <!-- Full Name -->
+                <div class="flex flex-col gap-1.5">
+                    <label asp-for="Input.FullName" class="text-sm font-bold text-slate-700">Họ tên</label>
+                    <input asp-for="Input.FullName" class="px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:bg-white transition-all" placeholder="Nhập họ và tên đầy đủ" />
+                </div>
+
+                <!-- Email -->
+                <div class="flex flex-col gap-1.5">
+                    <label asp-for="Input.Email" class="text-sm font-bold text-slate-700">Email <span class="text-rose-500">*</span></label>
+                    <input asp-for="Input.Email" type="email" class="px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:bg-white transition-all" placeholder="Ví dụ: email@domain.com" />
+                    <span asp-validation-for="Input.Email" class="text-xs text-rose-500 font-medium"></span>
+                </div>
+
+                <!-- Phone -->
+                <div class="flex flex-col gap-1.5">
+                    <label asp-for="Input.Phone" class="text-sm font-bold text-slate-700">Số điện thoại</label>
+                    <input asp-for="Input.Phone" class="px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:bg-white transition-all" placeholder="Nhập số điện thoại" />
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label asp-for="Input.Password" class="form-label">Mật khẩu <span class="text-danger">*</span></label>
-                <input asp-for="Input.Password" type="password" class="form-control" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            <hr class="border-slate-100 my-2" />
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Role -->
+                <div class="flex flex-col gap-1.5">
+                    <label asp-for="Input.RoleId" class="text-sm font-bold text-slate-700">Vai trò <span class="text-rose-500">*</span></label>
+                    <div class="relative">
+                        <select asp-for="Input.RoleId" asp-items="Model.RoleOptions" class="w-full pl-4 pr-10 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 appearance-none focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:bg-white transition-all cursor-pointer">
+                            <option value="">— Chọn vai trò —</option>
+                        </select>
+                        <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">expand_more</span>
+                    </div>
+                    <span asp-validation-for="Input.RoleId" class="text-xs text-rose-500 font-medium"></span>
+                </div>
+
+                <!-- Store Assignment -->
+                <div class="flex flex-col gap-1.5">
+                    <label asp-for="Input.FranchiseStoreId" class="text-sm font-bold text-slate-700">Thuộc Cửa hàng/Bếp</label>
+                    <div class="relative">
+                        <select asp-for="Input.FranchiseStoreId" asp-items="Model.StoreOptions" class="w-full pl-4 pr-10 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 appearance-none focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:bg-white transition-all cursor-pointer"></select>
+                        <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">expand_more</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-1">Để trống nếu là tài khoản quản trị Admin.</p>
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label asp-for="Input.FullName" class="form-label">Họ tên</label>
-                <input asp-for="Input.FullName" class="form-control" />
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Input.Email" class="form-label">Email <span class="text-danger">*</span></label>
-                <input asp-for="Input.Email" type="email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Input.Phone" class="form-label">Số điện thoại</label>
-                <input asp-for="Input.Phone" class="form-control" />
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Input.RoleId" class="form-label">Vai trò <span class="text-danger">*</span></label>
-                <select asp-for="Input.RoleId" asp-items="Model.RoleOptions" class="form-select">
-                    <option value="">— Chọn vai trò —</option>
-                </select>
-                <span asp-validation-for="Input.RoleId" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Input.FranchiseStoreId" class="form-label">Thuộc Cửa hàng/Bếp</label>
-                <select asp-for="Input.FranchiseStoreId" asp-items="Model.StoreOptions" class="form-select"></select>
-            </div>
-
-            <div class="mt-4">
-                <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-check-circle"></i> Tạo người dùng
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-3 pt-4 mt-2 border-t border-slate-100">
+                <button type="submit" class="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-[#137fec] text-white text-sm font-bold shadow-md hover:bg-[#137fec]/90 transition-colors min-w-[140px]">
+                    <span class="material-symbols-outlined text-lg">check_circle</span> 
+                    Tạo tài khoản
                 </button>
-                <a asp-page="Index" class="btn btn-secondary ms-2">Hủy</a>
+                <a asp-page="Index" class="inline-flex items-center justify-center px-6 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-100 transition-colors">
+                    Hủy
+                </a>
             </div>
         </form>
     </div>

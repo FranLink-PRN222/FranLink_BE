@@ -2,94 +2,156 @@
 @model PresentationLayer_FranLink.Pages.Admin.Users.EditModel
 @{
     ViewData["Title"] = "Sửa Người dùng";
+    Layout = "_LayoutFranLink";
 }
 
-<h1><i class="bi bi-pencil-square"></i> Sửa Người dùng: @Model.Username</h1>
-<hr />
-
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-    <div class="alert alert-danger">@Model.ErrorMessage</div>
-}
-
-<div class="row">
-    <div class="col-md-6">
-        <h4>Thông tin cá nhân</h4>
-        <form method="post">
-            <input type="hidden" asp-for="Input.UserId" />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="mb-3">
-                <label asp-for="Input.FullName" class="form-label">Họ tên</label>
-                <input asp-for="Input.FullName" class="form-control" />
+<div class="px-6 py-8 lg:px-20 max-w-[1440px] mx-auto w-full flex flex-col gap-8">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <div class="flex items-center gap-3 mb-1">
+                <div class="h-10 w-10 text-lg rounded-full bg-[#137fec]/10 text-[#137fec] flex items-center justify-center font-bold">
+                    @(string.IsNullOrEmpty(Model.Username) ? "?" : Model.Username[0].ToString().ToUpper())
+                </div>
+                <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">
+                    Sửa: @Model.Username
+                </h1>
             </div>
-
-            <div class="mb-3">
-                <label asp-for="Input.Email" class="form-label">Email <span class="text-danger">*</span></label>
-                <input asp-for="Input.Email" type="email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Input.Phone" class="form-label">Số điện thoại</label>
-                <input asp-for="Input.Phone" class="form-control" />
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Input.FranchiseStoreId" class="form-label">Thuộc Cửa hàng/Bếp</label>
-                <select asp-for="Input.FranchiseStoreId" asp-items="Model.StoreOptions" class="form-select"></select>
-            </div>
-
-            <div class="mb-3 form-check">
-                <input asp-for="Input.IsActive" class="form-check-input" />
-                <label asp-for="Input.IsActive" class="form-check-label">Hoạt động</label>
-            </div>
-
-            <button type="submit" class="btn btn-primary">
-                <i class="bi bi-check-circle"></i> Lưu thay đổi
-            </button>
-            <a asp-page="Index" class="btn btn-secondary ms-2">Quay lại</a>
-        </form>
+            <p class="text-slate-500 text-sm md:text-base mt-2">
+                Cập nhật thông tin cá nhân và quản lý quyền truy cập.
+            </p>
+        </div>
+        <a asp-page="Index" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition-colors">
+            <span class="material-symbols-outlined text-lg">arrow_back</span>
+            Quay lại danh sách
+        </a>
     </div>
 
-    <div class="col-md-6">
-        <h4>Quản lý Vai trò</h4>
-        <div class="card">
-            <div class="card-body">
-                <p class="text-muted">Vai trò hiện tại:</p>
-                @foreach (var r in Model.AllRoles)
-                {
-                    var isAssigned = Model.CurrentRoleIds.Contains(r.RoleId);
-                    <div class="d-flex justify-content-between align-items-center mb-2 p-2 border rounded">
-                        <span>
-                            @if (isAssigned)
-                            {
-                                <i class="bi bi-check-circle-fill text-success"></i>
-                            }
-                            else
-                            {
-                                <i class="bi bi-circle text-muted"></i>
-                            }
-                            @r.RoleName
-                        </span>
-                        @if (isAssigned)
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 flex items-start gap-3">
+            <span class="material-symbols-outlined text-rose-500 mt-0.5">error</span>
+            <span class="text-sm font-medium">@Model.ErrorMessage</span>
+        </div>
+    }
+
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <!-- Left Column: Personal info form -->
+        <div class="lg:col-span-3">
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm">
+                <div class="px-6 py-4 border-b border-slate-100 bg-slate-50">
+                    <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[#137fec]">person</span>
+                        Thông tin cá nhân
+                    </h2>
+                </div>
+                
+                <form method="post" class="p-6 md:p-8 flex flex-col gap-6">
+                    <input type="hidden" asp-for="Input.UserId" />
+                    <div asp-validation-summary="ModelOnly" class="text-sm text-rose-600 font-medium"></div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Full Name -->
+                        <div class="flex flex-col gap-1.5 md:col-span-2">
+                            <label asp-for="Input.FullName" class="text-sm font-bold text-slate-700">Họ tên</label>
+                            <input asp-for="Input.FullName" class="px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:bg-white transition-all" />
+                        </div>
+
+                        <!-- Email -->
+                        <div class="flex flex-col gap-1.5">
+                            <label asp-for="Input.Email" class="text-sm font-bold text-slate-700">Email <span class="text-rose-500">*</span></label>
+                            <input asp-for="Input.Email" type="email" class="px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:bg-white transition-all" />
+                            <span asp-validation-for="Input.Email" class="text-xs text-rose-500 font-medium"></span>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="flex flex-col gap-1.5">
+                            <label asp-for="Input.Phone" class="text-sm font-bold text-slate-700">Số điện thoại</label>
+                            <input asp-for="Input.Phone" class="px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:bg-white transition-all" />
+                        </div>
+
+                        <!-- Store Assignment -->
+                        <div class="flex flex-col gap-1.5 md:col-span-2">
+                            <label asp-for="Input.FranchiseStoreId" class="text-sm font-bold text-slate-700">Thuộc Cửa hàng/Bếp</label>
+                            <div class="relative">
+                                <select asp-for="Input.FranchiseStoreId" asp-items="Model.StoreOptions" class="w-full pl-4 pr-10 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 appearance-none focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:bg-white transition-all cursor-pointer"></select>
+                                <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">expand_more</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Active Toggle -->
+                    <div class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 bg-slate-50 mt-2">
+                        <div class="relative flex items-center">
+                            <input type="checkbox" asp-for="Input.IsActive" class="peer sr-only">
+                            <div class="w-11 h-6 bg-slate-300 rounded-full peer peer-checked:bg-emerald-500 transition-colors"></div>
+                            <div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform peer-checked:translate-x-5"></div>
+                        </div>
+                        <div>
+                            <label asp-for="Input.IsActive" class="text-sm font-bold text-slate-900 cursor-pointer select-none">Tài khoản Đang Hoạt Động</label>
+                            <p class="text-xs text-slate-500">Tắt để vô hiệu hóa quyền truy cập của người dùng này.</p>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex items-center gap-3 pt-4 mt-2 border-t border-slate-100">
+                        <button type="submit" class="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-[#137fec] text-white text-sm font-bold shadow-md hover:bg-[#137fec]/90 transition-colors min-w-[140px]">
+                            <span class="material-symbols-outlined text-lg">save</span> 
+                            Lưu thay đổi
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Right Column: Roles management -->
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm sticky top-8">
+                <div class="px-6 py-4 border-b border-slate-100 bg-slate-50">
+                    <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-purple-600">admin_panel_settings</span>
+                        Quản lý Vai trò
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-sm text-slate-500 mb-4">Gán hoặc gỡ các quyền truy cập đối với tài khoản này.</p>
+                    
+                    <div class="flex flex-col gap-3">
+                        @foreach (var r in Model.AllRoles)
                         {
-                            <form method="post" asp-page-handler="RemoveRole" class="d-inline">
-                                <input type="hidden" name="userId" value="@Model.Input.UserId" />
-                                <input type="hidden" name="roleId" value="@r.RoleId" />
-                                <button type="submit" class="btn btn-sm btn-outline-danger">Gỡ</button>
-                            </form>
-                        }
-                        else
-                        {
-                            <form method="post" asp-page-handler="AssignRole" class="d-inline">
-                                <input type="hidden" name="userId" value="@Model.Input.UserId" />
-                                <input type="hidden" name="roleId" value="@r.RoleId" />
-                                <button type="submit" class="btn btn-sm btn-outline-success">Gán</button>
-                            </form>
+                            var isAssigned = Model.CurrentRoleIds.Contains(r.RoleId);
+                            <div class="flex items-center justify-between p-3 rounded-lg border @(isAssigned ? "border-emerald-200 bg-emerald-50" : "border-slate-200 hover:border-slate-300 bg-white") transition-colors group">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="material-symbols-outlined @(isAssigned ? "text-emerald-500" : "text-slate-300")">
+                                        @(isAssigned ? "check_circle" : "radio_button_unchecked")
+                                    </span>
+                                    <span class="text-sm font-bold @(isAssigned ? "text-emerald-900" : "text-slate-700")">@r.RoleName</span>
+                                </div>
+                                
+                                @if (isAssigned)
+                                {
+                                    <form method="post" asp-page-handler="RemoveRole" class="inline">
+                                        <input type="hidden" name="userId" value="@Model.Input.UserId" />
+                                        <input type="hidden" name="roleId" value="@r.RoleId" />
+                                        <button type="submit" class="p-1.5 rounded-md text-rose-600 hover:bg-rose-100 hover:text-rose-700 text-xs font-semibold focus:outline-none transition-colors" title="Gỡ quyền">
+                                            Xóa
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form method="post" asp-page-handler="AssignRole" class="inline">
+                                        <input type="hidden" name="userId" value="@Model.Input.UserId" />
+                                        <input type="hidden" name="roleId" value="@r.RoleId" />
+                                        <button type="submit" class="px-2.5 py-1.5 rounded-md bg-slate-100 group-hover:bg-[#137fec] text-slate-600 group-hover:text-white text-xs font-semibold focus:outline-none transition-colors">
+                                            Gán quyền
+                                        </button>
+                                    </form>
+                                }
+                            </div>
                         }
                     </div>
-                }
+                </div>
             </div>
         </div>
     </div>

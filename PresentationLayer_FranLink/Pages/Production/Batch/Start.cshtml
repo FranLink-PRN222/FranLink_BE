@@ -1,5 +1,5 @@
 @page
-@model PresentationLayer_FranLink.Pages.Manager.Production.StartModel
+@model PresentationLayer_FranLink.Pages.Production.Batch.StartModel
 @{
     ViewData["Title"] = "Start Production";
     Layout = "_LayoutFranLink";
@@ -10,7 +10,7 @@
     <!-- Header -->
     <section class="flex flex-col gap-2">
         <div class="inline-flex items-center gap-2 text-xs text-slate-400 mb-1">
-            <a asp-page="Index" class="hover:text-slate-600">Production</a>
+            <a href="@Model.DashboardUrl" class="hover:text-slate-600">Production</a>
             <span>/</span>
             <span>Start production</span>
         </div>
@@ -65,7 +65,7 @@
                     </select>
                     <p class="mt-1 text-xs text-slate-400">
                         Need to adjust formulas?
-                        <a asp-page="../Recipes/Index" target="_blank" class="text-[#137fec] font-semibold hover:underline">Open recipe manager</a>.
+                        <a asp-page="../../Recipes/Index" target="_blank" class="text-[#137fec] font-semibold hover:underline">Open recipe manager</a>.
                     </p>
                 </div>
 
@@ -90,13 +90,13 @@
                         Notes
                     </label>
                     <textarea asp-for="Input.Notes"
-                              rows="3"
-                              class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent"
-                              placeholder="Shift, special instructions, QC notes..."></textarea>
+                               rows="3"
+                               class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent"
+                               placeholder="Shift, special instructions, QC notes..."></textarea>
                 </div>
 
                 <div class="flex items-center justify-between pt-2">
-                    <a asp-page="Index"
+                    <a href="@Model.DashboardUrl"
                        class="inline-flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-100">
                         <span class="material-symbols-outlined text-base">arrow_back</span>
                         Back

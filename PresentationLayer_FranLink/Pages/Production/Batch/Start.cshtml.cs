@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace PresentationLayer_FranLink.Pages.Manager.Production
+namespace PresentationLayer_FranLink.Pages.Production.Batch
 {
     public class StartModel : PageModel
     {
@@ -23,13 +23,17 @@ namespace PresentationLayer_FranLink.Pages.Manager.Production
         public List<SelectListItem> CentralKitchens { get; set; } = new();
         public List<SelectListItem> Recipes { get; set; } = new();
 
+        public string DashboardUrl { get; set; } = "Index";
+
         public async Task<IActionResult> OnGetAsync()
         {
             var role = HttpContext.Session.GetString("Role");
-            if (role != "Manager")
+            if (role != "Manager" && role != "CentralKitchenStaff" && role != "Central Kitchen Staff")
             {
                 return RedirectToPage("/Login");
             }
+
+            DashboardUrl = GetDashboardPage();
 
             await LoadSelectListsAsync();
             return Page();
@@ -38,7 +42,7 @@ namespace PresentationLayer_FranLink.Pages.Manager.Production
         public async Task<IActionResult> OnPostAsync()
         {
             var role = HttpContext.Session.GetString("Role");
-            if (role != "Manager")
+            if (role != "Manager" && role != "CentralKitchenStaff" && role != "Central Kitchen Staff")
             {
                 return RedirectToPage("/Login");
             }
@@ -46,6 +50,7 @@ namespace PresentationLayer_FranLink.Pages.Manager.Production
             if (!ModelState.IsValid)
             {
                 await LoadSelectListsAsync();
+                DashboardUrl = GetDashboardPage();
                 return Page();
             }
 
@@ -67,12 +72,13 @@ namespace PresentationLayer_FranLink.Pages.Manager.Production
                     ModelState.AddModelError("", $"Insufficient {item.ProductName}: need {item.RequiredQuantity}, have {item.AvailableQuantity} (shortage: {item.ShortageQuantity})");
                 }
                 await LoadSelectListsAsync();
+                DashboardUrl = GetDashboardPage();
                 return Page();
             }
 
             await _productionService.StartProductionAsync(Input, userId);
             TempData["Success"] = "Production started successfully!";
-            return RedirectToPage("Index");
+            return RedirectToPage(GetDashboardPage());
         }
 
         private async Task LoadSelectListsAsync()
@@ -90,6 +96,16 @@ namespace PresentationLayer_FranLink.Pages.Manager.Production
                 Value = r.RecipeId.ToString(),
                 Text = $"{r.Name} ({r.Product.Name})"
             }).ToList();
+        }
+
+        private string GetDashboardPage()
+        {
+            var role = HttpContext.Session.GetString("Role") ?? "";
+            if (role == "CentralKitchenStaff" || role == "Central Kitchen Staff")
+            {
+                return "/CentralKitchenStaff/Index";
+            }
+            return "/Manager/Production/Index";
         }
     }
 }

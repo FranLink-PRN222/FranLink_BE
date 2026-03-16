@@ -45,6 +45,7 @@ namespace PresentationLayer_FranLink.Pages
 
             if (ModelState.IsValid)
             {
+                
                 var user = await _context.Users
                     .Include(u => u.UserRoles)
                     .ThenInclude(ur => ur.Role)

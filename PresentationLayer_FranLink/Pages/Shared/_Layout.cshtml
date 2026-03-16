@@ -26,12 +26,19 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                             <a class="nav-link text-dark" asp-area="" asp-page="/InternalOrders/Index">My Orders</a>
-                        </li>
-                        <li class="nav-item">
-                             <a class="nav-link text-dark" asp-area="" asp-page="/Inventory/Index">Store Inventory</a>
-                        </li>
+                        @{
+                            var role = httpContextAccessor.HttpContext.Session.GetString("Role");
+                            var canSeeStoreOps = role == "Manager" || role == "Admin" || role == "Franchise Store Staff" || role == "FranchiseStoreStaff" || role == "SupplyCoordinator" || role == "Supply Coordinator";
+                        }
+                        @if (canSeeStoreOps)
+                        {
+                            <li class="nav-item">
+                                 <a class="nav-link text-dark" asp-area="" asp-page="/InternalOrders/Index">My Orders</a>
+                            </li>
+                            <li class="nav-item">
+                                 <a class="nav-link text-dark" asp-area="" asp-page="/Inventory/Index">Store Inventory</a>
+                            </li>
+                        }
                         @if (httpContextAccessor.HttpContext.Session.GetString("Role") == "CentralKitchenStaff" || httpContextAccessor.HttpContext.Session.GetString("Role") == "Manager")
                         {
                             <li class="nav-item dropdown">

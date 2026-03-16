@@ -1,101 +1,158 @@
 @page
 @model PresentationLayer_FranLink.Pages.Manager.Products.CreateModel
 @{
-    ViewData["Title"] = "Create Product";
+    ViewData["Title"] = "Register Asset";
     Layout = "_LayoutFranLink";
 }
 
-<div class="container">
-    <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-page="Index">Products</a></li>
-            <li class="breadcrumb-item active">Create</li>
-        </ol>
-    </nav>
+<div class="max-w-[1280px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-8">
+    
+    <!-- Header Area -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div class="flex flex-col gap-2">
+            <nav class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
+                <a asp-page="Index" class="hover:text-[#137fec] transition-colors">Products</a>
+                <span class="material-symbols-outlined text-[10px]">chevron_right</span>
+                <span class="text-slate-500">New Registration</span>
+            </nav>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 flex items-center gap-3">
+                <span class="material-symbols-outlined text-4xl text-[#137fec]">add_box</span>
+                Register Product
+            </h1>
+            <p class="text-slate-500 text-sm md:text-base max-w-2xl">
+                Onboard a new item into the FranLink inventory system. Ensure SKU standards and categorization are followed.
+            </p>
+        </div>
+    </div>
 
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="bi bi-plus-lg me-2"></i>Create New Product</h5>
+    <form method="post" class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8 items-start">
+        <div asp-validation-summary="ModelOnly" class="lg:col-span-2 p-4 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-sm font-medium flex gap-3 items-start @(ViewData.ModelState.IsValid ? "hidden" : "")">
+             <span class="material-symbols-outlined text-rose-500">error</span>
+             <div>Please review the registration errors below.</div>
+        </div>
+
+        <!-- Main Form Column -->
+        <div class="flex flex-col gap-6">
+            
+            <!-- Basic Info Card -->
+            <div class="bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden">
+                <div class="px-8 py-5 bg-slate-50 border-b border-slate-200 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[#137fec]">inventory</span>
+                    <h2 class="text-slate-900 font-bold">Product Specifications</h2>
                 </div>
-                <div class="card-body">
-                    <form method="post">
-                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="md:col-span-1">
+                        <label asp-for="Input.Name" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Product Name <span class="text-rose-500">*</span></label>
+                        <input asp-for="Input.Name" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold tracking-tight focus:ring-4 focus:ring-[#137fec]/10 focus:border-[#137fec] transition-all" placeholder="e.g., Premium Espresso Bean" />
+                        <span asp-validation-for="Input.Name" class="text-[10px] text-rose-500 font-bold uppercase mt-1"></span>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-md-8 mb-3">
-                                <label asp-for="Input.Name" class="form-label">Product Name <span class="text-danger">*</span></label>
-                                <input asp-for="Input.Name" class="form-control" placeholder="Enter product name" />
-                                <span asp-validation-for="Input.Name" class="text-danger"></span>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label asp-for="Input.SKU" class="form-label">SKU</label>
-                                <input asp-for="Input.SKU" class="form-control" placeholder="e.g., PRD-001" />
-                                <span asp-validation-for="Input.SKU" class="text-danger"></span>
-                            </div>
+                    <div class="md:col-span-1">
+                        <label asp-for="Input.SKU" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Stock Keeping Unit (SKU)</label>
+                        <input asp-for="Input.SKU" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-mono text-sm focus:ring-4 focus:ring-[#137fec]/10 focus:border-[#137fec] transition-all" placeholder="FL-ESP-001" />
+                        <span asp-validation-for="Input.SKU" class="text-[10px] text-rose-500 font-bold uppercase mt-1"></span>
+                    </div>
+
+                    <div class="md:col-span-1">
+                        <label asp-for="Input.Price" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Registry Price <span class="text-rose-500">*</span></label>
+                        <div class="relative">
+                            <input asp-for="Input.Price" type="number" step="1000" class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-black focus:ring-4 focus:ring-[#137fec]/10 focus:border-[#137fec] transition-all" placeholder="0" />
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">VND</span>
                         </div>
+                        <span asp-validation-for="Input.Price" class="text-[10px] text-rose-500 font-bold uppercase mt-1"></span>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Input.Price" class="form-label">Price (VND) <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <input asp-for="Input.Price" type="number" step="1000" class="form-control" placeholder="0" />
-                                    <span class="input-group-text">VND</span>
-                                </div>
-                                <span asp-validation-for="Input.Price" class="text-danger"></span>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Input.Unit" class="form-label">Unit</label>
-                                <select asp-for="Input.Unit" class="form-select">
-                                    <option value="">-- Select Unit --</option>
-                                    <option value="cái">Cái</option>
-                                    <option value="hộp">Hộp</option>
-                                    <option value="kg">Kg</option>
-                                    <option value="gram">Gram</option>
-                                    <option value="lít">Lít</option>
-                                    <option value="ml">ml</option>
-                                    <option value="gói">Gói</option>
-                                    <option value="chai">Chai</option>
-                                    <option value="lon">Lon</option>
-                                </select>
-                                <span asp-validation-for="Input.Unit" class="text-danger"></span>
-                            </div>
+                    <div class="md:col-span-1">
+                        <label asp-for="Input.Unit" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Measurement Unit</label>
+                        <select asp-for="Input.Unit" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold focus:ring-4 focus:ring-[#137fec]/10 focus:border-[#137fec] transition-all">
+                            <option value="">-- Choose Unit --</option>
+                            <option value="cái">Cái (Piece)</option>
+                            <option value="hộp">Hộp (Box)</option>
+                            <option value="kg">Kilogram (kg)</option>
+                            <option value="gram">Gram (g)</option>
+                            <option value="lít">Lít (L)</option>
+                            <option value="ml">Milliliter (ml)</option>
+                            <option value="gói">Gói (Packet)</option>
+                            <option value="chai">Chai (Bottle)</option>
+                            <option value="lon">Lon (Can)</option>
+                        </select>
+                        <span asp-validation-for="Input.Unit" class="text-[10px] text-rose-500 font-bold uppercase mt-1"></span>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label asp-for="Input.Category" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Catalog Category</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg">category</span>
+                            <input asp-for="Input.Category" class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold focus:ring-4 focus:ring-[#137fec]/10 focus:border-[#137fec] transition-all" list="categoryList" placeholder="Search or create category..." />
                         </div>
+                        <datalist id="categoryList">
+                            @foreach (var cat in Model.ExistingCategories)
+                            {
+                                <option value="@cat"></option>
+                            }
+                        </datalist>
+                        <span asp-validation-for="Input.Category" class="text-[10px] text-rose-500 font-bold uppercase mt-1"></span>
+                    </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Input.Category" class="form-label">Category</label>
-                            <input asp-for="Input.Category" class="form-control" list="categoryList" placeholder="Select or enter new category" />
-                            <datalist id="categoryList">
-                                @foreach (var cat in Model.ExistingCategories)
-                                {
-                                    <option value="@cat"></option>
-                                }
-                            </datalist>
-                            <span asp-validation-for="Input.Category" class="text-danger"></span>
-                        </div>
+                    <div class="md:col-span-2">
+                        <label asp-for="Input.Description" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Operational Notes</label>
+                        <textarea asp-for="Input.Description" rows="4" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:ring-4 focus:ring-[#137fec]/10 focus:border-[#137fec] transition-all" placeholder="Enter ingredients summary or handling instructions..."></textarea>
+                        <span asp-validation-for="Input.Description" class="text-[10px] text-rose-500 font-bold uppercase mt-1"></span>
+                    </div>
+                </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Input.Description" class="form-label">Description</label>
-                            <textarea asp-for="Input.Description" class="form-control" rows="4" placeholder="Enter product description..."></textarea>
-                            <span asp-validation-for="Input.Description" class="text-danger"></span>
-                        </div>
-
-                        <hr />
-
-                        <div class="d-flex justify-content-between">
-                            <a asp-page="Index" class="btn btn-outline-secondary">
-                                <i class="bi bi-arrow-left me-1"></i>Back to List
-                            </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-check-lg me-1"></i>Create Product
-                            </button>
-                        </div>
-                    </form>
+                <div class="px-8 py-8 border-t border-slate-100 bg-slate-50/50 flex items-center justify-end gap-3">
+                    <a asp-page="Index" class="px-8 py-3.5 rounded-2xl border border-slate-200 text-slate-600 font-black text-xs uppercase tracking-widest hover:bg-slate-50 transition-all">
+                        Cancel
+                    </a>
+                    <button type="submit" class="inline-flex items-center gap-2 px-10 py-3.5 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-slate-900/20 hover:bg-slate-800 hover:-translate-y-0.5 active:translate-y-0 transition-all">
+                        <span class="material-symbols-outlined text-lg">check_circle</span>
+                        Register Product
+                    </button>
                 </div>
             </div>
         </div>
-    </div>
+
+        <!-- Sidebar Area -->
+        <aside class="flex flex-col gap-6 sticky top-24">
+            <div class="bg-[#137fec] rounded-[32px] p-6 text-white shadow-2xl shadow-[#137fec]/20 relative overflow-hidden">
+                <div class="absolute -right-8 -top-8 h-32 w-32 bg-white/10 rounded-full blur-3xl"></div>
+                <h3 class="text-sm font-bold uppercase tracking-widest text-blue-100 mb-6 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-xl">lightbulb</span>
+                    Master Data Tips
+                </h3>
+                <div class="flex flex-col gap-5">
+                    <div class="flex gap-4">
+                        <div class="size-6 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+                            <span class="text-[10px] font-black italic">!</span>
+                        </div>
+                        <p class="text-[11px] text-blue-50 leading-relaxed font-bold">
+                            SKUs should ideally follow the pattern <span class="text-white">FL-CATEGORY-XXX</span> for consistent sorting.
+                        </p>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="size-6 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+                            <span class="text-[10px] font-black italic">!</span>
+                        </div>
+                        <p class="text-[11px] text-blue-50 leading-relaxed font-bold">
+                            Once registered, this product can be linked to <span class="text-white">Recipes</span> as either an output or ingredient.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-[32px] p-6 border border-slate-200 shadow-sm flex flex-col gap-4">
+                <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Global Status</h4>
+                <div class="flex items-center gap-2">
+                    <div class="size-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                    <span class="text-xs font-bold text-slate-900">Synchronized Deployment</span>
+                </div>
+                <p class="text-[10px] text-slate-500 font-medium leading-relaxed">
+                    New products are automatically propagated to all Franchise catalogs upon registration.
+                </p>
+            </div>
+        </aside>
+    </form>
 </div>
 
 @section Scripts {

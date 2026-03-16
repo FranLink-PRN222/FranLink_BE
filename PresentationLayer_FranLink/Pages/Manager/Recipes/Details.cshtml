@@ -5,223 +5,279 @@
     Layout = "_LayoutFranLink";
 }
 
-<div class="container">
-    <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-page="Index">Recipes</a></li>
-            <li class="breadcrumb-item active">@Model.Recipe.Name</li>
-        </ol>
-    </nav>
+<div class="max-w-[1280px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-8">
+    
+    <!-- Header Block -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-slate-200">
+        <div class="flex flex-col gap-3">
+            <nav class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
+                <a asp-page="Index" class="hover:text-[#137fec] transition-colors">Recipes</a>
+                <span class="material-symbols-outlined text-[10px]">chevron_right</span>
+                <span class="text-slate-500">View Formula</span>
+            </nav>
+            <div class="flex items-center gap-4">
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900">
+                    @Model.Recipe.Name
+                </h1>
+                @if (Model.Recipe.IsActive)
+                {
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold border border-emerald-200">
+                        <span class="size-1.5 rounded-full bg-emerald-500"></span>
+                        Active Standard
+                    </span>
+                }
+                else
+                {
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-500 text-xs font-bold border border-slate-200">
+                        <span class="size-1.5 rounded-full bg-slate-400"></span>
+                        Inactive
+                    </span>
+                }
+            </div>
+            <p class="text-slate-500 text-sm md:text-base max-w-2xl flex items-center gap-2">
+                <span class="material-symbols-outlined text-[#137fec] text-lg">factory</span>
+                Production formula for 
+                <a asp-page="/Manager/Products/Details" asp-route-id="@Model.Recipe.ProductId" class="font-bold text-slate-900 border-b border-slate-200 hover:border-[#137fec] hover:text-[#137fec] transition-all">
+                    @Model.Recipe.Product?.Name
+                </a>
+            </p>
+        </div>
+        <div class="flex items-center gap-3">
+            <a asp-page="Edit" asp-route-id="@Model.Recipe.RecipeId" class="px-6 py-3 rounded-xl bg-[#137fec] text-white text-sm font-bold shadow-lg shadow-[#137fec]/20 hover:bg-[#137fec]/90 hover:-translate-y-0.5 transition-all flex items-center gap-2">
+                <span class="material-symbols-outlined text-lg">edit</span>
+                Edit Formula
+            </a>
+            <a asp-page="Index" class="px-6 py-3 rounded-xl border border-slate-200 text-slate-600 text-sm font-bold hover:bg-slate-50 transition-all">
+                Back to List
+            </a>
+        </div>
+    </div>
 
-    <div class="row">
-        <!-- Recipe Info -->
-        <div class="col-md-7">
-            <div class="card mb-4">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0"><i class="bi bi-journal-text me-2"></i>Recipe Details</h5>
-                    @if (Model.Recipe.IsActive)
+    <!-- Dashboard Content -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Main Content Column -->
+        <div class="lg:col-span-8 flex flex-col gap-8">
+            
+            <!-- Quick Metrics Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col gap-1">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Standard Yield</span>
+                    <div class="flex items-end gap-2 text-slate-900">
+                        <span class="text-3xl font-black">@Model.Recipe.OutputQuantity</span>
+                        <span class="text-slate-400 font-bold mb-1">@Model.Recipe.Product?.Unit</span>
+                    </div>
+                    <p class="text-[10px] text-slate-500">Per production batch</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col gap-1">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Prep Time</span>
+                    <div class="flex items-end gap-2 text-slate-900">
+                        <span class="text-3xl font-black">@Model.Recipe.EstimatedTime</span>
+                        <span class="text-slate-400 font-bold mb-1">Mins</span>
+                    </div>
+                    <p class="text-[10px] text-slate-500">Estimated duration</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col gap-1">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Components</span>
+                    <div class="flex items-end gap-2 text-slate-900">
+                        <span class="text-3xl font-black">@Model.Recipe.RecipeItems.Count</span>
+                        <span class="text-slate-400 font-bold mb-1">Items</span>
+                    </div>
+                    <p class="text-[10px] text-slate-500">Required ingredients</p>
+                </div>
+            </div>
+
+            <!-- Bill of Materials (BOM) Section -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[#137fec]">list_alt</span>
+                        <h2 class="text-slate-900 font-bold text-sm">Expert Formula (BOM)</h2>
+                    </div>
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Ratio Analysis</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50/50">
+                                <th class="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-wider">#</th>
+                                <th class="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Ingredient</th>
+                                <th class="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-wider text-right">Quantity</th>
+                                <th class="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Unit</th>
+                                <th class="px-6 py-4 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            @{ int idx = 1; }
+                            @foreach (var item in Model.Recipe.RecipeItems)
+                            {
+                                <tr class="hover:bg-slate-50/50 transition-colors group">
+                                    <td class="px-6 py-4 text-xs font-bold text-slate-300">@idx.ToString("00")</td>
+                                    <td class="px-6 py-4">
+                                        <a asp-page="/Manager/Products/Details" asp-route-id="@item.IngredientProductId" class="text-sm font-bold text-slate-900 hover:text-[#137fec] transition-all">
+                                            @item.IngredientProduct?.Name
+                                        </a>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <span class="text-sm font-black text-slate-900">@item.Quantity.ToString("N2")</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-tight">
+                                            @item.Unit
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-xs text-slate-500 max-w-[200px] truncate" title="@item.Notes">
+                                            @(string.IsNullOrEmpty(item.Notes) ? "-" : item.Notes)
+                                        </p>
+                                    </td>
+                                </tr>
+                                idx++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Instructions Section -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[#137fec]">menu_book</span>
+                    <h2 class="text-slate-900 font-bold text-sm">Step-by-Step Instructions</h2>
+                </div>
+                <div class="p-6">
+                    @if (!string.IsNullOrEmpty(Model.Recipe.Instructions))
                     {
-                        <span class="badge bg-success fs-6">Active</span>
+                        <div class="prose prose-slate max-w-none prose-sm">
+                            <div class="bg-slate-50/50 rounded-xl p-6 border border-slate-100 text-slate-700 leading-relaxed font-medium whitespace-pre-wrap">@Model.Recipe.Instructions</div>
+                        </div>
                     }
                     else
                     {
-                        <span class="badge bg-secondary fs-6">Inactive</span>
+                        <div class="flex flex-col items-center justify-center py-8 text-slate-400 gap-2 italic">
+                            <span class="material-symbols-outlined text-4xl opacity-20">notes</span>
+                            <p class="text-xs">No specific preparation instructions documented for this formula.</p>
+                        </div>
                     }
                 </div>
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col-sm-4"><strong>Recipe Name:</strong></div>
-                        <div class="col-sm-8">@Model.Recipe.Name</div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-4"><strong>Output Product:</strong></div>
-                        <div class="col-sm-8">
-                            <a asp-page="/Manager/Products/Details" asp-route-id="@Model.Recipe.ProductId">
-                                @Model.Recipe.Product?.Name
-                            </a>
+            </div>
+        </div>
+
+        <!-- Sidebar Column -->
+        <aside class="lg:col-span-4 flex flex-col gap-6 sticky top-24">
+            
+            <!-- Availability Calculator Card -->
+            <div class="bg-slate-900 rounded-3xl p-6 text-white shadow-2xl relative overflow-hidden">
+                <!-- Gloss Effect -->
+                <div class="absolute -right-16 -top-16 size-48 bg-[#137fec]/20 rounded-full blur-3xl"></div>
+                <div class="absolute -left-16 -bottom-16 size-48 bg-amber-500/10 rounded-full blur-3xl"></div>
+
+                <div class="relative flex flex-col gap-6">
+                    <div class="flex items-center gap-3">
+                        <div class="size-10 rounded-xl bg-[#137fec] flex items-center justify-center shadow-lg shadow-[#137fec]/40">
+                            <span class="material-symbols-outlined text-white text-xl">insights</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <h3 class="font-bold text-white tracking-tight">Operational Check</h3>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Live Stock Verification</span>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-4"><strong>Output Quantity:</strong></div>
-                        <div class="col-sm-8">@Model.Recipe.OutputQuantity @Model.Recipe.Product?.Unit per batch</div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-4"><strong>Estimated Time:</strong></div>
-                        <div class="col-sm-8">@Model.Recipe.EstimatedTime minutes</div>
-                    </div>
-                    @if (!string.IsNullOrEmpty(Model.Recipe.Instructions))
+
+                    <form method="get" class="flex flex-col gap-4">
+                        <input type="hidden" name="id" value="@Model.Recipe.RecipeId" />
+                        
+                        <div class="flex flex-col gap-1.5">
+                            <label class="text-[10px] font-extrabold text-[#137fec] uppercase tracking-widest">Select Kitchen</label>
+                            <select name="SelectedCentralKitchenId" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 focus:ring-[#137fec] focus:outline-none placeholder:text-slate-500 transition-all">
+                                <option value="" class="text-slate-900">Choose location...</option>
+                                @foreach (var ck in Model.CentralKitchens)
+                                {
+                                    <option value="@ck.Id" selected="@(Model.SelectedCentralKitchenId == ck.Id)" class="text-slate-900">@ck.Name</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="flex flex-col gap-1.5">
+                            <label class="text-[10px] font-extrabold text-[#137fec] uppercase tracking-widest">Batch Quantity</label>
+                            <div class="relative">
+                                <input type="number" name="CalculateQuantity" value="@Model.CalculateQuantity" min="1" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 focus:ring-[#137fec] focus:outline-none transition-all" />
+                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-500 uppercase">Units</span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 rounded-xl bg-[#137fec] text-white font-black text-xs uppercase tracking-widest hover:bg-[#137fec]/90 hover:-translate-y-0.5 active:translate-y-0 shadow-lg shadow-[#137fec]/20 transition-all flex items-center justify-center gap-2">
+                            Check Readiness
+                            <span class="material-symbols-outlined text-sm">trending_up</span>
+                        </button>
+                    </form>
+
+                    @if (Model.SelectedCentralKitchenId.HasValue)
                     {
-                        <div class="row mb-3">
-                            <div class="col-sm-4"><strong>Instructions:</strong></div>
-                            <div class="col-sm-8">
-                                <div class="border rounded p-2 bg-light" style="white-space: pre-wrap;">@Model.Recipe.Instructions</div>
+                        <div class="mt-4 pt-6 border-t border-white/5 flex flex-col gap-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-slate-400">Status Analysis</span>
+                                @if (Model.CanProduce)
+                                {
+                                    <span class="inline-flex items-center gap-1.5 text-emerald-400 text-[10px] font-black uppercase">
+                                        <span class="size-1.5 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400/50"></span>
+                                        Ready to Build
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="inline-flex items-center gap-1.5 text-rose-400 text-[10px] font-black uppercase">
+                                        <span class="size-1.5 rounded-full bg-rose-400 animate-pulse"></span>
+                                        Stock Shortage
+                                    </span>
+                                }
+                            </div>
+
+                            <div class="flex flex-col gap-3">
+                                @foreach (var item in Model.IngredientsAvailability)
+                                {
+                                    var percentage = Math.Min(100, (double)item.AvailableQuantity / (double)item.RequiredQuantity * 100);
+                                    var progressColor = item.IsAvailable ? "bg-emerald-500" : "bg-rose-500";
+                                    
+                                    <div class="flex flex-col gap-1.5">
+                                        <div class="flex justify-between items-center text-[10px] font-bold uppercase tracking-tight">
+                                            <span class="text-slate-400 truncate max-w-[120px]">@item.ProductName</span>
+                                            <span class="@(item.IsAvailable ? "text-slate-300" : "text-rose-400")">
+                                                @item.AvailableQuantity.ToString("G29") / @item.RequiredQuantity.ToString("G29")
+                                            </span>
+                                        </div>
+                                        <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                                            <div class="h-full @progressColor rounded-full transition-all duration-1000" style="width: @percentage%"></div>
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         </div>
                     }
                 </div>
-                <div class="card-footer">
-                    <a asp-page="Edit" asp-route-id="@Model.Recipe.RecipeId" class="btn btn-warning">
-                        <i class="bi bi-pencil me-1"></i>Edit
-                    </a>
-                    <a asp-page="Index" class="btn btn-outline-secondary">
-                        <i class="bi bi-arrow-left me-1"></i>Back to List
-                    </a>
-                </div>
             </div>
 
-            <!-- Ingredients -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5 class="mb-0"><i class="bi bi-list-check me-2"></i>Ingredients (Định mức nguyên liệu)</h5>
-                </div>
-                <div class="card-body">
-                    @if (Model.Recipe.RecipeItems.Any())
-                    {
-                        <table class="table table-hover">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Ingredient</th>
-                                    <th class="text-end">Quantity</th>
-                                    <th>Unit</th>
-                                    <th>Notes</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{ int index = 1; }
-                                @foreach (var item in Model.Recipe.RecipeItems)
-                                {
-                                    <tr>
-                                        <td>@index</td>
-                                        <td>
-                                            <a asp-page="/Manager/Products/Details" asp-route-id="@item.IngredientProductId">
-                                                @item.IngredientProduct?.Name
-                                            </a>
-                                        </td>
-                                        <td class="text-end">@item.Quantity</td>
-                                        <td>@(item.Unit ?? "-")</td>
-                                        <td class="text-muted">@(item.Notes ?? "-")</td>
-                                    </tr>
-                                    index++;
-                                }
-                            </tbody>
-                        </table>
-                    }
-                    else
-                    {
-                        <p class="text-muted mb-0">No ingredients defined.</p>
-                    }
-                </div>
-            </div>
-        </div>
-
-        <!-- Availability Calculator -->
-        <div class="col-md-5">
-            <div class="card mb-4">
-                <div class="card-header bg-info text-white">
-                    <h5 class="mb-0"><i class="bi bi-calculator me-2"></i>Ingredient Availability Calculator</h5>
-                </div>
-                <div class="card-body">
-                    <form method="get">
-                        <input type="hidden" name="id" value="@Model.Recipe.RecipeId" />
-                        <div class="mb-3">
-                            <label class="form-label">Central Kitchen</label>
-                            <select name="SelectedCentralKitchenId" class="form-select">
-                                <option value="">-- Select Central Kitchen --</option>
-                                @foreach (var ck in Model.CentralKitchens)
-                                {
-                                    if (Model.SelectedCentralKitchenId == ck.Id)
-                                    {
-                                        <option value="@ck.Id" selected>@ck.Name</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@ck.Id">@ck.Name</option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Production Quantity</label>
-                            <input type="number" name="CalculateQuantity" class="form-control" value="@Model.CalculateQuantity" min="1" />
-                            <small class="text-muted">How many units do you want to produce?</small>
-                        </div>
-                        <button type="submit" class="btn btn-info w-100">
-                            <i class="bi bi-search me-1"></i>Check Availability
-                        </button>
-                    </form>
-                </div>
-
-                @if (Model.IngredientsAvailability.Any())
-                {
-                    <div class="card-body border-top">
-                        <h6 class="mb-3">
-                            Results for @Model.CalculateQuantity units:
-                            @if (Model.CanProduce)
-                            {
-                                <span class="badge bg-success ms-2">Can Produce</span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-danger ms-2">Insufficient Stock</span>
-                            }
-                        </h6>
-
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Ingredient</th>
-                                    <th class="text-end">Need</th>
-                                    <th class="text-end">Have</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.IngredientsAvailability)
-                                {
-                                    <tr class="@(item.IsAvailable ? "" : "table-danger")">
-                                        <td>@item.ProductName</td>
-                                        <td class="text-end">@item.RequiredQuantity @item.Unit</td>
-                                        <td class="text-end">@item.AvailableQuantity @item.Unit</td>
-                                        <td>
-                                            @if (item.IsAvailable)
-                                            {
-                                                <i class="bi bi-check-circle text-success"></i>
-                                            }
-                                            else
-                                            {
-                                                <span class="text-danger">
-                                                    <i class="bi bi-exclamation-triangle"></i>
-                                                    -@item.ShortageQuantity
-                                                </span>
-                                            }
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+            <!-- Safety & Approvals Card -->
+            <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col gap-4">
+                <h4 class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">Quality Assurance</h4>
+                <div class="flex items-center gap-3">
+                    <div class="size-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                        <span class="material-symbols-outlined">health_and_safety</span>
                     </div>
-                }
-            </div>
-
-            <!-- Quick Info -->
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Quick Info</h5>
+                    <div>
+                        <p class="text-xs font-bold text-slate-900 leading-tight">Food Safety Standards</p>
+                        <p class="text-[10px] text-slate-500">Auto-verified per batch run</p>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="row text-center">
-                        <div class="col-6">
-                            <h3 class="mb-0 text-primary">@Model.Recipe.RecipeItems.Count</h3>
-                            <small class="text-muted">Ingredients</small>
-                        </div>
-                        <div class="col-6">
-                            <h3 class="mb-0 text-info">@Model.Recipe.EstimatedTime</h3>
-                            <small class="text-muted">Minutes</small>
-                        </div>
+                <div class="flex items-center gap-3">
+                    <div class="size-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center">
+                        <span class="material-symbols-outlined">psychology</span>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-slate-900 leading-tight">Yield Accuracy</p>
+                        <p class="text-[10px] text-slate-500">Verified against warehouse outs</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </aside>
     </div>
 </div>

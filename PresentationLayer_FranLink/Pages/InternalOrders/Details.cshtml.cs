@@ -33,9 +33,9 @@ namespace PresentationLayer_FranLink.Pages.InternalOrders
             }
 
             // Logic for Confirm Received Button
-            // Visible if Delivery Status is Completed AND Order Status is NOT Completed
+            // Visible if Delivery Status is 'Delivered' (Arrived at store) AND Order Status is NOT Completed
             CanConfirmReceived = Order.Delivery != null &&
-                                 Order.Delivery.DeliveryStatus == "Completed" &&
+                                 Order.Delivery.DeliveryStatus == "Delivered" &&
                                  Order.Status != "Completed";
 
             // Logic for Feedback

@@ -40,7 +40,7 @@ namespace PresentationLayer_FranLink.Pages.Manager.Production
         public async Task<IActionResult> OnGetAsync()
         {
             var role = HttpContext.Session.GetString("Role");
-            if (role != "Manager")
+            if (role != "Manager" && role != "CentralKitchenStaff" && role != "Central Kitchen Staff")
             {
                 return RedirectToPage("/Login");
             }

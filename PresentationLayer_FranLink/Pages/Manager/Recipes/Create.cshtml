@@ -5,126 +5,210 @@
     Layout = "_LayoutFranLink";
 }
 
-<div class="container">
-    <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-page="Index">Recipes</a></li>
-            <li class="breadcrumb-item active">Create</li>
-        </ol>
-    </nav>
+<div class="max-w-[1280px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-8">
+    
+    <!-- Header Area -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div class="flex flex-col gap-2">
+            <nav class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
+                <a asp-page="Index" class="hover:text-[#137fec] transition-colors">Recipes</a>
+                <span class="material-symbols-outlined text-[10px]">chevron_right</span>
+                <span class="text-slate-500">New Recipe</span>
+            </nav>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 flex items-center gap-3">
+                <span class="material-symbols-outlined text-4xl text-[#137fec]">menu_book</span>
+                Craft New Recipe
+            </h1>
+            <p class="text-slate-500 text-sm md:text-base max-w-2xl">
+                Define your kitchen's standards. Specify output products, batch sizes, and precise ingredient ratios.
+            </p>
+        </div>
+        <div class="flex items-center gap-3">
+            <a asp-page="Index" class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-sm font-bold hover:bg-slate-50 transition-all flex items-center gap-2">
+                <span class="material-symbols-outlined text-lg">arrow_back</span>
+                Cancel
+            </a>
+        </div>
+    </div>
 
-    <div class="row">
-        <div class="col-lg-10">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="bi bi-plus-lg me-2"></i>Create New Recipe</h5>
+    <form method="post" class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8 items-start">
+        <div asp-validation-summary="ModelOnly" class="lg:col-span-2 p-4 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-sm font-medium flex gap-3 items-start @(ViewData.ModelState.IsValid ? "hidden" : "")">
+             <span class="material-symbols-outlined text-rose-500">error</span>
+             <div>Please correct the errors listed below.</div>
+        </div>
+
+        <!-- Main Form Column -->
+        <div class="flex flex-col gap-6">
+            
+            <!-- Basic Information Card -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[#137fec]">info</span>
+                    <h2 class="text-slate-900 font-bold">Standard Configuration</h2>
                 </div>
-                <div class="card-body">
-                    <form method="post">
-                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2">
+                        <label asp-for="Input.Name" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Recipe Name <span class="text-rose-500">*</span></label>
+                        <input asp-for="Input.Name" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold focus:ring-4 focus:ring-[#137fec]/10 focus:border-[#137fec] transition-all" placeholder="e.g. Signature Sourdough Bread" />
+                        <span asp-validation-for="Input.Name" class="text-[10px] text-rose-500 font-bold uppercase mt-1"></span>
+                    </div>
 
-                        <!-- Recipe Info -->
-                        <h6 class="text-muted mb-3">Recipe Information</h6>
-                        <div class="row mb-3">
-                            <div class="col-md-8">
-                                <label asp-for="Input.Name" class="form-label">Recipe Name <span class="text-danger">*</span></label>
-                                <input asp-for="Input.Name" class="form-control" placeholder="e.g., Bánh mì standard" />
-                                <span asp-validation-for="Input.Name" class="text-danger"></span>
-                            </div>
-                            <div class="col-md-4">
-                                <label asp-for="Input.ProductId" class="form-label">Output Product <span class="text-danger">*</span></label>
-                                <select asp-for="Input.ProductId" asp-items="Model.ProductList" class="form-select">
-                                    <option value="">-- Select Product --</option>
-                                </select>
-                                <span asp-validation-for="Input.ProductId" class="text-danger"></span>
-                            </div>
+                    <div>
+                        <label asp-for="Input.ProductId" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Target Product <span class="text-rose-500">*</span></label>
+                        <select asp-for="Input.ProductId" asp-items="Model.ProductList" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-semibold focus:ring-4 focus:ring-[#137fec]/10 focus:border-[#137fec] transition-all">
+                            <option value="">-- Choose target output --</option>
+                        </select>
+                        <span asp-validation-for="Input.ProductId" class="text-[10px] text-rose-500 font-bold uppercase mt-1"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="Input.OutputQuantity" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Batch Yield <span class="text-rose-500">*</span></label>
+                        <div class="relative">
+                            <input asp-for="Input.OutputQuantity" type="number" min="1" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold focus:ring-4 focus:ring-[#137fec]/10 focus:border-[#137fec] transition-all" />
+                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-bold uppercase">Units</span>
                         </div>
+                        <span asp-validation-for="Input.OutputQuantity" class="text-[10px] text-rose-500 font-bold uppercase mt-1"></span>
+                    </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <label asp-for="Input.OutputQuantity" class="form-label">Output Quantity <span class="text-danger">*</span></label>
-                                <input asp-for="Input.OutputQuantity" type="number" min="1" class="form-control" />
-                                <small class="text-muted">Units produced per batch</small>
-                                <span asp-validation-for="Input.OutputQuantity" class="text-danger"></span>
-                            </div>
-                            <div class="col-md-4">
-                                <label asp-for="Input.EstimatedTime" class="form-label">Estimated Time (minutes)</label>
-                                <input asp-for="Input.EstimatedTime" type="number" step="0.5" min="0" class="form-control" />
-                                <span asp-validation-for="Input.EstimatedTime" class="text-danger"></span>
-                            </div>
+                    <div>
+                        <label asp-for="Input.EstimatedTime" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Prep Duration</label>
+                        <div class="relative">
+                            <input asp-for="Input.EstimatedTime" type="number" step="0.5" min="0" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold focus:ring-4 focus:ring-[#137fec]/10 focus:border-[#137fec] transition-all" />
+                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-bold uppercase">Mins</span>
                         </div>
+                        <span asp-validation-for="Input.EstimatedTime" class="text-[10px] text-rose-500 font-bold uppercase mt-1"></span>
+                    </div>
 
-                        <div class="mb-4">
-                            <label asp-for="Input.Instructions" class="form-label">Instructions</label>
-                            <textarea asp-for="Input.Instructions" class="form-control" rows="4" placeholder="Step-by-step instructions..."></textarea>
-                            <span asp-validation-for="Input.Instructions" class="text-danger"></span>
-                        </div>
+                    <div class="md:col-span-2">
+                        <label asp-for="Input.Instructions" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Step-by-Step Instructions</label>
+                        <textarea asp-for="Input.Instructions" rows="4" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:ring-4 focus:ring-[#137fec]/10 focus:border-[#137fec] transition-all" placeholder="Describe the mixing, baking, or assembly process..."></textarea>
+                        <span asp-validation-for="Input.Instructions" class="text-[10px] text-rose-500 font-bold uppercase mt-1"></span>
+                    </div>
+                </div>
+            </div>
 
-                        <hr />
+            <!-- Ingredients Card -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[#137fec]">egg</span>
+                        <h2 class="text-slate-900 font-bold">Bill of Materials (BOM)</h2>
+                    </div>
+                    <button type="button" id="addIngredient" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#137fec] text-white text-xs font-bold hover:bg-[#137fec]/90 transition-all shadow-md shadow-[#137fec]/20">
+                        <span class="material-symbols-outlined text-sm">add</span>
+                        Add Ingredient
+                    </button>
+                </div>
+                
+                <div class="p-6">
+                    <div class="hidden md:grid grid-cols-[1fr_120px_140px_1fr_48px] gap-4 mb-3 px-2">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Ingredient</span>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Amount</span>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Unit</span>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Notes</span>
+                        <span></span>
+                    </div>
 
-                        <!-- Ingredients -->
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h6 class="text-muted mb-0">Ingredients (Định mức nguyên liệu)</h6>
-                            <button type="button" class="btn btn-sm btn-outline-success" id="addIngredient">
-                                <i class="bi bi-plus-lg me-1"></i>Add Ingredient
-                            </button>
-                        </div>
-
-                        <div id="ingredientsContainer">
-                            @for (int i = 0; i < Model.Input.Items.Count; i++)
-                            {
-                                <div class="row ingredient-row mb-2" data-index="@i">
-                                    <div class="col-md-4">
-                                        <select name="Input.Items[@i].IngredientProductId" class="form-select" required>
-                                            <option value="">-- Select Ingredient --</option>
-                                            @foreach (var item in Model.IngredientList)
-                                            {
-                                                <option value="@item.Value">@item.Text</option>
-                                            }
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <input name="Input.Items[@i].Quantity" type="number" step="0.01" min="0" class="form-control" placeholder="Qty" required />
-                                    </div>
-                                    <div class="col-md-2">
-                                        <select name="Input.Items[@i].Unit" class="form-select">
-                                            <option value="">Unit</option>
-                                            <option value="gram">gram</option>
-                                            <option value="kg">kg</option>
-                                            <option value="ml">ml</option>
-                                            <option value="lít">lít</option>
-                                            <option value="cái">cái</option>
-                                            <option value="hộp">hộp</option>
-                                            <option value="gói">gói</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <input name="Input.Items[@i].Notes" type="text" class="form-control" placeholder="Notes (optional)" />
-                                    </div>
-                                    <div class="col-md-1">
-                                        <button type="button" class="btn btn-outline-danger btn-remove-ingredient" title="Remove">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </div>
+                    <div id="ingredientsContainer" class="flex flex-col gap-3">
+                        @for (int i = 0; i < Model.Input.Items.Count; i++)
+                        {
+                            <div class="ingredient-row grid grid-cols-1 md:grid-cols-[1fr_120px_140px_1fr_48px] gap-3 items-start bg-slate-50/50 p-4 md:p-2 rounded-xl border border-slate-100 md:border-transparent md:bg-transparent transition-all" data-index="@i">
+                                <div class="w-full">
+                                    <select name="Input.Items[@i].IngredientProductId" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-900 font-medium focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all" required>
+                                        <option value="">Select ingredient</option>
+                                        @foreach (var item in Model.IngredientList)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </select>
                                 </div>
-                            }
-                        </div>
+                                <div>
+                                    <input name="Input.Items[@i].Quantity" type="number" step="0.01" min="0" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm text-[#137fec] font-bold text-center focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all" placeholder="0.00" required />
+                                </div>
+                                <div>
+                                    <select name="Input.Items[@i].Unit" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-700 font-bold text-center focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all">
+                                        <option value="">Unit</option>
+                                        <option value="gram">gram</option>
+                                        <option value="kg">kg</option>
+                                        <option value="ml">ml</option>
+                                        <option value="lít">lít</option>
+                                        <option value="cái">cái</option>
+                                        <option value="hộp">hộp</option>
+                                        <option value="gói">gói</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <input name="Input.Items[@i].Notes" type="text" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-500 placeholder:text-slate-300 focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all" placeholder="Notes (optional)" />
+                                </div>
+                                <div class="flex justify-end items-center h-full">
+                                    <button type="button" class="btn-remove-ingredient p-2 rounded-lg text-slate-400 hover:bg-rose-50 hover:text-rose-500 transition-all">
+                                        <span class="material-symbols-outlined text-lg">delete</span>
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    </div>
 
-                        <hr />
-
-                        <div class="d-flex justify-content-between">
-                            <a asp-page="Index" class="btn btn-outline-secondary">
-                                <i class="bi bi-arrow-left me-1"></i>Back to List
-                            </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-check-lg me-1"></i>Create Recipe
-                            </button>
-                        </div>
-                    </form>
+                    <div class="mt-6 pt-6 border-t border-slate-100 flex flex-col md:flex-row items-center justify-between gap-4">
+                        <p class="text-xs text-slate-400 font-medium">
+                            <span class="font-bold text-[#137fec]">Note:</span> These proportions are used to automatically deduct inventory when a production batch is completed.
+                        </p>
+                        <button type="submit" class="w-full md:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 bg-[#137fec] text-white rounded-xl font-bold shadow-lg shadow-[#137fec]/20 hover:bg-[#137fec]/90 hover:-translate-y-0.5 active:translate-y-0 transition-all">
+                            <span class="material-symbols-outlined">save</span>
+                            Publish Recipe
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+
+        <!-- Sidebar Area -->
+        <aside class="flex flex-col gap-6">
+            <div class="bg-slate-900 rounded-2xl p-6 text-white shadow-xl relative overflow-hidden">
+                <div class="absolute -right-8 -top-8 h-32 w-32 bg-[#137fec]/20 rounded-full blur-3xl"></div>
+                <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[#137fec] text-lg">lightbulb</span>
+                    Recipe Tips
+                </h3>
+                <ul class="flex flex-col gap-4 text-xs">
+                    <li class="flex gap-3">
+                        <span class="h-1.5 w-1.5 rounded-full bg-[#137fec] mt-1.5 shrink-0"></span>
+                        <p class="text-slate-300 leading-relaxed"><span class="text-white font-bold">Standardize Units:</span> Always use "kg" or "lít" for large bulk items to avoid decimal errors.</p>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="h-1.5 w-1.5 rounded-full bg-[#137fec] mt-1.5 shrink-0"></span>
+                        <p class="text-slate-300 leading-relaxed"><span class="text-white font-bold">Batch Sizes:</span> Set yield to your most common production run (e.g. 50 loaves).</p>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="h-1.5 w-1.5 rounded-full bg-[#137fec] mt-1.5 shrink-0"></span>
+                        <p class="text-slate-300 leading-relaxed"><span class="text-white font-bold">Waste:</span> Include a small margin in your quantities to account for typical prep waste.</p>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col gap-4">
+                <h4 class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">Quality Standards</h4>
+                <div class="flex items-center gap-3">
+                    <div class="h-8 w-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-lg">verified</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-[10px] font-bold text-slate-900">Consistency Check</span>
+                        <span class="text-[10px] text-slate-500">Auto-verified by floor staff</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="h-8 w-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-lg">inventory</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-[10px] font-bold text-slate-900">Stock Integration</span>
+                        <span class="text-[10px] text-slate-500">Live link to raw materials</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </form>
 </div>
 
 @section Scripts {
@@ -135,24 +219,24 @@
         document.getElementById('addIngredient').addEventListener('click', function() {
             const container = document.getElementById('ingredientsContainer');
             const row = document.createElement('div');
-            row.className = 'row ingredient-row mb-2';
+            row.className = 'ingredient-row grid grid-cols-1 md:grid-cols-[1fr_120px_140px_1fr_48px] gap-3 items-start bg-slate-50/50 p-4 md:p-2 rounded-xl border border-slate-100 md:border-transparent md:bg-transparent transition-all animate-fade-in-down';
             row.setAttribute('data-index', ingredientIndex);
             
             row.innerHTML = `
-                <div class="col-md-4">
-                    <select name="Input.Items[${ingredientIndex}].IngredientProductId" class="form-select" required>
-                        <option value="">-- Select Ingredient --</option>
+                <div class="w-full">
+                    <select name="Input.Items[${ingredientIndex}].IngredientProductId" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-900 font-medium focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all" required>
+                        <option value="">Select ingredient</option>
                         @foreach (var item in Model.IngredientList)
                         {
                             @:<option value="@item.Value">@item.Text</option>
                         }
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <input name="Input.Items[${ingredientIndex}].Quantity" type="number" step="0.01" min="0" class="form-control" placeholder="Qty" required />
+                <div>
+                    <input name="Input.Items[${ingredientIndex}].Quantity" type="number" step="0.01" min="0" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm text-[#137fec] font-bold text-center focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all" placeholder="0.00" required />
                 </div>
-                <div class="col-md-2">
-                    <select name="Input.Items[${ingredientIndex}].Unit" class="form-select">
+                <div>
+                    <select name="Input.Items[${ingredientIndex}].Unit" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-700 font-bold text-center focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all">
                         <option value="">Unit</option>
                         <option value="gram">gram</option>
                         <option value="kg">kg</option>
@@ -163,12 +247,12 @@
                         <option value="gói">gói</option>
                     </select>
                 </div>
-                <div class="col-md-3">
-                    <input name="Input.Items[${ingredientIndex}].Notes" type="text" class="form-control" placeholder="Notes (optional)" />
+                <div>
+                    <input name="Input.Items[${ingredientIndex}].Notes" type="text" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-500 placeholder:text-slate-300 focus:ring-2 focus:ring-[#137fec]/20 focus:border-[#137fec] transition-all" placeholder="Notes (optional)" />
                 </div>
-                <div class="col-md-1">
-                    <button type="button" class="btn btn-outline-danger btn-remove-ingredient" title="Remove">
-                        <i class="bi bi-trash"></i>
+                <div class="flex justify-end items-center h-full">
+                    <button type="button" class="btn-remove-ingredient p-2 rounded-lg text-slate-400 hover:bg-rose-50 hover:text-rose-500 transition-all">
+                        <span class="material-symbols-outlined text-lg">delete</span>
                     </button>
                 </div>
             `;
@@ -181,7 +265,8 @@
             if (e.target.closest('.btn-remove-ingredient')) {
                 const row = e.target.closest('.ingredient-row');
                 if (document.querySelectorAll('.ingredient-row').length > 1) {
-                    row.remove();
+                    row.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => row.remove(), 150);
                 } else {
                     // Clear values instead of removing last row
                     row.querySelectorAll('input, select').forEach(el => el.value = '');
@@ -189,4 +274,14 @@
             }
         });
     </script>
+
+    <style>
+        @@keyframes fade-in-down {
+            0% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-down {
+            animation: fade-in-down 0.3s ease-out forwards;
+        }
+    </style>
 }

@@ -5,111 +5,147 @@
     Layout = "_LayoutFranLink";
 }
 
-<div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>🏭 Production Dashboard</h2>
-        <a asp-page="Start" class="btn btn-success">
-            <i class="bi bi-plus-circle"></i> Start Production
-        </a>
+<div class="px-6 py-8 lg:px-20 max-w-[1440px] mx-auto w-full flex flex-col gap-6">
+
+    <!-- Header & Actions -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2">
+                <span class="material-symbols-outlined text-4xl text-[#137fec]">factory</span>
+                Production Dashboard
+            </h1>
+            <p class="text-slate-500 text-base mt-2">Monitor active batches, efficiency, and daily output across all kitchens.</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <a asp-page="/Production/Batch/Start"
+               class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#137fec] text-white text-sm font-bold shadow-md shadow-[#137fec]/20 hover:bg-[#137fec]/90 transition-colors">
+                <span class="material-symbols-outlined text-xl">add_circle</span>
+                Start Production
+            </a>
+        </div>
     </div>
 
-    <!-- Filter -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <form method="get" class="row g-3">
-                <div class="col-md-4">
-                    <label class="form-label">Central Kitchen</label>
-                    <select asp-for="CentralKitchenId" asp-items="Model.CentralKitchens" class="form-select">
+    <!-- Filter Bar -->
+    <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
+        <form method="get" class="flex flex-col sm:flex-row items-end gap-4">
+            <div class="flex-1 w-full">
+                <label class="block text-slate-700 text-sm font-bold mb-1.5">Central Kitchen</label>
+                <div class="relative">
+                    <select asp-for="CentralKitchenId" asp-items="Model.CentralKitchens"
+                            class="w-full pl-4 pr-10 py-2.5 rounded-lg border border-slate-200 bg-slate-50 focus:ring-2 focus:ring-[#137fec] focus:border-transparent outline-none text-slate-700 text-sm appearance-none transition-all">
                         <option value="">-- All Kitchens --</option>
                     </select>
+                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">expand_more</span>
                 </div>
-                <div class="col-md-2 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+            <button type="submit" class="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-slate-800 text-white text-sm font-bold hover:bg-slate-700 transition-colors shadow-sm">
+                Apply Filter
+            </button>
+        </form>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+                <div class="p-2.5 bg-blue-50 rounded-lg text-blue-600">
+                    <span class="material-symbols-outlined">receipt_long</span>
                 </div>
-            </form>
+            </div>
+            <p class="text-slate-500 text-sm font-semibold uppercase tracking-wider mt-2">Today's Productions</p>
+            <p class="text-slate-900 text-3xl font-extrabold tracking-tight">@Model.TodaySummary.TotalProductions</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+                <div class="p-2.5 bg-emerald-50 rounded-lg text-emerald-600">
+                    <span class="material-symbols-outlined">inventory_2</span>
+                </div>
+            </div>
+            <p class="text-slate-500 text-sm font-semibold uppercase tracking-wider mt-2">Total Produced</p>
+            <p class="text-slate-900 text-3xl font-extrabold tracking-tight">@Model.TodaySummary.TotalActualQuantity <span class="text-sm font-normal text-slate-400">units</span></p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+                <div class="p-2.5 bg-sky-50 rounded-lg text-sky-600">
+                    <span class="material-symbols-outlined">speed</span>
+                </div>
+            </div>
+            <p class="text-slate-500 text-sm font-semibold uppercase tracking-wider mt-2">Efficiency Rate</p>
+            <p class="text-slate-900 text-3xl font-extrabold tracking-tight">@Model.TodaySummary.EfficiencyRate%</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+                <div class="p-2.5 bg-amber-50 rounded-lg text-amber-600">
+                    <span class="material-symbols-outlined">timer</span>
+                </div>
+            </div>
+            <p class="text-slate-500 text-sm font-semibold uppercase tracking-wider mt-2">Avg. Time</p>
+            <p class="text-slate-900 text-3xl font-extrabold tracking-tight">@Model.TodaySummary.AverageProductionTimeMinutes <span class="text-sm font-normal text-slate-400">min</span></p>
         </div>
     </div>
 
-    <!-- Summary Cards -->
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card text-white bg-primary">
-                <div class="card-body">
-                    <h5 class="card-title">Today's Productions</h5>
-                    <h2>@Model.TodaySummary.TotalProductions</h2>
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        
+        <!-- Main Content Area: In Progress -->
+        <div class="xl:col-span-2 flex flex-col gap-6">
+            
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-full">
+                <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-amber-500">autorenew</span>
+                        <h3 class="text-slate-900 text-lg font-bold">In Progress Productions</h3>
+                    </div>
+                    <span class="text-slate-500 text-sm font-semibold bg-white border border-slate-200 px-3 py-1 rounded-full">
+                        @Model.InProgressProductions.Count Active
+                    </span>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-white bg-success">
-                <div class="card-body">
-                    <h5 class="card-title">Total Produced</h5>
-                    <h2>@Model.TodaySummary.TotalActualQuantity</h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-white bg-info">
-                <div class="card-body">
-                    <h5 class="card-title">Efficiency Rate</h5>
-                    <h2>@Model.TodaySummary.EfficiencyRate%</h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-white bg-warning">
-                <div class="card-body">
-                    <h5 class="card-title">Avg. Time</h5>
-                    <h2>@Model.TodaySummary.AverageProductionTimeMinutes min</h2>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <!-- In Progress Productions -->
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header bg-warning text-dark">
-                    <h5 class="mb-0">🔄 In Progress Productions (@Model.InProgressProductions.Count)</h5>
-                </div>
-                <div class="card-body">
+                
+                <div class="overflow-x-auto flex-1">
                     @if (Model.InProgressProductions.Any())
                     {
-                        <table class="table table-hover">
-                            <thead>
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-white border-b border-slate-200">
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Recipe / Product</th>
-                                    <th>Kitchen</th>
-                                    <th>Planned Qty</th>
-                                    <th>Started</th>
-                                    <th>Actions</th>
+                                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">ID</th>
+                                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Recipe / Product</th>
+                                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Kitchen</th>
+                                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 text-center">Planned Qty</th>
+                                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Started</th>
+                                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="divide-y divide-slate-100">
                                 @foreach (var prod in Model.InProgressProductions)
                                 {
                                     var duration = DateTime.UtcNow - prod.StartTime;
-                                    <tr>
-                                        <td>@prod.ProductionId</td>
-                                        <td>
-                                            <strong>@prod.Recipe.Name</strong><br />
-                                            <small class="text-muted">@prod.Recipe.Product.Name</small>
+                                    <tr class="hover:bg-slate-50/50 transition-colors">
+                                        <td class="px-6 py-4 text-slate-900 text-sm font-semibold">#@prod.ProductionId</td>
+                                        <td class="px-6 py-4">
+                                            <p class="font-bold text-slate-900 text-sm">@prod.Recipe.Name</p>
+                                            <p class="text-xs text-slate-500">@prod.Recipe.Product.Name</p>
                                         </td>
-                                        <td>@prod.CentralKitchen.Name</td>
-                                        <td>@prod.PlannedQuantity</td>
-                                        <td>
-                                            @prod.StartTime.ToLocalTime().ToString("HH:mm")<br />
-                                            <small class="text-muted">@duration.Hours h @duration.Minutes m</small>
+                                        <td class="px-6 py-4 text-sm text-slate-600">@prod.CentralKitchen.Name</td>
+                                        <td class="px-6 py-4 text-center">
+                                            <span class="inline-flex items-center justify-center bg-slate-100 text-slate-700 rounded px-2.5 py-1 text-sm font-semibold">@prod.PlannedQuantity</span>
                                         </td>
-                                        <td>
-                                            <a asp-page="Complete" asp-route-id="@prod.ProductionId" class="btn btn-sm btn-success">
-                                                Complete
-                                            </a>
-                                            <a asp-page="Cancel" asp-route-id="@prod.ProductionId" class="btn btn-sm btn-danger">
-                                                Cancel
-                                            </a>
+                                        <td class="px-6 py-4 text-sm text-slate-600">
+                                            <p>@prod.StartTime.ToLocalTime().ToString("HH:mm")</p>
+                                            <p class="text-xs text-slate-400 font-semibold">@duration.Hours h @duration.Minutes m</p>
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <div class="flex items-center justify-end gap-2">
+                                                <a asp-page="/Production/Batch/Complete" asp-route-id="@prod.ProductionId" 
+                                                   class="px-3 py-1.5 rounded-lg bg-emerald-100 text-emerald-700 text-xs font-bold hover:bg-emerald-200 transition-colors">
+                                                    Complete
+                                                </a>
+                                                <a asp-page="/Production/Batch/Cancel" asp-route-id="@prod.ProductionId" 
+                                                   class="px-3 py-1.5 rounded-lg bg-rose-100 text-rose-700 text-xs font-bold hover:bg-rose-200 transition-colors">
+                                                    Cancel
+                                                </a>
+                                            </div>
                                         </td>
                                     </tr>
                                 }
@@ -118,84 +154,84 @@
                     }
                     else
                     {
-                        <div class="text-center text-muted py-4">
-                            <i class="bi bi-inbox" style="font-size: 3rem;"></i>
-                            <p>No productions in progress</p>
+                        <div class="flex flex-col items-center justify-center gap-3 py-16 text-slate-400">
+                            <span class="material-symbols-outlined text-6xl">inbox</span>
+                            <p class="font-semibold text-sm">No productions in progress</p>
                         </div>
                     }
                 </div>
             </div>
 
-            <!-- Navigation -->
-            <div class="card mt-4">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <a asp-page="Records" class="btn btn-outline-primary w-100">
-                                📋 Production Records
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a asp-page="Report" class="btn btn-outline-info w-100">
-                                📊 Production Report
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a asp-page="../Recipes/Index" class="btn btn-outline-secondary w-100">
-                                📖 Manage Recipes
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            <!-- Quick Links Nav -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <a asp-page="Records" class="flex items-center justify-center gap-2 px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm font-bold shadow-sm hover:border-[#137fec] hover:text-[#137fec] transition-colors">
+                    <span class="material-symbols-outlined text-lg">format_list_bulleted</span>
+                    Production Records
+                </a>
+                <a asp-page="Report" class="flex items-center justify-center gap-2 px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm font-bold shadow-sm hover:border-[#137fec] hover:text-[#137fec] transition-colors">
+                    <span class="material-symbols-outlined text-lg">bar_chart</span>
+                    Production Report
+                </a>
+                <a asp-page="../Recipes/Index" class="flex items-center justify-center gap-2 px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm font-bold shadow-sm hover:border-[#137fec] hover:text-[#137fec] transition-colors">
+                    <span class="material-symbols-outlined text-lg">menu_book</span>
+                    Manage Recipes
+                </a>
             </div>
+            
         </div>
 
-        <!-- Top Products -->
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header bg-success text-white">
-                    <h5 class="mb-0">🏆 Top Products (7 days)</h5>
+        <!-- Right Sidebar Area -->
+        <div class="xl:col-span-1 flex flex-col gap-6">
+            
+            <!-- Top Products -->
+            <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+                <div class="px-6 py-4 border-b border-slate-200 bg-emerald-500 text-white flex items-center gap-2">
+                    <span class="material-symbols-outlined">emoji_events</span>
+                    <h3 class="text-lg font-bold">Top Products (7 days)</h3>
                 </div>
-                <div class="card-body p-0">
+                <div class="p-4">
                     @if (Model.TopProducts.Any())
                     {
-                        <ul class="list-group list-group-flush">
+                        <ul class="divide-y divide-slate-100">
                             @foreach (var prod in Model.TopProducts)
                             {
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <li class="flex items-center justify-between py-3">
                                     <div>
-                                        <strong>@prod.ProductName</strong><br />
-                                        <small class="text-muted">Efficiency: @prod.EfficiencyRate%</small>
+                                        <p class="font-bold text-slate-900 text-sm">@prod.ProductName</p>
+                                        <p class="text-xs text-slate-500 font-semibold mt-0.5">Efficiency: @prod.EfficiencyRate%</p>
                                     </div>
-                                    <span class="badge bg-primary rounded-pill">@prod.TotalActual</span>
+                                    <span class="px-3 py-1 bg-[#137fec]/10 text-[#137fec] rounded-full text-xs font-bold">
+                                        @prod.TotalActual <span class="font-normal opacity-80">units</span>
+                                    </span>
                                 </li>
                             }
                         </ul>
                     }
                     else
                     {
-                        <div class="text-center text-muted py-4">
-                            <p>No production data</p>
+                        <div class="text-center text-slate-400 py-8 text-sm">
+                            <p>No production data recorded yet.</p>
                         </div>
                     }
                 </div>
             </div>
 
-            <!-- Today's Production by Product -->
+            <!-- Today's by Product -->
             @if (Model.TodaySummary.ByProduct.Any())
             {
-                <div class="card mt-4">
-                    <div class="card-header bg-info text-white">
-                        <h5 class="mb-0">📦 Today by Product</h5>
+                <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+                    <div class="px-6 py-4 border-b border-slate-200 bg-sky-500 text-white flex items-center gap-2">
+                        <span class="material-symbols-outlined">package_2</span>
+                        <h3 class="text-lg font-bold">Today by Product</h3>
                     </div>
-                    <div class="card-body p-0">
-                        <ul class="list-group list-group-flush">
+                    <div class="p-4">
+                        <ul class="divide-y divide-slate-100">
                             @foreach (var item in Model.TodaySummary.ByProduct.Take(5))
                             {
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>@item.ProductName</span>
-                                    <span>
-                                        <span class="badge bg-secondary">@item.TotalActual / @item.TotalPlanned</span>
+                                <li class="flex items-center justify-between py-3">
+                                    <span class="font-bold text-slate-900 text-sm">@item.ProductName</span>
+                                    <span class="px-2 py-1 bg-slate-100 text-slate-700 rounded text-xs font-semibold border border-slate-200">
+                                        <span class="text-emerald-600">@item.TotalActual</span> / @item.TotalPlanned
                                     </span>
                                 </li>
                             }
@@ -204,5 +240,6 @@
                 </div>
             }
         </div>
+        
     </div>
 </div>

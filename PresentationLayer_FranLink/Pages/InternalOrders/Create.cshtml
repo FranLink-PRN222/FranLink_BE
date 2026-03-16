@@ -2,63 +2,90 @@
 @model PresentationLayer_FranLink.Pages.InternalOrders.CreateModel
 @{
     ViewData["Title"] = "Create Internal Order";
+    Layout = "_LayoutFranLink";
 }
 
-<h1>Create Internal Order</h1>
+<div class="px-6 py-8 lg:px-20 max-w-[1024px] mx-auto w-full">
 
-<div class="row">
-    <div class="col-md-8">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <!-- Page Header -->
+    <div class="mb-8">
+        <h1 class="text-slate-900 text-3xl font-extrabold leading-tight tracking-tight">Create Stock Request</h1>
+        <p class="text-slate-500 text-base mt-2">Request ingredients and semi-finished products from the central kitchen to restock your franchise store.</p>
+    </div>
 
-            <div class="form-group mb-3">
-                <label asp-for="Order.FranchiseStoreId" class="control-label">Franchise Store</label>
-                <select asp-for="Order.FranchiseStoreId" class="form-control" asp-items="Model.StoreList"></select>
-                <span asp-validation-for="Order.FranchiseStoreId" class="text-danger"></span>
+    <!-- Form Card -->
+    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm p-6 lg:p-8">
+        <form method="post" id="orderForm">
+            <div asp-validation-summary="ModelOnly" class="text-rose-500 mb-6 font-medium text-sm"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <!-- Franchise Store -->
+                <div>
+                    <label asp-for="Order.FranchiseStoreId" class="block text-slate-700 text-sm font-bold mb-2">Franchise Store</label>
+                    <select asp-for="Order.FranchiseStoreId" asp-items="Model.StoreList" 
+                            class="w-full px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 focus:ring-2 focus:ring-[#137fec] focus:border-transparent outline-none text-slate-700 text-sm transition-all">
+                    </select>
+                    <span asp-validation-for="Order.FranchiseStoreId" class="text-rose-500 text-xs mt-1 block"></span>
+                </div>
+
+                <!-- Central Kitchen -->
+                <div>
+                    <label asp-for="Order.CentralKitchenId" class="block text-slate-700 text-sm font-bold mb-2">Central Kitchen</label>
+                    <select asp-for="Order.CentralKitchenId" asp-items="Model.CentralKitchenList"
+                            class="w-full px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 focus:ring-2 focus:ring-[#137fec] focus:border-transparent outline-none text-slate-700 text-sm transition-all">
+                        <option value="">-- Select Central Kitchen --</option>
+                    </select>
+                    <span asp-validation-for="Order.CentralKitchenId" class="text-rose-500 text-xs mt-1 block"></span>
+                </div>
             </div>
 
-            <div class="form-group mb-3">
-                <label asp-for="Order.CentralKitchenId" class="control-label">Central Kitchen (Bếp trung tâm)</label>
-                <select asp-for="Order.CentralKitchenId" class="form-control" asp-items="Model.CentralKitchenList">
-                    <option value="">-- Select Central Kitchen --</option>
-                </select>
-                <span asp-validation-for="Order.CentralKitchenId" class="text-danger"></span>
+            <!-- Order Items Section -->
+            <div class="mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-slate-800 text-lg font-bold">Order Items</h3>
+                    <button type="button" id="addRow" class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-slate-100 text-[#137fec] text-sm font-bold hover:bg-slate-200 transition-colors">
+                        <span class="material-symbols-outlined text-lg">add</span> Add Item
+                    </button>
+                </div>
+                
+                <div class="overflow-x-auto border border-slate-200 rounded-lg">
+                    <table class="w-full text-left border-collapse" id="itemsTable">
+                        <thead class="bg-slate-50 border-b border-slate-200">
+                            <tr>
+                                <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 w-[60%]">Product</th>
+                                <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 w-[20%]">Quantity</th>
+                                <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 w-[20%] text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="itemsBody" class="divide-y divide-slate-100">
+                            @for (int i = 0; i < Model.Order.Items.Count; i++)
+                            {
+                                <tr class="hover:bg-slate-50/50 transition-colors">
+                                    <td class="px-4 py-3">
+                                        <select name="Order.Items[@i].ProductId" asp-items="Model.ProductList"
+                                                class="w-full px-3 py-2 rounded-lg border border-slate-200 bg-white focus:ring-2 focus:ring-[#137fec] focus:border-transparent outline-none text-slate-700 text-sm transition-all"></select>
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <input name="Order.Items[@i].Quantity" type="number" min="1" value="@Model.Order.Items[i].Quantity" 
+                                               class="w-full px-3 py-2 rounded-lg border border-slate-200 bg-white focus:ring-2 focus:ring-[#137fec] focus:border-transparent outline-none text-slate-700 text-sm transition-all" />
+                                    </td>
+                                    <td class="px-4 py-3 text-center">
+                                        <button type="button" class="remove-row p-1.5 rounded-md text-rose-500 hover:bg-rose-50 transition-colors" title="Remove">
+                                            <span class="material-symbols-outlined pointer-events-none">delete</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            <!-- User ID is potentially hidden or auto-filled. For dev, letting it default in backend or explicit input if needed -->
-            <!-- We handle UserId in backend or could add hidden input if ClaimsPrincipal available -->
-
-            <h4>Order Items</h4>
-            <table class="table" id="itemsTable">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="itemsBody">
-                    @for (int i = 0; i < Model.Order.Items.Count; i++)
-                    {
-                        <tr>
-                            <td>
-                                <select name="Order.Items[@i].ProductId" class="form-control" asp-items="Model.ProductList"></select>
-                            </td>
-                            <td>
-                                <input name="Order.Items[@i].Quantity" class="form-control" type="number" min="1" value="@Model.Order.Items[i].Quantity" />
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-danger remove-row">Remove</button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-            
-            <button type="button" class="btn btn-secondary mb-3" id="addRow">Add Item</button>
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Create Order</button>
+            <div class="border-t border-slate-200 pt-6 flex justify-end gap-3">
+                <a asp-page="./Index" class="px-6 py-2.5 rounded-lg border border-slate-200 bg-white text-slate-600 text-sm font-bold hover:bg-slate-50 transition-colors">Cancel</a>
+                <button type="submit" class="px-6 py-2.5 rounded-lg bg-[#137fec] text-white text-sm font-bold shadow-md shadow-[#137fec]/20 hover:bg-[#137fec]/90 transition-all flex items-center gap-2">
+                    <span class="material-symbols-outlined text-lg">check_circle</span> Submit Request
+                </button>
             </div>
         </form>
     </div>
@@ -71,43 +98,57 @@
         document.getElementById('addRow').addEventListener('click', function () {
             var tbody = document.getElementById('itemsBody');
             var rowCount = tbody.rows.length;
+            
+            // To be safe with sequential indexing over large mutations, 
+            // a sophisticated form would re-index. We will use the count as index.
+            // In ASP.NET Core MVC, if an index is missing, binding stops. 
+            // Better to reindex all elements before submit, but here we keep it simple.
+            var nextIndex = rowCount > 0 ? Array.from(tbody.querySelectorAll('tr')).length : 0;
+            
             var row = tbody.insertRow(rowCount);
+            row.className = "hover:bg-slate-50/50 transition-colors";
             
             var cell1 = row.insertCell(0);
+            cell1.className = "px-4 py-3";
             var cell2 = row.insertCell(1);
+            cell2.className = "px-4 py-3";
             var cell3 = row.insertCell(2);
+            cell3.className = "px-4 py-3 text-center";
 
-            // Clone product list options from first select if available, or fetch from server? 
-            // Simplifying: Assuming at least 1 row exists or we have the options. 
-            // Better approach: We need the product options. 
-            // For simplicity in this environment, I'll copy the innerHTML of the first select if it exists.
             var firstSelect = document.querySelector('select[name^="Order.Items"]');
-            var options = "";
-            if (firstSelect) {
-                options = firstSelect.innerHTML;
-            }
+            var options = firstSelect ? firstSelect.innerHTML : '<option value="">-- Select Product --</option>';
 
-            cell1.innerHTML = '<select name="Order.Items[' + rowCount + '].ProductId" class="form-control">' + options + '</select>';
-            cell2.innerHTML = '<input name="Order.Items[' + rowCount + '].Quantity" class="form-control" type="number" min="1" value="1" />';
-            cell3.innerHTML = '<button type="button" class="btn btn-danger remove-row" onclick="removeRow(this)">Remove</button>';
+            cell1.innerHTML = `<select name="Order.Items[${nextIndex}].ProductId" class="w-full px-3 py-2 rounded-lg border border-slate-200 bg-white focus:ring-2 focus:ring-[#137fec] focus:border-transparent outline-none text-slate-700 text-sm transition-all">${options}</select>`;
+            cell2.innerHTML = `<input name="Order.Items[${nextIndex}].Quantity" type="number" min="1" value="1" class="w-full px-3 py-2 rounded-lg border border-slate-200 bg-white focus:ring-2 focus:ring-[#137fec] focus:border-transparent outline-none text-slate-700 text-sm transition-all" />`;
+            cell3.innerHTML = `<button type="button" class="remove-row p-1.5 rounded-md text-rose-500 hover:bg-rose-50 transition-colors" title="Remove"><span class="material-symbols-outlined pointer-events-none">delete</span></button>`;
         });
 
-        function removeRow(btn) {
-            var row = btn.parentNode.parentNode;
-            row.parentNode.removeChild(row);
-            // Re-index remaining rows? 
-            // MVC model binder might handle non-sequential indices if using collection? 
-            // Default expected sequential logic `[0]`, `[1]`. If we delete `[0]`, `[1]` remains.
-            // But standard binder prefers sequential. 
-            // For robust solution, we should re-index. I'll skip re-indexing for brevity unless critical but might fail binding.
-            // Let's rely on basic functionality for now.
+        // Delegate deletion
+        document.getElementById('itemsBody').addEventListener('click', function(e) {
+            // Find closest button with remove-row class
+            var btn = e.target.closest('.remove-row');
+            if(btn) {
+                var row = btn.closest('tr');
+                if (row) {
+                    row.remove();
+                    reindexRows();
+                }
+            }
+        });
+        
+        function reindexRows() {
+            var rows = document.getElementById('itemsBody').querySelectorAll('tr');
+            rows.forEach((row, index) => {
+                var select = row.querySelector('select');
+                var input = row.querySelector('input[type="number"]');
+                if(select) select.name = `Order.Items[${index}].ProductId`;
+                if(input) input.name = `Order.Items[${index}].Quantity`;
+            });
         }
         
-        // Delegation for remove buttons existing or dynamic
-        document.getElementById('itemsBody').addEventListener('click', function(e) {
-            if(e.target && e.target.classList.contains('remove-row')) {
-                removeRow(e.target);
-            }
+        // Ensure index order on submit just in case
+        document.getElementById('orderForm').addEventListener('submit', function() {
+            reindexRows();
         });
     </script>
 }

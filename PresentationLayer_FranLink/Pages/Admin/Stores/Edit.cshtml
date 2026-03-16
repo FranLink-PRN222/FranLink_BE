@@ -2,48 +2,96 @@
 @model PresentationLayer_FranLink.Pages.Admin.Stores.EditModel
 @{
     ViewData["Title"] = "Sửa Cửa hàng / Bếp";
+    Layout = "_LayoutFranLink";
 }
 
-<h1><i class="bi bi-pencil-square"></i> Sửa: @Model.Input.Name</h1>
-<hr />
+<div class="px-6 py-8 lg:px-20 max-w-[1440px] mx-auto w-full flex flex-col gap-8">
 
-<div class="row">
-    <div class="col-md-6">
-        <form method="post">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <div class="flex items-center gap-3 mb-1">
+                <div class="h-10 w-10 text-lg rounded-xl @(Model.Input.IsCentralKitchen ? "bg-amber-100 text-amber-700" : "bg-[#137fec]/10 text-[#137fec]") flex items-center justify-center font-bold">
+                    <span class="material-symbols-outlined">
+                        @(Model.Input.IsCentralKitchen ? "restaurant" : "store")
+                    </span>
+                </div>
+                <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">
+                    Sửa: @Model.Input.Name
+                </h1>
+            </div>
+            <p class="text-slate-500 text-sm md:text-base mt-2">
+                Cập nhật thông tin địa chỉ và trạng thái hoạt động.
+            </p>
+        </div>
+        <a asp-page="Index" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition-colors">
+            <span class="material-symbols-outlined text-lg">arrow_back</span>
+            Quay lại danh sách
+        </a>
+    </div>
+
+    <!-- Form Section -->
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm max-w-3xl">
+        <form method="post" class="p-6 md:p-8 flex flex-col gap-6">
             <input type="hidden" asp-for="Input.Id" />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-sm text-rose-600 font-medium"></div>
 
-            <div class="mb-3">
-                <label asp-for="Input.Name" class="form-label">Tên <span class="text-danger">*</span></label>
-                <input asp-for="Input.Name" class="form-control" />
-                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Name -->
+                <div class="flex flex-col gap-1.5 md:col-span-2">
+                    <label asp-for="Input.Name" class="text-sm font-bold text-slate-700">Tên cơ sở <span class="text-rose-500">*</span></label>
+                    <input asp-for="Input.Name" class="px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:bg-white transition-all" placeholder="Nhập tên cửa hàng hoặc bếp..." />
+                    <span asp-validation-for="Input.Name" class="text-xs text-rose-500 font-medium"></span>
+                </div>
+
+                <!-- Phone -->
+                <div class="flex flex-col gap-1.5 md:col-span-2 lg:col-span-1">
+                    <label asp-for="Input.Phone" class="text-sm font-bold text-slate-700">Số điện thoại</label>
+                    <input asp-for="Input.Phone" class="px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:bg-white transition-all" placeholder="Nhập số điện thoại liên hệ" />
+                </div>
+
+                <!-- Address -->
+                <div class="flex flex-col gap-1.5 md:col-span-2">
+                    <label asp-for="Input.Address" class="text-sm font-bold text-slate-700">Địa chỉ</label>
+                    <input asp-for="Input.Address" class="px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:bg-white transition-all" placeholder="Nhập địa chỉ đầy đủ" />
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label asp-for="Input.Address" class="form-label">Địa chỉ</label>
-                <input asp-for="Input.Address" class="form-control" />
+            <!-- Toggles Group -->
+            <div class="flex flex-col gap-4 mt-2">
+                <!-- Central Kitchen Toggle -->
+                <div class="flex items-center gap-3 p-4 border border-amber-200 bg-amber-50 rounded-xl">
+                    <div class="relative flex items-center">
+                        <input type="checkbox" asp-for="Input.IsCentralKitchen" class="peer sr-only">
+                        <div class="w-11 h-6 bg-slate-300 rounded-full peer peer-checked:bg-amber-500 transition-colors cursor-pointer"></div>
+                        <div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform peer-checked:translate-x-5 pointer-events-none"></div>
+                    </div>
+                    <div>
+                        <label asp-for="Input.IsCentralKitchen" class="text-sm font-bold text-amber-900 cursor-pointer select-none">Là Bếp Trung Tâm</label>
+                        <p class="text-xs text-amber-700 mt-0.5">Xác định cơ sở này thuộc bộ phận sản xuất tổng.</p>
+                    </div>
+                </div>
+
+                <!-- Active Toggle -->
+                <div class="flex items-center gap-3 p-4 border border-emerald-200 bg-emerald-50 rounded-xl">
+                    <div class="relative flex items-center">
+                        <input type="checkbox" asp-for="Input.IsActive" class="peer sr-only">
+                        <div class="w-11 h-6 bg-slate-300 rounded-full peer peer-checked:bg-emerald-500 transition-colors cursor-pointer"></div>
+                        <div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform peer-checked:translate-x-5 pointer-events-none"></div>
+                    </div>
+                    <div>
+                        <label asp-for="Input.IsActive" class="text-sm font-bold text-emerald-900 cursor-pointer select-none">Đang Hoạt Động</label>
+                        <p class="text-xs text-emerald-700 mt-0.5">Tắt tùy chọn này sẽ ẩn cửa hàng khỏi các danh sách đặt hàng và sản xuất.</p>
+                    </div>
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label asp-for="Input.Phone" class="form-label">Số điện thoại</label>
-                <input asp-for="Input.Phone" class="form-control" />
-            </div>
-
-            <div class="mb-3 form-check">
-                <input asp-for="Input.IsCentralKitchen" class="form-check-input" />
-                <label asp-for="Input.IsCentralKitchen" class="form-check-label">Là Bếp trung tâm</label>
-            </div>
-
-            <div class="mb-3 form-check">
-                <input asp-for="Input.IsActive" class="form-check-input" />
-                <label asp-for="Input.IsActive" class="form-check-label">Hoạt động</label>
-            </div>
-
-            <div class="mt-4">
-                <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-check-circle"></i> Lưu thay đổi
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-3 pt-4 mt-2 border-t border-slate-100">
+                <button type="submit" class="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-[#137fec] text-white text-sm font-bold shadow-md hover:bg-[#137fec]/90 transition-colors min-w-[140px]">
+                    <span class="material-symbols-outlined text-lg">save</span> 
+                    Lưu cập nhật
                 </button>
-                <a asp-page="Index" class="btn btn-secondary ms-2">Quay lại</a>
             </div>
         </form>
     </div>
