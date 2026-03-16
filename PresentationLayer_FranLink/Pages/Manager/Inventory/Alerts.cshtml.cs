@@ -26,7 +26,7 @@ namespace PresentationLayer_FranLink.Pages.Manager.Inventory
         {
             // Check if user is Manager or Admin
             var role = HttpContext.Session.GetString("Role");
-            if (role != "Manager")
+            if (role != "Manager" && role != "CentralKitchenStaff" && role != "Central Kitchen Staff")
             {
                 return RedirectToPage("/Login");
             }

@@ -5,70 +5,95 @@
     Layout = "_LayoutFranLink";
 }
 
-<div class="container-fluid">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-page="Index">Production</a></li>
-            <li class="breadcrumb-item active">Records</li>
-        </ol>
-    </nav>
-
-    <h2>📋 Production Records</h2>
-
-    <!-- Filters -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <form method="get" class="row g-3">
-                <div class="col-md-2">
-                    <label class="form-label">From Date</label>
-                    <input asp-for="FromDate" type="date" class="form-control" />
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label">To Date</label>
-                    <input asp-for="ToDate" type="date" class="form-control" />
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Central Kitchen</label>
-                    <select asp-for="CentralKitchenId" asp-items="Model.CentralKitchens" class="form-select">
-                        <option value="">-- All Kitchens --</option>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label">Status</label>
-                    <select asp-for="Status" asp-items="Model.Statuses" class="form-select"></select>
-                </div>
-                <div class="col-md-2 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary">Filter</button>
-                    <a asp-page="Records" class="btn btn-outline-secondary ms-2">Reset</a>
-                </div>
-            </form>
+<div class="max-w-[1440px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-8">
+    
+    <!-- Header Area -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div class="flex flex-col gap-2">
+            <nav class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
+                <a asp-page="Index" class="hover:text-[#137fec] transition-colors">Production</a>
+                <span class="material-symbols-outlined text-[10px]">chevron_right</span>
+                <span class="text-slate-500">Records</span>
+            </nav>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 flex items-center gap-3">
+                <span class="material-symbols-outlined text-4xl text-sky-500">receipt_long</span>
+                Production Records
+            </h1>
+            <p class="text-slate-500 text-sm md:text-base max-w-2xl font-medium">
+                Review historical production batches, efficiency metrics, and output logs across all central kitchens.
+            </p>
         </div>
     </div>
 
-    <!-- Results -->
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <span>Found @Model.Productions.Count record(s)</span>
+    <!-- Filters Area -->
+    <div class="bg-white p-6 rounded-[24px] border border-slate-200 shadow-sm transition-all hover:shadow-md">
+        <form method="get" class="flex flex-wrap items-end gap-5">
+            <div class="flex flex-col gap-1.5 flex-1 min-w-[150px]">
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">From Date</label>
+                <input asp-for="FromDate" type="date" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all outline-none" />
+            </div>
+            <div class="flex flex-col gap-1.5 flex-1 min-w-[150px]">
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">To Date</label>
+                <input asp-for="ToDate" type="date" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all outline-none" />
+            </div>
+            <div class="flex flex-col gap-1.5 flex-[1.5] min-w-[200px]">
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Central Kitchen</label>
+                <div class="relative">
+                    <select asp-for="CentralKitchenId" asp-items="Model.CentralKitchens" class="w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 appearance-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all outline-none">
+                        <option value="">-- All Kitchens --</option>
+                    </select>
+                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-lg">expand_more</span>
+                </div>
+            </div>
+            <div class="flex flex-col gap-1.5 flex-1 min-w-[150px]">
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</label>
+                <div class="relative">
+                    <select asp-for="Status" asp-items="Model.Statuses" class="w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 appearance-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all outline-none"></select>
+                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-lg">expand_more</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 mt-4 md:mt-0">
+                <button type="submit" class="inline-flex items-center justify-center gap-2 h-10 px-6 bg-slate-900 text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-slate-900/20 hover:bg-slate-800 hover:-translate-y-0.5 transition-all">
+                    <span class="material-symbols-outlined text-sm">filter_alt</span>
+                    Filter
+                </button>
+                <a asp-page="Records" class="inline-flex items-center justify-center h-10 px-5 bg-white border border-slate-200 text-slate-600 font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-slate-50 hover:text-slate-900 transition-all">
+                    Reset
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Results Table -->
+    <div class="bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+        <div class="px-8 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <h2 class="text-slate-900 font-bold flex items-center gap-2">
+                <span class="material-symbols-outlined text-slate-400 text-lg">fact_check</span>
+                Production Logs
+            </h2>
+            <div class="flex items-center gap-2">
+                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Found:</span>
+                <span class="px-2.5 py-1 bg-slate-900 text-white text-[10px] font-black uppercase tracking-tight rounded-lg shadow-sm">@Model.Productions.Count Records</span>
+            </div>
         </div>
-        <div class="card-body p-0">
+
+        <div class="overflow-x-auto">
             @if (Model.Productions.Any())
             {
-                <table class="table table-hover mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th>ID</th>
-                            <th>Recipe / Product</th>
-                            <th>Kitchen</th>
-                            <th>Planned</th>
-                            <th>Actual</th>
-                            <th>Efficiency</th>
-                            <th>Started</th>
-                            <th>Duration</th>
-                            <th>Status</th>
-                            <th>By</th>
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-100">
+                            <th class="px-6 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest">Batch ID</th>
+                            <th class="px-6 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest">Recipe / Target</th>
+                            <th class="px-6 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest">Facility</th>
+                            <th class="px-6 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest">Output (P/A)</th>
+                            <th class="px-6 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest">Efficiency</th>
+                            <th class="px-6 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest">Time Logs</th>
+                            <th class="px-6 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest">Operator</th>
+                            <th class="px-6 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest text-right">State</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="divide-y divide-slate-100">
                         @foreach (var prod in Model.Productions)
                         {
                             var efficiency = prod.PlannedQuantity > 0
@@ -78,50 +103,75 @@
                                 ? prod.EndTime.Value - prod.StartTime
                                 : DateTime.UtcNow - prod.StartTime;
 
-                            var statusClass = prod.Status switch
-                            {
-                                "Completed" => "bg-success",
-                                "InProgress" => "bg-warning text-dark",
-                                "Cancelled" => "bg-danger",
-                                _ => "bg-secondary"
-                            };
-                            <tr>
-                                <td>@prod.ProductionId</td>
-                                <td>
-                                    <strong>@prod.Recipe.Name</strong><br />
-                                    <small class="text-muted">@prod.Recipe.Product.Name</small>
+                            <tr class="group hover:bg-slate-50/80 transition-all">
+                                <td class="px-6 py-5 font-mono text-xs font-black text-[#137fec]">#@prod.ProductionId</td>
+                                <td class="px-6 py-5">
+                                    <div class="flex flex-col">
+                                        <span class="text-xs font-black text-slate-900">@prod.Recipe.Name</span>
+                                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">@prod.Recipe.Product.Name</span>
+                                    </div>
                                 </td>
-                                <td>@prod.CentralKitchen.Name</td>
-                                <td>@prod.PlannedQuantity</td>
-                                <td>@prod.ActualQuantity</td>
-                                <td>
+                                <td class="px-6 py-5">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 text-[10px] font-bold text-slate-700">
+                                        <span class="material-symbols-outlined text-[12px] text-slate-400">factory</span>
+                                        @prod.CentralKitchen.Name
+                                    </span>
+                                </td>
+                                <td class="px-6 py-5">
+                                    <div class="flex flex-col">
+                                        <span class="text-xs font-black text-slate-700">
+                                            @prod.ActualQuantity <span class="text-[9px] text-slate-400 uppercase tracking-widest font-bold">ACT</span>
+                                        </span>
+                                        <span class="text-[10px] font-bold text-slate-400">
+                                            @prod.PlannedQuantity <span class="text-[8px] uppercase tracking-widest">PLN</span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-5">
                                     @if (prod.Status == "Completed")
                                     {
-                                        <span class="badge @(efficiency >= 100 ? "bg-success" : efficiency >= 80 ? "bg-warning text-dark" : "bg-danger")">
+                                        var progressColor = efficiency >= 100 ? "text-emerald-500 bg-emerald-50 border-emerald-100" 
+                                                          : efficiency >= 80 ? "text-amber-600 bg-amber-50 border-amber-100" 
+                                                          : "text-rose-600 bg-rose-50 border-rose-100";
+                                        <span class="inline-flex items-center justify-center px-2 py-1 rounded-md border @progressColor text-[10px] font-black">
                                             @efficiency%
                                         </span>
                                     }
                                     else
                                     {
-                                        <span class="text-muted">-</span>
+                                        <span class="text-xs font-bold text-slate-300">-</span>
                                     }
                                 </td>
-                                <td>@prod.StartTime.ToLocalTime().ToString("dd/MM HH:mm")</td>
-                                <td>
-                                    @if ((int)duration.TotalHours > 0)
-                                    {
-                                        @($"{(int)duration.TotalHours}h {duration.Minutes}m")
-                                    }
-                                    else
-                                    {
-                                        @($"{duration.Minutes}m")
-                                    }
+                                <td class="px-6 py-5">
+                                    <div class="flex flex-col gap-0.5">
+                                        <span class="text-[11px] font-bold text-slate-800">@prod.StartTime.ToLocalTime().ToString("MMM dd, HH:mm")</span>
+                                        <span class="text-[9px] font-bold text-slate-400 uppercase flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-[10px]">timer</span>
+                                            @((int)duration.TotalHours > 0 ? $"{(int)duration.TotalHours}h {duration.Minutes}m" : $"{duration.Minutes}m")
+                                        </span>
+                                    </div>
                                 </td>
-                                <td>
-                                    <span class="badge @statusClass">@prod.Status</span>
+                                <td class="px-6 py-5">
+                                    <div class="flex items-center gap-2">
+                                        <div class="size-6 rounded-full bg-slate-200 text-[9px] font-black flex items-center justify-center text-slate-500">
+                                            @((prod.ProducedByUser?.Username ?? "U")[0].ToString().ToUpper())
+                                        </div>
+                                        <span class="text-[11px] font-bold text-slate-700">@(prod.ProducedByUser?.Username ?? "Unknown")</span>
+                                    </div>
                                 </td>
-                                <td>
-                                    <small>@prod.ProducedByUser?.Username</small>
+                                <td class="px-6 py-5 text-right">
+                                    @{
+                                        var statusStyles = prod.Status switch
+                                        {
+                                            "Completed" => "bg-emerald-50 text-emerald-600 border-emerald-100",
+                                            "InProgress" => "bg-sky-50 text-sky-600 border-sky-100",
+                                            "Cancelled" => "bg-rose-50 text-rose-600 border-rose-100",
+                                            _ => "bg-slate-50 text-slate-500 border-slate-200"
+                                        };
+                                    }
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full border @statusStyles text-[9px] font-black uppercase tracking-widest shadow-sm">
+                                        @prod.Status
+                                    </span>
                                 </td>
                             </tr>
                         }
@@ -130,11 +180,17 @@
             }
             else
             {
-                <div class="text-center py-5 text-muted">
-                    <i class="bi bi-inbox" style="font-size: 3rem;"></i>
-                    <p>No production records found for the selected criteria.</p>
+                <div class="p-20 flex flex-col items-center justify-center text-center gap-4">
+                    <div class="size-20 rounded-full bg-slate-50 text-slate-300 flex items-center justify-center shadow-inner">
+                        <span class="material-symbols-outlined text-5xl">inbox</span>
+                    </div>
+                    <div class="max-w-xs">
+                        <h3 class="text-slate-900 font-bold text-lg tracking-tight">No Records Found</h3>
+                        <p class="text-slate-500 text-sm font-medium">There are no production batches matching the selected filter criteria.</p>
+                    </div>
                 </div>
             }
         </div>
     </div>
 </div>
+
