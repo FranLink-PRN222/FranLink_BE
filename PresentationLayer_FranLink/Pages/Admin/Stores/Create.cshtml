@@ -5,76 +5,86 @@
     Layout = "_LayoutFranLink";
 }
 
-<div class="px-6 py-8 lg:px-20 max-w-[1440px] mx-auto w-full flex flex-col gap-8">
+<div class="max-w-[960px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-6">
 
     <!-- Header -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <section class="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
             <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2">
-                <span class="material-symbols-outlined text-4xl text-[#137fec]">add_business</span>
-                Thêm Cửa hàng / Bếp trung tâm
+                <span class="material-symbols-outlined text-3xl text-[#137fec]">store</span>
+                Thêm cửa hàng / bếp trung tâm
             </h1>
-            <p class="text-slate-500 text-sm md:text-base mt-2">
-                Đăng ký điểm bán lẻ mới hoặc trung tâm sản xuất vào hệ thống mạng lưới.
+            <p class="text-slate-500 text-sm md:text-base mt-1">
+                Tạo mới một địa điểm (cửa hàng franchise hoặc bếp trung tâm) trong hệ thống.
             </p>
         </div>
-        <a asp-page="Index" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition-colors">
-            <span class="material-symbols-outlined text-lg">arrow_back</span>
-            Quay lại danh sách
-        </a>
-    </div>
+        <div class="flex items-center gap-2">
+            <a asp-page="Index"
+               class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-slate-200 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                <span class="material-symbols-outlined text-base">arrow_back</span>
+                Quay lại
+            </a>
+        </div>
+    </section>
 
-    <!-- Form Section -->
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm max-w-3xl">
-        <form method="post" class="p-6 md:p-8 flex flex-col gap-6">
-            <div asp-validation-summary="ModelOnly" class="text-sm text-rose-600 font-medium"></div>
+    <!-- Form card -->
+    <section class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+        <div class="px-5 py-4 border-b border-slate-100 flex items-center gap-2">
+            <span class="material-symbols-outlined text-lg text-[#137fec]">location_on</span>
+            <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">Thông tin địa điểm</h2>
+        </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Name -->
-                <div class="flex flex-col gap-1.5 md:col-span-2">
-                    <label asp-for="Input.Name" class="text-sm font-bold text-slate-700">Tên cơ sở <span class="text-rose-500">*</span></label>
-                    <input asp-for="Input.Name" class="px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:bg-white transition-all" placeholder="Nhập tên cửa hàng hoặc bếp..." />
-                    <span asp-validation-for="Input.Name" class="text-xs text-rose-500 font-medium"></span>
+        <form method="post" class="p-5">
+            <div asp-validation-summary="ModelOnly" class="text-rose-600 text-sm mb-4"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="md:col-span-2">
+                    <label asp-for="Input.Name" class="block text-xs font-semibold text-slate-600 uppercase mb-1">
+                        Tên <span class="text-rose-600">*</span>
+                    </label>
+                    <input asp-for="Input.Name"
+                           class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent" />
+                    <span asp-validation-for="Input.Name" class="text-rose-600 text-xs"></span>
                 </div>
 
-                <!-- Phone -->
-                <div class="flex flex-col gap-1.5 md:col-span-2 lg:col-span-1">
-                    <label asp-for="Input.Phone" class="text-sm font-bold text-slate-700">Số điện thoại</label>
-                    <input asp-for="Input.Phone" class="px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:bg-white transition-all" placeholder="Nhập số điện thoại liên hệ" />
+                <div class="md:col-span-2">
+                    <label asp-for="Input.Address" class="block text-xs font-semibold text-slate-600 uppercase mb-1">Địa chỉ</label>
+                    <input asp-for="Input.Address"
+                           class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent" />
+                    <span asp-validation-for="Input.Address" class="text-rose-600 text-xs"></span>
                 </div>
 
-                <!-- Address -->
-                <div class="flex flex-col gap-1.5 md:col-span-2">
-                    <label asp-for="Input.Address" class="text-sm font-bold text-slate-700">Địa chỉ</label>
-                    <input asp-for="Input.Address" class="px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:bg-white transition-all" placeholder="Nhập địa chỉ đầy đủ" />
-                </div>
-            </div>
-
-            <!-- Central Kitchen Toggle -->
-            <div class="flex items-center gap-3 p-4 border border-amber-200 bg-amber-50 rounded-xl mt-2">
-                 <div class="relative flex items-center">
-                    <input type="checkbox" asp-for="Input.IsCentralKitchen" class="peer sr-only">
-                    <div class="w-11 h-6 bg-slate-300 rounded-full peer peer-checked:bg-amber-500 transition-colors cursor-pointer"></div>
-                    <div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform peer-checked:translate-x-5 pointer-events-none"></div>
-                </div>
                 <div>
-                     <label asp-for="Input.IsCentralKitchen" class="text-sm font-bold text-amber-900 cursor-pointer select-none">Là Bếp Trung Tâm</label>
-                     <p class="text-xs text-amber-700 mt-0.5">Bật tùy chọn này nếu cơ sở mới tạo đóng vai trò phục vụ sản xuất và điều phối cho các cửa hàng khác.</p>
+                    <label asp-for="Input.Phone" class="block text-xs font-semibold text-slate-600 uppercase mb-1">Số điện thoại</label>
+                    <input asp-for="Input.Phone"
+                           class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#137fec] focus:border-transparent" />
+                    <span asp-validation-for="Input.Phone" class="text-rose-600 text-xs"></span>
+                </div>
+
+                <div class="flex items-end">
+                    <label class="inline-flex items-center gap-2 text-sm text-slate-700">
+                        <input asp-for="Input.IsCentralKitchen" type="checkbox"
+                               class="h-4 w-4 rounded border-slate-300 text-[#137fec] focus:ring-[#137fec]" />
+                        <span class="font-semibold">Là bếp trung tâm</span>
+                    </label>
+                    <span asp-validation-for="Input.IsCentralKitchen" class="text-rose-600 text-xs"></span>
                 </div>
             </div>
 
-            <!-- Action Buttons -->
-            <div class="flex items-center gap-3 pt-4 mt-2 border-t border-slate-100">
-                <button type="submit" class="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-[#137fec] text-white text-sm font-bold shadow-md hover:bg-[#137fec]/90 transition-colors min-w-[140px]">
-                    <span class="material-symbols-outlined text-lg">check_circle</span> 
+            <div class="mt-6 flex flex-wrap items-center gap-3">
+                <button type="submit"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#137fec] text-white text-sm font-bold shadow-md hover:bg-[#137fec]/90 transition-colors">
+                    <span class="material-symbols-outlined text-base">check_circle</span>
                     Tạo mới
                 </button>
-                <a asp-page="Index" class="inline-flex items-center justify-center px-6 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-100 transition-colors">
+                <a asp-page="Index"
+                   class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-700 text-sm font-bold hover:bg-slate-50 transition-colors">
+                    <span class="material-symbols-outlined text-base">close</span>
                     Hủy
                 </a>
             </div>
         </form>
-    </div>
+    </section>
 </div>
 
 @section Scripts {
